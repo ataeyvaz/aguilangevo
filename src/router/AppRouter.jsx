@@ -5,8 +5,34 @@ import LanguageSelect from '../pages/LanguageSelect'
 import CategorySelect from '../pages/CategorySelect'
 import FlashCards from '../pages/FlashCards'
 import Dashboard from '../pages/Dashboard'
+import QuizScreen from '../pages/QuizScreen'
 
-const ParentPanel = () => <div className="p-8 text-2xl font-heading">Ebeveyn Paneli</div>
+const ParentPanel = () => (
+  <div style={{ padding: '40px', fontFamily: 'Inter, sans-serif', color: '#0F172A' }}>
+    <h1 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '24px', fontWeight: '800' }}>
+      🔒 Ebeveyn Paneli
+    </h1>
+    <p style={{ color: '#64748B', marginTop: '8px' }}>Yakında eklenecek...</p>
+  </div>
+)
+
+const PlayPage = () => (
+  <div style={{ padding: '40px', fontFamily: 'Inter, sans-serif', color: '#0F172A' }}>
+    <h1 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '24px', fontWeight: '800' }}>
+      🎮 Oyunlar
+    </h1>
+    <p style={{ color: '#64748B', marginTop: '8px' }}>Yakında eklenecek...</p>
+  </div>
+)
+
+const ProfilePage = () => (
+  <div style={{ padding: '40px', fontFamily: 'Inter, sans-serif', color: '#0F172A' }}>
+    <h1 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '24px', fontWeight: '800' }}>
+      👤 Profil
+    </h1>
+    <p style={{ color: '#64748B', marginTop: '8px' }}>Yakında eklenecek...</p>
+  </div>
+)
 
 export default function AppRouter() {
   return (
@@ -18,7 +44,10 @@ export default function AppRouter() {
         <Route path="/learn" element={<FlashCards />} />
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/play" element={<PlayPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
           <Route path="/parent" element={<ParentPanel />} />
+          <Route path="/quiz" element={<QuizScreen />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

@@ -3,7 +3,10 @@
     "allow": [
       "Bash(npm install:*)",
       "Bash(npx tailwindcss:*)",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(grep -E \"\\\\.jsx$\")",
+      "Bash(xargs grep:*)",
+      "Bash(grep:*)"
     ]
   }
 }

@@ -46,7 +46,7 @@ export default function FlashCards() {
       if (index < words.length - 1) {
         setIndex(index + 1)
       } else {
-        navigate('/dashboard')
+        navigate('/quiz')
       }
     }, 200)
   }
