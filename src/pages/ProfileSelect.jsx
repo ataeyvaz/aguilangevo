@@ -48,9 +48,23 @@ export default function ProfileSelect() {
   )
 
   const handleSelect = (profile) => {
-    localStorage.setItem('aguilang_active_profile', JSON.stringify(profile))
+  localStorage.setItem('aguilang_active_profile', JSON.stringify(profile))
+  if (profile.type === 'child') {
+    const parentSettings = JSON.parse(
+      localStorage.getItem('aguilang_lang_settings') ||
+      '{"enabled":["en"],"priority":"en"}'
+    )
+    const defaultLang = {
+      id: parentSettings.priority,
+      name: { en: 'İngilizce', de: 'Almanca', es: 'İspanyolca', it: 'İtalyanca' }[parentSettings.priority],
+      flag: `/flags/${parentSettings.priority === 'en' ? 'gb' : parentSettings.priority}.png`,
+    }
+    localStorage.setItem('aguilang_active_lang', JSON.stringify(defaultLang))
+    navigate('/categories')
+  } else {
     navigate('/language')
   }
+}
 
   const handleAdd = () => {
     if (!newName.trim()) return

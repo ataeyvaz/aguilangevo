@@ -12,7 +12,28 @@
           "word": "red",
           "tr": "kırmızı",
           "pron": "rɛd",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "The apple is red.",
+              "tr": "Elma kırmızı.",
+              "words": [
+                "The",
+                "apple",
+                "is",
+                "red"
+              ]
+            },
+            {
+              "en": "I like red.",
+              "tr": "Kırmızıyı severim.",
+              "words": [
+                "I",
+                "like",
+                "red"
+              ]
+            }
+          ]
         },
         {
           "id": "blue",
@@ -20,7 +41,28 @@
           "word": "blue",
           "tr": "mavi",
           "pron": "bluː",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "The sky is blue.",
+              "tr": "Gökyüzü mavi.",
+              "words": [
+                "The",
+                "sky",
+                "is",
+                "blue"
+              ]
+            },
+            {
+              "en": "I like blue.",
+              "tr": "Maviyi severim.",
+              "words": [
+                "I",
+                "like",
+                "blue"
+              ]
+            }
+          ]
         },
         {
           "id": "green",
@@ -28,7 +70,28 @@
           "word": "green",
           "tr": "yeşil",
           "pron": "ɡriːn",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "The tree is green.",
+              "tr": "Ağaç yeşil.",
+              "words": [
+                "The",
+                "tree",
+                "is",
+                "green"
+              ]
+            },
+            {
+              "en": "I like green.",
+              "tr": "Yeşili severim.",
+              "words": [
+                "I",
+                "like",
+                "green"
+              ]
+            }
+          ]
         },
         {
           "id": "yellow",
@@ -36,7 +99,28 @@
           "word": "yellow",
           "tr": "sarı",
           "pron": "ˈjɛloʊ",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "The sun is yellow.",
+              "tr": "Güneş sarı.",
+              "words": [
+                "The",
+                "sun",
+                "is",
+                "yellow"
+              ]
+            },
+            {
+              "en": "I like yellow.",
+              "tr": "Sarıyı severim.",
+              "words": [
+                "I",
+                "like",
+                "yellow"
+              ]
+            }
+          ]
         },
         {
           "id": "orange",
@@ -44,7 +128,29 @@
           "word": "orange",
           "tr": "turuncu",
           "pron": "ˈɒrɪndʒ",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "The orange is sweet.",
+              "tr": "Portakal tatlı.",
+              "words": [
+                "The",
+                "orange",
+                "is",
+                "sweet"
+              ]
+            },
+            {
+              "en": "I drink orange juice.",
+              "tr": "Portakal suyu içiyorum.",
+              "words": [
+                "I",
+                "drink",
+                "orange",
+                "juice"
+              ]
+            }
+          ]
         },
         {
           "id": "purple",
@@ -68,7 +174,27 @@
           "word": "white",
           "tr": "beyaz",
           "pron": "waɪt",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "Snow is white.",
+              "tr": "Kar beyaz.",
+              "words": [
+                "Snow",
+                "is",
+                "white"
+              ]
+            },
+            {
+              "en": "I like white.",
+              "tr": "Beyazı severim.",
+              "words": [
+                "I",
+                "like",
+                "white"
+              ]
+            }
+          ]
         },
         {
           "id": "black",
@@ -76,7 +202,28 @@
           "word": "black",
           "tr": "siyah",
           "pron": "blæk",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "The night is black.",
+              "tr": "Gece siyah.",
+              "words": [
+                "The",
+                "night",
+                "is",
+                "black"
+              ]
+            },
+            {
+              "en": "I like black.",
+              "tr": "Siyahı severim.",
+              "words": [
+                "I",
+                "like",
+                "black"
+              ]
+            }
+          ]
         },
         {
           "id": "brown",
@@ -114,7 +261,28 @@
           "word": "rot",
           "tr": "kırmızı",
           "pron": "roːt",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "text": "Der Apfel ist rot.",
+              "tr": "Elma kırmızı.",
+              "words": [
+                "Der",
+                "Apfel",
+                "ist",
+                "rot"
+              ]
+            },
+            {
+              "text": "Ich mag Rot.",
+              "tr": "Kırmızıyı severim.",
+              "words": [
+                "Ich",
+                "mag",
+                "Rot"
+              ]
+            }
+          ]
         },
         {
           "id": "blue",
@@ -122,7 +290,28 @@
           "word": "blau",
           "tr": "mavi",
           "pron": "blaʊ",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "text": "Der Himmel ist blau.",
+              "tr": "Gökyüzü mavi.",
+              "words": [
+                "Der",
+                "Himmel",
+                "ist",
+                "blau"
+              ]
+            },
+            {
+              "text": "Ich mag Blau.",
+              "tr": "Maviyi severim.",
+              "words": [
+                "Ich",
+                "mag",
+                "Blau"
+              ]
+            }
+          ]
         },
         {
           "id": "green",
@@ -130,7 +319,28 @@
           "word": "grün",
           "tr": "yeşil",
           "pron": "ɡryːn",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "text": "Der Baum ist grün.",
+              "tr": "Ağaç yeşil.",
+              "words": [
+                "Der",
+                "Baum",
+                "ist",
+                "grün"
+              ]
+            },
+            {
+              "text": "Ich mag Grün.",
+              "tr": "Yeşili severim.",
+              "words": [
+                "Ich",
+                "mag",
+                "Grün"
+              ]
+            }
+          ]
         },
         {
           "id": "yellow",
@@ -138,7 +348,28 @@
           "word": "gelb",
           "tr": "sarı",
           "pron": "ɡɛlp",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "The sun is yellow.",
+              "tr": "Güneş sarı.",
+              "words": [
+                "The",
+                "sun",
+                "is",
+                "yellow"
+              ]
+            },
+            {
+              "en": "I like yellow.",
+              "tr": "Sarıyı severim.",
+              "words": [
+                "I",
+                "like",
+                "yellow"
+              ]
+            }
+          ]
         },
         {
           "id": "orange",
@@ -146,7 +377,29 @@
           "word": "orange",
           "tr": "turuncu",
           "pron": "oˈraŋʒ",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "The orange is sweet.",
+              "tr": "Portakal tatlı.",
+              "words": [
+                "The",
+                "orange",
+                "is",
+                "sweet"
+              ]
+            },
+            {
+              "en": "I drink orange juice.",
+              "tr": "Portakal suyu içiyorum.",
+              "words": [
+                "I",
+                "drink",
+                "orange",
+                "juice"
+              ]
+            }
+          ]
         },
         {
           "id": "purple",
@@ -170,7 +423,27 @@
           "word": "weiß",
           "tr": "beyaz",
           "pron": "vaɪs",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "Snow is white.",
+              "tr": "Kar beyaz.",
+              "words": [
+                "Snow",
+                "is",
+                "white"
+              ]
+            },
+            {
+              "en": "I like white.",
+              "tr": "Beyazı severim.",
+              "words": [
+                "I",
+                "like",
+                "white"
+              ]
+            }
+          ]
         },
         {
           "id": "black",
@@ -178,7 +451,28 @@
           "word": "schwarz",
           "tr": "siyah",
           "pron": "ʃvarts",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "The night is black.",
+              "tr": "Gece siyah.",
+              "words": [
+                "The",
+                "night",
+                "is",
+                "black"
+              ]
+            },
+            {
+              "en": "I like black.",
+              "tr": "Siyahı severim.",
+              "words": [
+                "I",
+                "like",
+                "black"
+              ]
+            }
+          ]
         },
         {
           "id": "brown",
@@ -216,7 +510,29 @@
           "word": "rojo",
           "tr": "kırmızı",
           "pron": "ˈroxo",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "text": "La manzana es roja.",
+              "tr": "Elma kırmızı.",
+              "words": [
+                "La",
+                "manzana",
+                "es",
+                "roja"
+              ]
+            },
+            {
+              "text": "Me gusta el rojo.",
+              "tr": "Kırmızıyı severim.",
+              "words": [
+                "Me",
+                "gusta",
+                "el",
+                "rojo"
+              ]
+            }
+          ]
         },
         {
           "id": "blue",
@@ -224,7 +540,29 @@
           "word": "azul",
           "tr": "mavi",
           "pron": "aˈθul",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "text": "El cielo es azul.",
+              "tr": "Gökyüzü mavi.",
+              "words": [
+                "El",
+                "cielo",
+                "es",
+                "azul"
+              ]
+            },
+            {
+              "text": "Me gusta el azul.",
+              "tr": "Maviyi severim.",
+              "words": [
+                "Me",
+                "gusta",
+                "el",
+                "azul"
+              ]
+            }
+          ]
         },
         {
           "id": "green",
@@ -232,7 +570,29 @@
           "word": "verde",
           "tr": "yeşil",
           "pron": "ˈberde",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "text": "El árbol es verde.",
+              "tr": "Ağaç yeşil.",
+              "words": [
+                "El",
+                "árbol",
+                "es",
+                "verde"
+              ]
+            },
+            {
+              "text": "Me gusta el verde.",
+              "tr": "Yeşili severim.",
+              "words": [
+                "Me",
+                "gusta",
+                "el",
+                "verde"
+              ]
+            }
+          ]
         },
         {
           "id": "yellow",
@@ -240,7 +600,28 @@
           "word": "amarillo",
           "tr": "sarı",
           "pron": "amaˈriʎo",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "The sun is yellow.",
+              "tr": "Güneş sarı.",
+              "words": [
+                "The",
+                "sun",
+                "is",
+                "yellow"
+              ]
+            },
+            {
+              "en": "I like yellow.",
+              "tr": "Sarıyı severim.",
+              "words": [
+                "I",
+                "like",
+                "yellow"
+              ]
+            }
+          ]
         },
         {
           "id": "orange",
@@ -248,7 +629,29 @@
           "word": "naranja",
           "tr": "turuncu",
           "pron": "naˈranxa",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "The orange is sweet.",
+              "tr": "Portakal tatlı.",
+              "words": [
+                "The",
+                "orange",
+                "is",
+                "sweet"
+              ]
+            },
+            {
+              "en": "I drink orange juice.",
+              "tr": "Portakal suyu içiyorum.",
+              "words": [
+                "I",
+                "drink",
+                "orange",
+                "juice"
+              ]
+            }
+          ]
         },
         {
           "id": "purple",
@@ -272,7 +675,27 @@
           "word": "blanco",
           "tr": "beyaz",
           "pron": "ˈblanko",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "Snow is white.",
+              "tr": "Kar beyaz.",
+              "words": [
+                "Snow",
+                "is",
+                "white"
+              ]
+            },
+            {
+              "en": "I like white.",
+              "tr": "Beyazı severim.",
+              "words": [
+                "I",
+                "like",
+                "white"
+              ]
+            }
+          ]
         },
         {
           "id": "black",
@@ -280,7 +703,28 @@
           "word": "negro",
           "tr": "siyah",
           "pron": "ˈneɣro",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "The night is black.",
+              "tr": "Gece siyah.",
+              "words": [
+                "The",
+                "night",
+                "is",
+                "black"
+              ]
+            },
+            {
+              "en": "I like black.",
+              "tr": "Siyahı severim.",
+              "words": [
+                "I",
+                "like",
+                "black"
+              ]
+            }
+          ]
         },
         {
           "id": "brown",

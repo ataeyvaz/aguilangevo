@@ -12,7 +12,29 @@
           "word": "book",
           "tr": "kitap",
           "pron": "bʊk",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "I read a book.",
+              "tr": "Bir kitap okuyorum.",
+              "words": [
+                "I",
+                "read",
+                "a",
+                "book"
+              ]
+            },
+            {
+              "en": "The book is big.",
+              "tr": "Kitap büyük.",
+              "words": [
+                "The",
+                "book",
+                "is",
+                "big"
+              ]
+            }
+          ]
         },
         {
           "id": "pen",
@@ -20,7 +42,30 @@
           "word": "pen",
           "tr": "kalem",
           "pron": "pɛn",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "I write with a pen.",
+              "tr": "Kalemle yazıyorum.",
+              "words": [
+                "I",
+                "write",
+                "with",
+                "a",
+                "pen"
+              ]
+            },
+            {
+              "en": "The pen is blue.",
+              "tr": "Kalem mavi.",
+              "words": [
+                "The",
+                "pen",
+                "is",
+                "blue"
+              ]
+            }
+          ]
         },
         {
           "id": "pencil",
@@ -60,7 +105,29 @@
           "word": "teacher",
           "tr": "öğretmen",
           "pron": "ˈtiːtʃər",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "My teacher is kind.",
+              "tr": "Öğretmenim nazik.",
+              "words": [
+                "My",
+                "teacher",
+                "is",
+                "kind"
+              ]
+            },
+            {
+              "en": "I like my teacher.",
+              "tr": "Öğretmenimden hoşlanıyorum.",
+              "words": [
+                "I",
+                "like",
+                "my",
+                "teacher"
+              ]
+            }
+          ]
         },
         {
           "id": "friend",
@@ -76,7 +143,28 @@
           "word": "school",
           "tr": "okul",
           "pron": "skuːl",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "I go to school.",
+              "tr": "Okula gidiyorum.",
+              "words": [
+                "I",
+                "go",
+                "to",
+                "school"
+              ]
+            },
+            {
+              "en": "School is fun.",
+              "tr": "Okul eğlenceli.",
+              "words": [
+                "School",
+                "is",
+                "fun"
+              ]
+            }
+          ]
         },
         {
           "id": "class",
@@ -162,7 +250,29 @@
           "word": "Buch",
           "tr": "kitap",
           "pron": "buːx",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "text": "Ich lese ein Buch.",
+              "tr": "Bir kitap okuyorum.",
+              "words": [
+                "Ich",
+                "lese",
+                "ein",
+                "Buch"
+              ]
+            },
+            {
+              "text": "Das Buch ist groß.",
+              "tr": "Kitap büyük.",
+              "words": [
+                "Das",
+                "Buch",
+                "ist",
+                "groß"
+              ]
+            }
+          ]
         },
         {
           "id": "pen",
@@ -170,7 +280,30 @@
           "word": "Stift",
           "tr": "kalem",
           "pron": "ʃtɪft",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "I write with a pen.",
+              "tr": "Kalemle yazıyorum.",
+              "words": [
+                "I",
+                "write",
+                "with",
+                "a",
+                "pen"
+              ]
+            },
+            {
+              "en": "The pen is blue.",
+              "tr": "Kalem mavi.",
+              "words": [
+                "The",
+                "pen",
+                "is",
+                "blue"
+              ]
+            }
+          ]
         },
         {
           "id": "pencil",
@@ -210,7 +343,29 @@
           "word": "Lehrer",
           "tr": "öğretmen",
           "pron": "ˈleːrər",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "My teacher is kind.",
+              "tr": "Öğretmenim nazik.",
+              "words": [
+                "My",
+                "teacher",
+                "is",
+                "kind"
+              ]
+            },
+            {
+              "en": "I like my teacher.",
+              "tr": "Öğretmenimden hoşlanıyorum.",
+              "words": [
+                "I",
+                "like",
+                "my",
+                "teacher"
+              ]
+            }
+          ]
         },
         {
           "id": "friend",
@@ -226,7 +381,29 @@
           "word": "Schule",
           "tr": "okul",
           "pron": "ˈʃuːlə",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "text": "Ich gehe zur Schule.",
+              "tr": "Okula gidiyorum.",
+              "words": [
+                "Ich",
+                "gehe",
+                "zur",
+                "Schule"
+              ]
+            },
+            {
+              "text": "Die Schule macht Spaß.",
+              "tr": "Okul eğlenceli.",
+              "words": [
+                "Die",
+                "Schule",
+                "macht",
+                "Spaß"
+              ]
+            }
+          ]
         },
         {
           "id": "class",
@@ -312,7 +489,28 @@
           "word": "libro",
           "tr": "kitap",
           "pron": "ˈlibro",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "text": "Leo un libro.",
+              "tr": "Bir kitap okuyorum.",
+              "words": [
+                "Leo",
+                "un",
+                "libro"
+              ]
+            },
+            {
+              "text": "El libro es grande.",
+              "tr": "Kitap büyük.",
+              "words": [
+                "El",
+                "libro",
+                "es",
+                "grande"
+              ]
+            }
+          ]
         },
         {
           "id": "pen",
@@ -320,7 +518,30 @@
           "word": "bolígrafo",
           "tr": "kalem",
           "pron": "boˈliɣrafo",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "I write with a pen.",
+              "tr": "Kalemle yazıyorum.",
+              "words": [
+                "I",
+                "write",
+                "with",
+                "a",
+                "pen"
+              ]
+            },
+            {
+              "en": "The pen is blue.",
+              "tr": "Kalem mavi.",
+              "words": [
+                "The",
+                "pen",
+                "is",
+                "blue"
+              ]
+            }
+          ]
         },
         {
           "id": "pencil",
@@ -360,7 +581,29 @@
           "word": "maestro",
           "tr": "öğretmen",
           "pron": "maˈestro",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "My teacher is kind.",
+              "tr": "Öğretmenim nazik.",
+              "words": [
+                "My",
+                "teacher",
+                "is",
+                "kind"
+              ]
+            },
+            {
+              "en": "I like my teacher.",
+              "tr": "Öğretmenimden hoşlanıyorum.",
+              "words": [
+                "I",
+                "like",
+                "my",
+                "teacher"
+              ]
+            }
+          ]
         },
         {
           "id": "friend",
@@ -376,7 +619,29 @@
           "word": "escuela",
           "tr": "okul",
           "pron": "esˈkwela",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "text": "Voy a la escuela.",
+              "tr": "Okula gidiyorum.",
+              "words": [
+                "Voy",
+                "a",
+                "la",
+                "escuela"
+              ]
+            },
+            {
+              "text": "La escuela es divertida.",
+              "tr": "Okul eğlenceli.",
+              "words": [
+                "La",
+                "escuela",
+                "es",
+                "divertida"
+              ]
+            }
+          ]
         },
         {
           "id": "class",

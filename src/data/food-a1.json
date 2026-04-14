@@ -12,7 +12,28 @@
           "word": "bread",
           "tr": "ekmek",
           "pron": "brɛd",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "I eat bread.",
+              "tr": "Ekmek yiyorum.",
+              "words": [
+                "I",
+                "eat",
+                "bread"
+              ]
+            },
+            {
+              "en": "The bread is fresh.",
+              "tr": "Ekmek taze.",
+              "words": [
+                "The",
+                "bread",
+                "is",
+                "fresh"
+              ]
+            }
+          ]
         },
         {
           "id": "milk",
@@ -20,7 +41,27 @@
           "word": "milk",
           "tr": "süt",
           "pron": "mɪlk",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "I drink milk.",
+              "tr": "Süt içiyorum.",
+              "words": [
+                "I",
+                "drink",
+                "milk"
+              ]
+            },
+            {
+              "en": "Milk is white.",
+              "tr": "Süt beyaz.",
+              "words": [
+                "Milk",
+                "is",
+                "white"
+              ]
+            }
+          ]
         },
         {
           "id": "egg",
@@ -28,7 +69,29 @@
           "word": "egg",
           "tr": "yumurta",
           "pron": "ɛɡ",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "I eat an egg.",
+              "tr": "Bir yumurta yiyorum.",
+              "words": [
+                "I",
+                "eat",
+                "an",
+                "egg"
+              ]
+            },
+            {
+              "en": "The egg is white.",
+              "tr": "Yumurta beyaz.",
+              "words": [
+                "The",
+                "egg",
+                "is",
+                "white"
+              ]
+            }
+          ]
         },
         {
           "id": "cheese",
@@ -194,7 +257,28 @@
           "word": "Brot",
           "tr": "ekmek",
           "pron": "broːt",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "text": "Ich esse Brot.",
+              "tr": "Ekmek yiyorum.",
+              "words": [
+                "Ich",
+                "esse",
+                "Brot"
+              ]
+            },
+            {
+              "text": "Das Brot ist frisch.",
+              "tr": "Ekmek taze.",
+              "words": [
+                "Das",
+                "Brot",
+                "ist",
+                "frisch"
+              ]
+            }
+          ]
         },
         {
           "id": "milk",
@@ -202,7 +286,28 @@
           "word": "Milch",
           "tr": "süt",
           "pron": "mɪlç",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "text": "Ich trinke Milch.",
+              "tr": "Süt içiyorum.",
+              "words": [
+                "Ich",
+                "trinke",
+                "Milch"
+              ]
+            },
+            {
+              "text": "Die Milch ist weiß.",
+              "tr": "Süt beyaz.",
+              "words": [
+                "Die",
+                "Milch",
+                "ist",
+                "weiß"
+              ]
+            }
+          ]
         },
         {
           "id": "egg",
@@ -210,7 +315,29 @@
           "word": "Ei",
           "tr": "yumurta",
           "pron": "aɪ",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "I eat an egg.",
+              "tr": "Bir yumurta yiyorum.",
+              "words": [
+                "I",
+                "eat",
+                "an",
+                "egg"
+              ]
+            },
+            {
+              "en": "The egg is white.",
+              "tr": "Yumurta beyaz.",
+              "words": [
+                "The",
+                "egg",
+                "is",
+                "white"
+              ]
+            }
+          ]
         },
         {
           "id": "cheese",
@@ -376,7 +503,27 @@
           "word": "pan",
           "tr": "ekmek",
           "pron": "pan",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "text": "Como pan.",
+              "tr": "Ekmek yiyorum.",
+              "words": [
+                "Como",
+                "pan"
+              ]
+            },
+            {
+              "text": "El pan está fresco.",
+              "tr": "Ekmek taze.",
+              "words": [
+                "El",
+                "pan",
+                "está",
+                "fresco"
+              ]
+            }
+          ]
         },
         {
           "id": "milk",
@@ -384,7 +531,27 @@
           "word": "leche",
           "tr": "süt",
           "pron": "ˈletʃe",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "text": "Bebo leche.",
+              "tr": "Süt içiyorum.",
+              "words": [
+                "Bebo",
+                "leche"
+              ]
+            },
+            {
+              "text": "La leche es blanca.",
+              "tr": "Süt beyaz.",
+              "words": [
+                "La",
+                "leche",
+                "es",
+                "blanca"
+              ]
+            }
+          ]
         },
         {
           "id": "egg",
@@ -392,7 +559,29 @@
           "word": "huevo",
           "tr": "yumurta",
           "pron": "ˈweβo",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "I eat an egg.",
+              "tr": "Bir yumurta yiyorum.",
+              "words": [
+                "I",
+                "eat",
+                "an",
+                "egg"
+              ]
+            },
+            {
+              "en": "The egg is white.",
+              "tr": "Yumurta beyaz.",
+              "words": [
+                "The",
+                "egg",
+                "is",
+                "white"
+              ]
+            }
+          ]
         },
         {
           "id": "cheese",

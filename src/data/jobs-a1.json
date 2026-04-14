@@ -76,7 +76,29 @@
           "word": "teacher",
           "tr": "öğretmen",
           "pron": "ˈtiːtʃər",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "My teacher is kind.",
+              "tr": "Öğretmenim nazik.",
+              "words": [
+                "My",
+                "teacher",
+                "is",
+                "kind"
+              ]
+            },
+            {
+              "en": "I like my teacher.",
+              "tr": "Öğretmenimden hoşlanıyorum.",
+              "words": [
+                "I",
+                "like",
+                "my",
+                "teacher"
+              ]
+            }
+          ]
         },
         {
           "id": "waiter",
@@ -250,7 +272,29 @@
           "word": "Lehrer",
           "tr": "öğretmen",
           "pron": "ˈleːrər",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "My teacher is kind.",
+              "tr": "Öğretmenim nazik.",
+              "words": [
+                "My",
+                "teacher",
+                "is",
+                "kind"
+              ]
+            },
+            {
+              "en": "I like my teacher.",
+              "tr": "Öğretmenimden hoşlanıyorum.",
+              "words": [
+                "I",
+                "like",
+                "my",
+                "teacher"
+              ]
+            }
+          ]
         },
         {
           "id": "waiter",
@@ -424,7 +468,29 @@
           "word": "profesor",
           "tr": "öğretmen",
           "pron": "profeˈsor",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "My teacher is kind.",
+              "tr": "Öğretmenim nazik.",
+              "words": [
+                "My",
+                "teacher",
+                "is",
+                "kind"
+              ]
+            },
+            {
+              "en": "I like my teacher.",
+              "tr": "Öğretmenimden hoşlanıyorum.",
+              "words": [
+                "I",
+                "like",
+                "my",
+                "teacher"
+              ]
+            }
+          ]
         },
         {
           "id": "waiter",

@@ -12,7 +12,29 @@
           "word": "apple",
           "tr": "elma",
           "pron": "ˈæpəl",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "The apple is red.",
+              "tr": "Elma kırmızı.",
+              "words": [
+                "The",
+                "apple",
+                "is",
+                "red"
+              ]
+            },
+            {
+              "en": "I eat an apple.",
+              "tr": "Bir elma yiyorum.",
+              "words": [
+                "I",
+                "eat",
+                "an",
+                "apple"
+              ]
+            }
+          ]
         },
         {
           "id": "banana",
@@ -20,7 +42,28 @@
           "word": "banana",
           "tr": "muz",
           "pron": "bəˈnænə",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "The banana is yellow.",
+              "tr": "Muz sarı.",
+              "words": [
+                "The",
+                "banana",
+                "is",
+                "yellow"
+              ]
+            },
+            {
+              "en": "I like bananas.",
+              "tr": "Muzları severim.",
+              "words": [
+                "I",
+                "like",
+                "bananas"
+              ]
+            }
+          ]
         },
         {
           "id": "orange",
@@ -28,7 +71,29 @@
           "word": "orange",
           "tr": "portakal",
           "pron": "ˈɒrɪndʒ",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "The orange is sweet.",
+              "tr": "Portakal tatlı.",
+              "words": [
+                "The",
+                "orange",
+                "is",
+                "sweet"
+              ]
+            },
+            {
+              "en": "I drink orange juice.",
+              "tr": "Portakal suyu içiyorum.",
+              "words": [
+                "I",
+                "drink",
+                "orange",
+                "juice"
+              ]
+            }
+          ]
         },
         {
           "id": "strawberry",
@@ -36,7 +101,28 @@
           "word": "strawberry",
           "tr": "çilek",
           "pron": "ˈstrɔːbəri",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "The strawberry is red.",
+              "tr": "Çilek kırmızı.",
+              "words": [
+                "The",
+                "strawberry",
+                "is",
+                "red"
+              ]
+            },
+            {
+              "en": "I love strawberries.",
+              "tr": "Çilekleri seviyorum.",
+              "words": [
+                "I",
+                "love",
+                "strawberries"
+              ]
+            }
+          ]
         },
         {
           "id": "grape",
@@ -44,7 +130,28 @@
           "word": "grape",
           "tr": "üzüm",
           "pron": "ɡreɪp",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "The grapes are purple.",
+              "tr": "Üzümler mor.",
+              "words": [
+                "The",
+                "grapes",
+                "are",
+                "purple"
+              ]
+            },
+            {
+              "en": "I eat grapes.",
+              "tr": "Üzüm yiyorum.",
+              "words": [
+                "I",
+                "eat",
+                "grapes"
+              ]
+            }
+          ]
         },
         {
           "id": "watermelon",
@@ -114,7 +221,29 @@
           "word": "Apfel",
           "tr": "elma",
           "pron": "ˈapfəl",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "text": "Der Apfel ist rot.",
+              "tr": "Elma kırmızı.",
+              "words": [
+                "Der",
+                "Apfel",
+                "ist",
+                "rot"
+              ]
+            },
+            {
+              "text": "Ich esse einen Apfel.",
+              "tr": "Bir elma yiyorum.",
+              "words": [
+                "Ich",
+                "esse",
+                "einen",
+                "Apfel"
+              ]
+            }
+          ]
         },
         {
           "id": "banana",
@@ -122,7 +251,28 @@
           "word": "Banane",
           "tr": "muz",
           "pron": "baˈnaːnə",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "The banana is yellow.",
+              "tr": "Muz sarı.",
+              "words": [
+                "The",
+                "banana",
+                "is",
+                "yellow"
+              ]
+            },
+            {
+              "en": "I like bananas.",
+              "tr": "Muzları severim.",
+              "words": [
+                "I",
+                "like",
+                "bananas"
+              ]
+            }
+          ]
         },
         {
           "id": "orange",
@@ -130,7 +280,29 @@
           "word": "Orange",
           "tr": "portakal",
           "pron": "oˈraŋʒə",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "The orange is sweet.",
+              "tr": "Portakal tatlı.",
+              "words": [
+                "The",
+                "orange",
+                "is",
+                "sweet"
+              ]
+            },
+            {
+              "en": "I drink orange juice.",
+              "tr": "Portakal suyu içiyorum.",
+              "words": [
+                "I",
+                "drink",
+                "orange",
+                "juice"
+              ]
+            }
+          ]
         },
         {
           "id": "strawberry",
@@ -138,7 +310,28 @@
           "word": "Erdbeere",
           "tr": "çilek",
           "pron": "ˈɛrtbeːrə",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "The strawberry is red.",
+              "tr": "Çilek kırmızı.",
+              "words": [
+                "The",
+                "strawberry",
+                "is",
+                "red"
+              ]
+            },
+            {
+              "en": "I love strawberries.",
+              "tr": "Çilekleri seviyorum.",
+              "words": [
+                "I",
+                "love",
+                "strawberries"
+              ]
+            }
+          ]
         },
         {
           "id": "grape",
@@ -146,7 +339,28 @@
           "word": "Traube",
           "tr": "üzüm",
           "pron": "ˈtraʊbə",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "The grapes are purple.",
+              "tr": "Üzümler mor.",
+              "words": [
+                "The",
+                "grapes",
+                "are",
+                "purple"
+              ]
+            },
+            {
+              "en": "I eat grapes.",
+              "tr": "Üzüm yiyorum.",
+              "words": [
+                "I",
+                "eat",
+                "grapes"
+              ]
+            }
+          ]
         },
         {
           "id": "watermelon",
@@ -216,7 +430,28 @@
           "word": "manzana",
           "tr": "elma",
           "pron": "manˈθana",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "text": "La manzana es roja.",
+              "tr": "Elma kırmızı.",
+              "words": [
+                "La",
+                "manzana",
+                "es",
+                "roja"
+              ]
+            },
+            {
+              "text": "Como una manzana.",
+              "tr": "Bir elma yiyorum.",
+              "words": [
+                "Como",
+                "una",
+                "manzana"
+              ]
+            }
+          ]
         },
         {
           "id": "banana",
@@ -224,7 +459,28 @@
           "word": "plátano",
           "tr": "muz",
           "pron": "ˈplatano",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "The banana is yellow.",
+              "tr": "Muz sarı.",
+              "words": [
+                "The",
+                "banana",
+                "is",
+                "yellow"
+              ]
+            },
+            {
+              "en": "I like bananas.",
+              "tr": "Muzları severim.",
+              "words": [
+                "I",
+                "like",
+                "bananas"
+              ]
+            }
+          ]
         },
         {
           "id": "orange",
@@ -232,7 +488,29 @@
           "word": "naranja",
           "tr": "portakal",
           "pron": "naˈranxa",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "The orange is sweet.",
+              "tr": "Portakal tatlı.",
+              "words": [
+                "The",
+                "orange",
+                "is",
+                "sweet"
+              ]
+            },
+            {
+              "en": "I drink orange juice.",
+              "tr": "Portakal suyu içiyorum.",
+              "words": [
+                "I",
+                "drink",
+                "orange",
+                "juice"
+              ]
+            }
+          ]
         },
         {
           "id": "strawberry",
@@ -240,7 +518,28 @@
           "word": "fresa",
           "tr": "çilek",
           "pron": "ˈfresa",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "The strawberry is red.",
+              "tr": "Çilek kırmızı.",
+              "words": [
+                "The",
+                "strawberry",
+                "is",
+                "red"
+              ]
+            },
+            {
+              "en": "I love strawberries.",
+              "tr": "Çilekleri seviyorum.",
+              "words": [
+                "I",
+                "love",
+                "strawberries"
+              ]
+            }
+          ]
         },
         {
           "id": "grape",
@@ -248,7 +547,28 @@
           "word": "uva",
           "tr": "üzüm",
           "pron": "ˈuba",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "The grapes are purple.",
+              "tr": "Üzümler mor.",
+              "words": [
+                "The",
+                "grapes",
+                "are",
+                "purple"
+              ]
+            },
+            {
+              "en": "I eat grapes.",
+              "tr": "Üzüm yiyorum.",
+              "words": [
+                "I",
+                "eat",
+                "grapes"
+              ]
+            }
+          ]
         },
         {
           "id": "watermelon",

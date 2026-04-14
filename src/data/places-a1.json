@@ -132,7 +132,28 @@
           "word": "school",
           "tr": "okul",
           "pron": "skuːl",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "I go to school.",
+              "tr": "Okula gidiyorum.",
+              "words": [
+                "I",
+                "go",
+                "to",
+                "school"
+              ]
+            },
+            {
+              "en": "School is fun.",
+              "tr": "Okul eğlenceli.",
+              "words": [
+                "School",
+                "is",
+                "fun"
+              ]
+            }
+          ]
         },
         {
           "id": "shop",
@@ -370,7 +391,29 @@
           "word": "Schule",
           "tr": "okul",
           "pron": "ˈʃuːlə",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "text": "Ich gehe zur Schule.",
+              "tr": "Okula gidiyorum.",
+              "words": [
+                "Ich",
+                "gehe",
+                "zur",
+                "Schule"
+              ]
+            },
+            {
+              "text": "Die Schule macht Spaß.",
+              "tr": "Okul eğlenceli.",
+              "words": [
+                "Die",
+                "Schule",
+                "macht",
+                "Spaß"
+              ]
+            }
+          ]
         },
         {
           "id": "shop",
@@ -608,7 +651,29 @@
           "word": "escuela",
           "tr": "okul",
           "pron": "esˈkwela",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "text": "Voy a la escuela.",
+              "tr": "Okula gidiyorum.",
+              "words": [
+                "Voy",
+                "a",
+                "la",
+                "escuela"
+              ]
+            },
+            {
+              "text": "La escuela es divertida.",
+              "tr": "Okul eğlenceli.",
+              "words": [
+                "La",
+                "escuela",
+                "es",
+                "divertida"
+              ]
+            }
+          ]
         },
         {
           "id": "shop",

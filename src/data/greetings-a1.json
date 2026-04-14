@@ -12,7 +12,28 @@
           "word": "hello",
           "tr": "merhaba",
           "pron": "hɛˈloʊ",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "Hello, how are you?",
+              "tr": "Merhaba, nasılsın?",
+              "words": [
+                "Hello",
+                "how",
+                "are",
+                "you"
+              ]
+            },
+            {
+              "en": "I say hello.",
+              "tr": "Merhaba derim.",
+              "words": [
+                "I",
+                "say",
+                "hello"
+              ]
+            }
+          ]
         },
         {
           "id": "goodbye",
@@ -20,7 +41,28 @@
           "word": "goodbye",
           "tr": "güle güle",
           "pron": "ɡʊdˈbaɪ",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "Goodbye, see you soon.",
+              "tr": "Hoşçakal, görüşürüz.",
+              "words": [
+                "Goodbye",
+                "see",
+                "you",
+                "soon"
+              ]
+            },
+            {
+              "en": "I say goodbye.",
+              "tr": "Hoşçakal derim.",
+              "words": [
+                "I",
+                "say",
+                "goodbye"
+              ]
+            }
+          ]
         },
         {
           "id": "please",
@@ -116,7 +158,28 @@
           "word": "thanks",
           "tr": "teşekkürler",
           "pron": "θæŋks",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "Thank you very much.",
+              "tr": "Çok teşekkür ederim.",
+              "words": [
+                "Thank",
+                "you",
+                "very",
+                "much"
+              ]
+            },
+            {
+              "en": "I say thanks.",
+              "tr": "Teşekkür ederim.",
+              "words": [
+                "I",
+                "say",
+                "thanks"
+              ]
+            }
+          ]
         },
         {
           "id": "welcome",
@@ -138,7 +201,28 @@
           "word": "Hallo",
           "tr": "merhaba",
           "pron": "ˈhalo",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "Hello, how are you?",
+              "tr": "Merhaba, nasılsın?",
+              "words": [
+                "Hello",
+                "how",
+                "are",
+                "you"
+              ]
+            },
+            {
+              "en": "I say hello.",
+              "tr": "Merhaba derim.",
+              "words": [
+                "I",
+                "say",
+                "hello"
+              ]
+            }
+          ]
         },
         {
           "id": "goodbye",
@@ -146,7 +230,28 @@
           "word": "Tschüss",
           "tr": "güle güle",
           "pron": "tʃʏs",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "Goodbye, see you soon.",
+              "tr": "Hoşçakal, görüşürüz.",
+              "words": [
+                "Goodbye",
+                "see",
+                "you",
+                "soon"
+              ]
+            },
+            {
+              "en": "I say goodbye.",
+              "tr": "Hoşçakal derim.",
+              "words": [
+                "I",
+                "say",
+                "goodbye"
+              ]
+            }
+          ]
         },
         {
           "id": "please",
@@ -242,7 +347,28 @@
           "word": "Danke",
           "tr": "teşekkürler",
           "pron": "ˈdaŋkə",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "Thank you very much.",
+              "tr": "Çok teşekkür ederim.",
+              "words": [
+                "Thank",
+                "you",
+                "very",
+                "much"
+              ]
+            },
+            {
+              "en": "I say thanks.",
+              "tr": "Teşekkür ederim.",
+              "words": [
+                "I",
+                "say",
+                "thanks"
+              ]
+            }
+          ]
         },
         {
           "id": "welcome",
@@ -264,7 +390,28 @@
           "word": "hola",
           "tr": "merhaba",
           "pron": "ˈola",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "Hello, how are you?",
+              "tr": "Merhaba, nasılsın?",
+              "words": [
+                "Hello",
+                "how",
+                "are",
+                "you"
+              ]
+            },
+            {
+              "en": "I say hello.",
+              "tr": "Merhaba derim.",
+              "words": [
+                "I",
+                "say",
+                "hello"
+              ]
+            }
+          ]
         },
         {
           "id": "goodbye",
@@ -272,7 +419,28 @@
           "word": "adiós",
           "tr": "güle güle",
           "pron": "aˈðjos",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "Goodbye, see you soon.",
+              "tr": "Hoşçakal, görüşürüz.",
+              "words": [
+                "Goodbye",
+                "see",
+                "you",
+                "soon"
+              ]
+            },
+            {
+              "en": "I say goodbye.",
+              "tr": "Hoşçakal derim.",
+              "words": [
+                "I",
+                "say",
+                "goodbye"
+              ]
+            }
+          ]
         },
         {
           "id": "please",
@@ -368,7 +536,28 @@
           "word": "gracias",
           "tr": "teşekkürler",
           "pron": "ˈɡraθjas",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "Thank you very much.",
+              "tr": "Çok teşekkür ederim.",
+              "words": [
+                "Thank",
+                "you",
+                "very",
+                "much"
+              ]
+            },
+            {
+              "en": "I say thanks.",
+              "tr": "Teşekkür ederim.",
+              "words": [
+                "I",
+                "say",
+                "thanks"
+              ]
+            }
+          ]
         },
         {
           "id": "welcome",

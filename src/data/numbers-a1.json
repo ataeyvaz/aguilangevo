@@ -12,7 +12,30 @@
           "word": "one",
           "tr": "bir",
           "pron": "wʌn",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "I have one cat.",
+              "tr": "Bir kedim var.",
+              "words": [
+                "I",
+                "have",
+                "one",
+                "cat"
+              ]
+            },
+            {
+              "en": "One plus one is two.",
+              "tr": "Bir artı bir iki.",
+              "words": [
+                "One",
+                "plus",
+                "one",
+                "is",
+                "two"
+              ]
+            }
+          ]
         },
         {
           "id": "two",
@@ -20,7 +43,30 @@
           "word": "two",
           "tr": "iki",
           "pron": "tuː",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "I have two dogs.",
+              "tr": "İki köpeğim var.",
+              "words": [
+                "I",
+                "have",
+                "two",
+                "dogs"
+              ]
+            },
+            {
+              "en": "Two plus two is four.",
+              "tr": "İki artı iki dört.",
+              "words": [
+                "Two",
+                "plus",
+                "two",
+                "is",
+                "four"
+              ]
+            }
+          ]
         },
         {
           "id": "three",
@@ -28,7 +74,29 @@
           "word": "three",
           "tr": "üç",
           "pron": "θriː",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "I have three books.",
+              "tr": "Üç kitabım var.",
+              "words": [
+                "I",
+                "have",
+                "three",
+                "books"
+              ]
+            },
+            {
+              "en": "Three birds are flying.",
+              "tr": "Üç kuş uçuyor.",
+              "words": [
+                "Three",
+                "birds",
+                "are",
+                "flying"
+              ]
+            }
+          ]
         },
         {
           "id": "four",
@@ -36,7 +104,30 @@
           "word": "four",
           "tr": "dört",
           "pron": "fɔːr",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "I have four apples.",
+              "tr": "Dört elmam var.",
+              "words": [
+                "I",
+                "have",
+                "four",
+                "apples"
+              ]
+            },
+            {
+              "en": "Four plus one is five.",
+              "tr": "Dört artı bir beş.",
+              "words": [
+                "Four",
+                "plus",
+                "one",
+                "is",
+                "five"
+              ]
+            }
+          ]
         },
         {
           "id": "five",
@@ -44,7 +135,29 @@
           "word": "five",
           "tr": "beş",
           "pron": "faɪv",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "I have five cats.",
+              "tr": "Beş kedim var.",
+              "words": [
+                "I",
+                "have",
+                "five",
+                "cats"
+              ]
+            },
+            {
+              "en": "Five birds are singing.",
+              "tr": "Beş kuş şarkı söylüyor.",
+              "words": [
+                "Five",
+                "birds",
+                "are",
+                "singing"
+              ]
+            }
+          ]
         },
         {
           "id": "six",
@@ -250,7 +363,30 @@
           "word": "eins",
           "tr": "bir",
           "pron": "aɪns",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "I have one cat.",
+              "tr": "Bir kedim var.",
+              "words": [
+                "I",
+                "have",
+                "one",
+                "cat"
+              ]
+            },
+            {
+              "en": "One plus one is two.",
+              "tr": "Bir artı bir iki.",
+              "words": [
+                "One",
+                "plus",
+                "one",
+                "is",
+                "two"
+              ]
+            }
+          ]
         },
         {
           "id": "two",
@@ -258,7 +394,30 @@
           "word": "zwei",
           "tr": "iki",
           "pron": "tsvaɪ",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "I have two dogs.",
+              "tr": "İki köpeğim var.",
+              "words": [
+                "I",
+                "have",
+                "two",
+                "dogs"
+              ]
+            },
+            {
+              "en": "Two plus two is four.",
+              "tr": "İki artı iki dört.",
+              "words": [
+                "Two",
+                "plus",
+                "two",
+                "is",
+                "four"
+              ]
+            }
+          ]
         },
         {
           "id": "three",
@@ -266,7 +425,29 @@
           "word": "drei",
           "tr": "üç",
           "pron": "draɪ",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "I have three books.",
+              "tr": "Üç kitabım var.",
+              "words": [
+                "I",
+                "have",
+                "three",
+                "books"
+              ]
+            },
+            {
+              "en": "Three birds are flying.",
+              "tr": "Üç kuş uçuyor.",
+              "words": [
+                "Three",
+                "birds",
+                "are",
+                "flying"
+              ]
+            }
+          ]
         },
         {
           "id": "four",
@@ -274,7 +455,30 @@
           "word": "vier",
           "tr": "dört",
           "pron": "fiːr",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "I have four apples.",
+              "tr": "Dört elmam var.",
+              "words": [
+                "I",
+                "have",
+                "four",
+                "apples"
+              ]
+            },
+            {
+              "en": "Four plus one is five.",
+              "tr": "Dört artı bir beş.",
+              "words": [
+                "Four",
+                "plus",
+                "one",
+                "is",
+                "five"
+              ]
+            }
+          ]
         },
         {
           "id": "five",
@@ -282,7 +486,29 @@
           "word": "fünf",
           "tr": "beş",
           "pron": "fʏnf",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "I have five cats.",
+              "tr": "Beş kedim var.",
+              "words": [
+                "I",
+                "have",
+                "five",
+                "cats"
+              ]
+            },
+            {
+              "en": "Five birds are singing.",
+              "tr": "Beş kuş şarkı söylüyor.",
+              "words": [
+                "Five",
+                "birds",
+                "are",
+                "singing"
+              ]
+            }
+          ]
         },
         {
           "id": "six",
@@ -488,7 +714,30 @@
           "word": "uno",
           "tr": "bir",
           "pron": "ˈuno",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "I have one cat.",
+              "tr": "Bir kedim var.",
+              "words": [
+                "I",
+                "have",
+                "one",
+                "cat"
+              ]
+            },
+            {
+              "en": "One plus one is two.",
+              "tr": "Bir artı bir iki.",
+              "words": [
+                "One",
+                "plus",
+                "one",
+                "is",
+                "two"
+              ]
+            }
+          ]
         },
         {
           "id": "two",
@@ -496,7 +745,30 @@
           "word": "dos",
           "tr": "iki",
           "pron": "dos",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "I have two dogs.",
+              "tr": "İki köpeğim var.",
+              "words": [
+                "I",
+                "have",
+                "two",
+                "dogs"
+              ]
+            },
+            {
+              "en": "Two plus two is four.",
+              "tr": "İki artı iki dört.",
+              "words": [
+                "Two",
+                "plus",
+                "two",
+                "is",
+                "four"
+              ]
+            }
+          ]
         },
         {
           "id": "three",
@@ -504,7 +776,29 @@
           "word": "tres",
           "tr": "üç",
           "pron": "tres",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "I have three books.",
+              "tr": "Üç kitabım var.",
+              "words": [
+                "I",
+                "have",
+                "three",
+                "books"
+              ]
+            },
+            {
+              "en": "Three birds are flying.",
+              "tr": "Üç kuş uçuyor.",
+              "words": [
+                "Three",
+                "birds",
+                "are",
+                "flying"
+              ]
+            }
+          ]
         },
         {
           "id": "four",
@@ -512,7 +806,30 @@
           "word": "cuatro",
           "tr": "dört",
           "pron": "ˈkwatro",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "I have four apples.",
+              "tr": "Dört elmam var.",
+              "words": [
+                "I",
+                "have",
+                "four",
+                "apples"
+              ]
+            },
+            {
+              "en": "Four plus one is five.",
+              "tr": "Dört artı bir beş.",
+              "words": [
+                "Four",
+                "plus",
+                "one",
+                "is",
+                "five"
+              ]
+            }
+          ]
         },
         {
           "id": "five",
@@ -520,7 +837,29 @@
           "word": "cinco",
           "tr": "beş",
           "pron": "ˈθinko",
-          "level": "a1"
+          "level": "a1",
+          "sentences": [
+            {
+              "en": "I have five cats.",
+              "tr": "Beş kedim var.",
+              "words": [
+                "I",
+                "have",
+                "five",
+                "cats"
+              ]
+            },
+            {
+              "en": "Five birds are singing.",
+              "tr": "Beş kuş şarkı söylüyor.",
+              "words": [
+                "Five",
+                "birds",
+                "are",
+                "singing"
+              ]
+            }
+          ]
         },
         {
           "id": "six",
