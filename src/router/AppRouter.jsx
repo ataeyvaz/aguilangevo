@@ -8,6 +8,8 @@ import Dashboard from '../pages/Dashboard'
 import QuizScreen from '../pages/QuizScreen'
 import ParentGate from '../pages/parent/ParentGate'
 import ParentPanel from '../pages/parent/ParentPanel'
+import LearnedWords from '../pages/LearnedWords'
+import StatsPage from '../pages/StatsPage'
 
 const PlayPage = () => (
   <div style={{ padding: '40px', fontFamily: 'Inter, sans-serif', color: '#0F172A' }}>
@@ -45,6 +47,8 @@ export default function AppRouter() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/play" element={<PlayPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/learned" element={<LearnedWords />} />
+          <Route path="/stats" element={<StatsPage />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />

@@ -1,12 +1,6 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getTodayStats, getDailyStats } from '../hooks/useDailyStats'
-
-const ALL_CAT_IDS = [
-  'animals','colors','numbers','fruits','vegetables','body','family',
-  'school','food','greetings','questions','clothing','home','transport',
-  'time','jobs','sports','places','adjectives','verbs',
-]
 
 const DAILY_GOAL = 10
 
@@ -23,22 +17,10 @@ function getHardWords() {
   }
 }
 
-function getLevel(correct, wrong) {
-  if (correct >= 3 && correct > wrong) return 3
-  if (correct >= 1 && correct > wrong) return 2
-  return 1
-}
 
 export default function Dashboard() {
   const navigate = useNavigate()
   const [hardWords, setHardWords] = useState(getHardWords)
-
-  // Modal state
-  const [showLearnedModal, setShowLearnedModal] = useState(false)
-  const [wordMap, setWordMap]       = useState(null)
-  const [loadingWords, setLoadingWords] = useState(false)
-  const [modalSearch, setModalSearch]   = useState('')
-  const wordMapLoadedRef = useRef(false)
 
   useEffect(() => {
     const refresh = () => setHardWords(getHardWords())
@@ -46,39 +28,7 @@ export default function Dashboard() {
     return () => window.removeEventListener('wordStatsUpdated', refresh)
   }, [])
 
-  // Kelime detaylarını yükle (modal ilk açıldığında)
-  useEffect(() => {
-    if (!showLearnedModal || wordMapLoadedRef.current) return
-    wordMapLoadedRef.current = true
-    setLoadingWords(true)
-
-    const lang = (() => {
-      try { return JSON.parse(localStorage.getItem('aguilang_active_lang') || '{"id":"en"}') }
-      catch { return { id: 'en' } }
-    })()
-    const stats = (() => {
-      try { return JSON.parse(localStorage.getItem('aguilang_word_stats') || '{}') }
-      catch { return {} }
-    })()
-
-    Promise.all(ALL_CAT_IDS.map(async catId => {
-      try {
-        const m = await import(`../data/${catId}-a1.json`)
-        return m.default.translations?.[lang.id]?.words ?? []
-      } catch { return [] }
-    })).then(arrays => {
-      const detailMap = {}
-      arrays.flat().forEach(w => { detailMap[w.id] = { word: w.word, tr: w.tr, emoji: w.emoji } })
-      const enriched = {}
-      Object.entries(stats).forEach(([id, s]) => {
-        enriched[id] = { ...(detailMap[id] ?? { word: id, tr: '—', emoji: '📝' }), ...s }
-      })
-      setWordMap(enriched)
-      setLoadingWords(false)
-    })
-  }, [showLearnedModal])
-
-  const profile   = JSON.parse(localStorage.getItem('aguilang_active_profile') || '{}')
+  const profile    = JSON.parse(localStorage.getItem('aguilang_active_profile') || '{}')
   const todayStats = getTodayStats()
   const weekStats  = getDailyStats(7)
   const todayKey   = new Date().toISOString().split('T')[0]
@@ -100,139 +50,8 @@ export default function Dashboard() {
     navigate('/learn')
   }
 
-  // Modal kelime grupları
-  const modalWords = Object.entries(wordMap || {}).filter(([id, w]) => {
-    if (!modalSearch) return true
-    const q = modalSearch.toLowerCase()
-    return id.toLowerCase().includes(q) || w.tr?.toLowerCase().includes(q) || w.word?.toLowerCase().includes(q)
-  })
-  const mastered  = modalWords.filter(([, w]) => getLevel(w.correct, w.wrong) === 3)
-  const learned   = modalWords.filter(([, w]) => getLevel(w.correct, w.wrong) === 2)
-  const needWork  = modalWords.filter(([, w]) => getLevel(w.correct, w.wrong) === 1)
-
-  const WordRow = ({ id, w }) => (
-    <div style={{
-      display: 'flex', alignItems: 'center', gap: '10px',
-      padding: '8px 12px', borderRadius: '8px',
-      background: '#F8FAFC', marginBottom: '4px',
-    }}>
-      <span style={{ fontSize: '20px', width: '28px', textAlign: 'center' }}>{w.emoji || '📝'}</span>
-      <span style={{ fontWeight: '700', color: '#0F172A', fontSize: '14px', flex: 1 }}>{w.word || id}</span>
-      <span style={{ fontSize: '13px', color: '#64748B' }}>{w.tr || '—'}</span>
-    </div>
-  )
-
   return (
     <div style={{ minHeight: '100vh', background: '#F8FAFC', fontFamily: 'Inter, sans-serif' }}>
-
-      {/* ── Öğrendiklerim Modal ─────────────────────────────────── */}
-      {showLearnedModal && (
-        <div
-          onClick={() => setShowLearnedModal(false)}
-          style={{
-            position: 'fixed', inset: 0,
-            background: 'rgba(0,0,0,0.45)',
-            display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
-            zIndex: 100,
-          }}
-        >
-          <div
-            onClick={e => e.stopPropagation()}
-            style={{
-              background: 'white',
-              borderRadius: '20px 20px 0 0',
-              width: '100%', maxWidth: '640px',
-              maxHeight: '82vh',
-              display: 'flex', flexDirection: 'column',
-              overflow: 'hidden',
-            }}
-          >
-            {/* Modal header */}
-            <div style={{
-              padding: '16px 20px', borderBottom: '1px solid #E2E8F0',
-              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            }}>
-              <div>
-                <div style={{
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  fontSize: '17px', fontWeight: '800', color: '#0F172A',
-                }}>
-                  📚 Öğrendiğim Kelimeler ({Object.keys(wordMap || {}).length})
-                </div>
-              </div>
-              <button
-                onClick={() => setShowLearnedModal(false)}
-                style={{
-                  background: '#F1F5F9', border: 'none', borderRadius: '8px',
-                  width: '32px', height: '32px', cursor: 'pointer',
-                  fontSize: '16px', color: '#64748B',
-                }}
-              >✕</button>
-            </div>
-
-            {/* Arama */}
-            <div style={{ padding: '12px 20px', borderBottom: '1px solid #F1F5F9' }}>
-              <input
-                type="text"
-                placeholder="Kelime ara..."
-                value={modalSearch}
-                onChange={e => setModalSearch(e.target.value)}
-                style={{
-                  width: '100%', padding: '9px 14px',
-                  border: '1px solid #E2E8F0', borderRadius: '10px',
-                  fontSize: '14px', outline: 'none',
-                  fontFamily: 'Inter, sans-serif', boxSizing: 'border-box',
-                }}
-              />
-            </div>
-
-            {/* İçerik */}
-            <div style={{ flex: 1, overflowY: 'auto', padding: '16px 20px' }}>
-              {loadingWords ? (
-                <div style={{ textAlign: 'center', padding: '40px', color: '#94A3B8', fontSize: '14px' }}>
-                  Kelimeler yükleniyor...
-                </div>
-              ) : Object.keys(wordMap || {}).length === 0 ? (
-                <div style={{ textAlign: 'center', padding: '40px', color: '#94A3B8', fontSize: '14px' }}>
-                  Henüz öğrenilen kelime yok.
-                </div>
-              ) : (
-                <>
-                  {mastered.length > 0 && (
-                    <div style={{ marginBottom: '16px' }}>
-                      <div style={{ fontSize: '13px', fontWeight: '700', color: '#15803D', marginBottom: '8px' }}>
-                        ⭐⭐⭐ Pekiştirildi ({mastered.length})
-                      </div>
-                      {mastered.map(([id, w]) => <WordRow key={id} id={id} w={w} />)}
-                    </div>
-                  )}
-                  {learned.length > 0 && (
-                    <div style={{ marginBottom: '16px' }}>
-                      <div style={{ fontSize: '13px', fontWeight: '700', color: '#0891B2', marginBottom: '8px' }}>
-                        ⭐⭐ Öğrenildi ({learned.length})
-                      </div>
-                      {learned.map(([id, w]) => <WordRow key={id} id={id} w={w} />)}
-                    </div>
-                  )}
-                  {needWork.length > 0 && (
-                    <div style={{ marginBottom: '16px' }}>
-                      <div style={{ fontSize: '13px', fontWeight: '700', color: '#EA580C', marginBottom: '8px' }}>
-                        🔄 Tekrar gerekli ({needWork.length})
-                      </div>
-                      {needWork.map(([id, w]) => <WordRow key={id} id={id} w={w} />)}
-                    </div>
-                  )}
-                  {mastered.length === 0 && learned.length === 0 && needWork.length === 0 && (
-                    <div style={{ textAlign: 'center', padding: '40px', color: '#94A3B8', fontSize: '14px' }}>
-                      Arama sonucu bulunamadı.
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* ── Cyan Header ─────────────────────────────────────────── */}
       <div style={{
@@ -467,7 +286,7 @@ export default function Dashboard() {
 
         {/* Öğrendiklerim butonu */}
         <button
-          onClick={() => setShowLearnedModal(true)}
+          onClick={() => navigate('/learned')}
           style={{
             width: '100%', padding: '14px', marginBottom: '16px',
             background: 'white', border: '1.5px solid #E2E8F0', borderRadius: '14px',

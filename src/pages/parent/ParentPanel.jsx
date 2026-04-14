@@ -134,6 +134,10 @@ export default function ParentPanel() {
   const [activeTab, setActiveTab] = useState(1)
   const [savedMsg, setSavedMsg] = useState('')
 
+  // Sıfırlama state'leri
+  const [resetStep, setResetStep] = useState({})   // { word:0, daily:0, all:0, cat:0 }
+  const [resetCatId, setResetCatId] = useState('animals')
+
   // Tab 2 — Kontrol
   const [localLangEnabled, setLocalLangEnabled] = useState(langSettings.enabled)
   const [localLangPriority, setLocalLangPriority] = useState(langSettings.priority)
@@ -614,6 +618,160 @@ export default function ParentPanel() {
     </div>
   )
 
+  // ── Sıfırlama ─────────────────────────────────────────────────────
+
+  const recordReset = (label) => {
+    const now = new Date().toLocaleString('tr-TR')
+    setSavedMsg(`✅ Sıfırlandı — ${now}`)
+    localStorage.setItem('aguilang_last_reset', JSON.stringify({ label, time: now }))
+    setResetStep({})
+    window.dispatchEvent(new Event('wordStatsUpdated'))
+    setTimeout(() => setSavedMsg(''), 3500)
+  }
+
+  const handleCategoryReset = async () => {
+    const lang = (() => {
+      try { return JSON.parse(localStorage.getItem('aguilang_active_lang') || '{"id":"en"}') }
+      catch { return { id: 'en' } }
+    })()
+    try {
+      const m = await import(`../../data/${resetCatId}-a1.json`)
+      const words = m.default.translations?.[lang.id]?.words ?? []
+      const wordIds = new Set(words.map(w => w.id))
+      const stats = JSON.parse(localStorage.getItem('aguilang_word_stats') || '{}')
+      wordIds.forEach(id => { delete stats[id] })
+      localStorage.setItem('aguilang_word_stats', JSON.stringify(stats))
+      recordReset(`${resetCatId} kategorisi`)
+    } catch { /* skip */ }
+  }
+
+  const renderReset = () => (
+    <div>
+      {/* Quiz istatistikleri */}
+      <div style={card}>
+        <div style={sectionTitle}>📊 Quiz İstatistiklerini Sıfırla</div>
+        <div style={{ fontSize: '13px', color: '#64748B', marginBottom: '12px' }}>
+          Tüm kelime doğru/yanlış kayıtları silinir.
+        </div>
+        {resetStep.word !== 1 ? (
+          <button
+            onClick={() => setResetStep(s => ({ ...s, word: 1 }))}
+            style={{ ...saveBtn, background: '#F1F5F9', color: '#475569' }}
+          >
+            Sıfırla
+          </button>
+        ) : (
+          <div style={{ background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: '10px', padding: '12px' }}>
+            <div style={{ fontSize: '13px', fontWeight: '600', color: '#DC2626', marginBottom: '10px' }}>
+              ⚠️ Tüm kelime istatistikleri silinecek. Emin misin?
+            </div>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button onClick={() => setResetStep({})} style={{ flex: 1, padding: '9px', background: '#F1F5F9', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', color: '#475569' }}>İptal</button>
+              <button onClick={() => { localStorage.setItem('aguilang_word_stats', '{}'); recordReset('Quiz istatistikleri') }} style={{ flex: 1, padding: '9px', background: '#EF4444', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '700', color: 'white' }}>Evet, Sil</button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Günlük istatistikler */}
+      <div style={card}>
+        <div style={sectionTitle}>📅 Günlük İstatistikleri Sıfırla</div>
+        <div style={{ fontSize: '13px', color: '#64748B', marginBottom: '12px' }}>
+          Günlük ilerleme kayıtları silinir.
+        </div>
+        {resetStep.daily !== 1 ? (
+          <button onClick={() => setResetStep(s => ({ ...s, daily: 1 }))} style={{ ...saveBtn, background: '#F1F5F9', color: '#475569' }}>
+            Sıfırla
+          </button>
+        ) : (
+          <div style={{ background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: '10px', padding: '12px' }}>
+            <div style={{ fontSize: '13px', fontWeight: '600', color: '#DC2626', marginBottom: '10px' }}>
+              ⚠️ Günlük ilerleme kayıtları silinecek. Emin misin?
+            </div>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button onClick={() => setResetStep({})} style={{ flex: 1, padding: '9px', background: '#F1F5F9', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', color: '#475569' }}>İptal</button>
+              <button onClick={() => { localStorage.setItem('aguilang_daily_stats', '{}'); recordReset('Günlük istatistikler') }} style={{ flex: 1, padding: '9px', background: '#EF4444', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '700', color: 'white' }}>Evet, Sil</button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Kategori bazlı */}
+      <div style={card}>
+        <div style={sectionTitle}>📚 Kategori Bazlı Sıfırla</div>
+        <div style={{ fontSize: '13px', color: '#64748B', marginBottom: '12px' }}>
+          Seçilen kategorinin kelime istatistikleri silinir.
+        </div>
+        <select
+          value={resetCatId}
+          onChange={e => { setResetCatId(e.target.value); setResetStep(s => ({ ...s, cat: 0 })) }}
+          style={{ width: '100%', padding: '10px', borderRadius: '10px', border: '1px solid #E2E8F0', fontSize: '14px', background: 'white', color: '#0F172A', marginBottom: '10px' }}
+        >
+          {ALL_CATS.map(c => <option key={c.id} value={c.id}>{c.emoji} {c.label}</option>)}
+        </select>
+        {resetStep.cat !== 1 ? (
+          <button onClick={() => setResetStep(s => ({ ...s, cat: 1 }))} style={{ ...saveBtn, background: '#F1F5F9', color: '#475569' }}>
+            Sıfırla
+          </button>
+        ) : (
+          <div style={{ background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: '10px', padding: '12px' }}>
+            <div style={{ fontSize: '13px', fontWeight: '600', color: '#DC2626', marginBottom: '10px' }}>
+              ⚠️ Bu kategorinin tüm kelime verileri silinecek. Emin misin?
+            </div>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button onClick={() => setResetStep({})} style={{ flex: 1, padding: '9px', background: '#F1F5F9', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', color: '#475569' }}>İptal</button>
+              <button onClick={handleCategoryReset} style={{ flex: 1, padding: '9px', background: '#EF4444', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '700', color: 'white' }}>Evet, Sil</button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Tüm ilerlemeyi sıfırla — çift onay */}
+      <div style={{ ...card, border: '1.5px solid #FECACA' }}>
+        <div style={{ ...sectionTitle, color: '#DC2626' }}>🗑️ Tüm İlerlemeyi Sıfırla</div>
+        <div style={{ fontSize: '13px', color: '#64748B', marginBottom: '12px' }}>
+          Kelime istatistikleri, günlük ilerleme, aktif kategori ve dil ayarları silinir. Geri alınamaz!
+        </div>
+        {!resetStep.all ? (
+          <button onClick={() => setResetStep(s => ({ ...s, all: 1 }))} style={{ ...saveBtn, background: '#FEF2F2', color: '#DC2626', border: '1.5px solid #FECACA' }}>
+            Tüm Veriyi Sıfırla
+          </button>
+        ) : resetStep.all === 1 ? (
+          <div style={{ background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: '10px', padding: '14px' }}>
+            <div style={{ fontSize: '13px', fontWeight: '700', color: '#DC2626', marginBottom: '10px' }}>
+              ⚠️ Bu işlem geri alınamaz. Devam etmek istediğine emin misin?
+            </div>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button onClick={() => setResetStep({})} style={{ flex: 1, padding: '9px', background: '#F1F5F9', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', color: '#475569' }}>İptal</button>
+              <button onClick={() => setResetStep(s => ({ ...s, all: 2 }))} style={{ flex: 1, padding: '9px', background: '#F97316', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '700', color: 'white' }}>Devam Et</button>
+            </div>
+          </div>
+        ) : (
+          <div style={{ background: '#FEF2F2', border: '2px solid #EF4444', borderRadius: '10px', padding: '14px' }}>
+            <div style={{ fontSize: '13px', fontWeight: '700', color: '#DC2626', marginBottom: '10px' }}>
+              🚨 Son adım: Tüm ilerleme kalıcı olarak silinecek!
+            </div>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button onClick={() => setResetStep({})} style={{ flex: 1, padding: '9px', background: '#F1F5F9', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', color: '#475569' }}>İptal</button>
+              <button
+                onClick={() => {
+                  localStorage.setItem('aguilang_word_stats', '{}')
+                  localStorage.setItem('aguilang_daily_stats', '{}')
+                  localStorage.removeItem('aguilang_active_category')
+                  localStorage.removeItem('aguilang_active_lang')
+                  recordReset('Tüm ilerleme')
+                }}
+                style={{ flex: 1, padding: '9px', background: '#EF4444', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '700', color: 'white' }}
+              >
+                Tüm Veriyi Sil
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+
   // ── Render ────────────────────────────────────────────────────────
 
   const TABS = [
@@ -621,6 +779,7 @@ export default function ParentPanel() {
     { id: 2, label: 'Kontrol',    icon: '🎛️' },
     { id: 3, label: 'Plan',       icon: '📅' },
     { id: 4, label: 'Oturum',     icon: '🕐' },
+    { id: 5, label: 'Sıfırla',   icon: '🗑️' },
   ]
 
   return (
@@ -717,6 +876,7 @@ export default function ParentPanel() {
         {activeTab === 2 && renderControls()}
         {activeTab === 3 && renderPlan()}
         {activeTab === 4 && renderSession()}
+        {activeTab === 5 && renderReset()}
       </div>
     </div>
   )

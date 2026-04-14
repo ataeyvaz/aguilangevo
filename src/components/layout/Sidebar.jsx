@@ -1,10 +1,12 @@
 import { NavLink, useLocation } from 'react-router-dom'
 
 const navItems = [
-  { to: '/dashboard',  label: 'Dashboard', icon: '🏠', match: ['/dashboard'] },
-  { to: '/categories', label: 'Öğren',     icon: '📚', match: ['/categories', '/learn', '/quiz'] },
-  { to: '/play',       label: 'Oyna',      icon: '🎮', match: ['/play'] },
-  { to: '/profile',    label: 'Profil',    icon: '👤', match: ['/profile'] },
+  { to: '/dashboard',  label: 'Dashboard',   icon: '🏠', match: ['/dashboard'] },
+  { to: '/stats',      label: 'İstatistik',  icon: '📊', match: ['/stats'] },
+  { to: '/learned',    label: 'Kelimelerim', icon: '🎯', match: ['/learned'] },
+  { to: '/categories', label: 'Öğren',       icon: '📚', match: ['/categories', '/learn', '/quiz'] },
+  { to: '/play',       label: 'Oyna',        icon: '🎮', match: ['/play'] },
+  { to: '/profile',    label: 'Profil',      icon: '👤', match: ['/profile'] },
 ]
 
 export default function Sidebar() {
