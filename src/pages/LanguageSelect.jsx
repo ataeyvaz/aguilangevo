@@ -46,6 +46,23 @@ export default function LanguageSelect() {
     localStorage.getItem('aguilang_active_profile') || '{}'
   )
 
+  const visibleLangs = (() => {
+    if (profile.type !== 'child') return LANGUAGES
+    try {
+      const saved = localStorage.getItem('aguilang_lang_settings')
+      if (!saved) return LANGUAGES
+      const { enabled = [], priority } = JSON.parse(saved)
+      const filtered = LANGUAGES.filter(l => enabled.includes(l.id))
+      if (!filtered.length) return LANGUAGES
+      return [
+        ...filtered.filter(l => l.id === priority),
+        ...filtered.filter(l => l.id !== priority),
+      ]
+    } catch {
+      return LANGUAGES
+    }
+  })()
+
   const handleSelect = (lang) => {
     localStorage.setItem('aguilang_active_lang', JSON.stringify(lang))
     navigate('/categories')
@@ -142,7 +159,7 @@ export default function LanguageSelect() {
           Öğrenmek İstediğin Dil
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          {LANGUAGES.map(lang => (
+          {visibleLangs.map(lang => (
             <button
               key={lang.id}
               onClick={() => handleSelect(lang)}

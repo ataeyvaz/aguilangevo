@@ -459,12 +459,28 @@ export default function ParentPanel() {
     </div>
   )
 
-  const renderPlan = () => (
+  const renderPlan = () => {
+    const savedCatIds = (() => {
+      try {
+        const raw = localStorage.getItem('aguilang_active_categories')
+        return raw ? JSON.parse(raw) : null
+      } catch { return null }
+    })()
+    const activePlanCats = savedCatIds
+      ? ALL_CATS.filter(c => savedCatIds.includes(c.id))
+      : ALL_CATS
+    const fallbackCatId = activePlanCats[0]?.id ?? 'animals'
+
+    return (
     <div>
       <div style={card}>
         <div style={sectionTitle}>📅 Haftalık Öğrenme Planı</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          {weeklyPlan.map((entry, i) => (
+          {weeklyPlan.map((entry, i) => {
+            const effectiveCatId = activePlanCats.some(c => c.id === entry.categoryId)
+              ? entry.categoryId
+              : fallbackCatId
+            return (
             <div key={entry.day} style={{
               padding: '12px', borderRadius: '10px',
               border: '1px solid #E2E8F0', background: '#F8FAFC',
@@ -474,7 +490,7 @@ export default function ParentPanel() {
               </div>
               <div style={{ display: 'flex', gap: '8px' }}>
                 <select
-                  value={entry.categoryId}
+                  value={effectiveCatId}
                   onChange={e => {
                     const next = [...weeklyPlan]
                     next[i] = { ...next[i], categoryId: e.target.value }
@@ -486,7 +502,7 @@ export default function ParentPanel() {
                     background: 'white', color: '#0F172A',
                   }}
                 >
-                  {ALL_CATS.map(c => (
+                  {activePlanCats.map(c => (
                     <option key={c.id} value={c.id}>{c.emoji} {c.label}</option>
                   ))}
                 </select>
@@ -509,12 +525,14 @@ export default function ParentPanel() {
                 </select>
               </div>
             </div>
-          ))}
+            )
+          })}
         </div>
       </div>
       <button onClick={savePlan} style={saveBtn}>Kaydet</button>
     </div>
   )
+  }
 
   const renderSession = () => (
     <div>

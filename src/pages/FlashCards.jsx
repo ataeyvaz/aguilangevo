@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { speak } from '../utils/audioManager'
+import { recordDaily } from '../hooks/useDailyStats'
 
 export default function FlashCards() {
   const navigate = useNavigate()
@@ -43,6 +44,7 @@ export default function FlashCards() {
 
   const handleNext = () => {
     setFlipped(false)
+    recordDaily(true)
     setTimeout(() => {
       if (index < words.length - 1) {
         setIndex(index + 1)
