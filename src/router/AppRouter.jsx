@@ -38,17 +38,21 @@ export default function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Standalone — layout yok */}
         <Route path="/" element={<ProfileSelect />} />
         <Route path="/language" element={<LanguageSelect />} />
-        <Route path="/categories" element={<CategorySelect />} />
-        <Route path="/learn" element={<FlashCards />} />
+
+        {/* Layout içinde — sidebar + bottomnav var */}
         <Route element={<AppLayout />}>
+          <Route path="/categories" element={<CategorySelect />} />
+          <Route path="/learn" element={<FlashCards />} />
+          <Route path="/quiz" element={<QuizScreen />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/play" element={<PlayPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/parent" element={<ParentPanel />} />
-          <Route path="/quiz" element={<QuizScreen />} />
         </Route>
+
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
