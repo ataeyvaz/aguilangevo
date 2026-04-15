@@ -36,13 +36,7 @@ export default function PlayPage() {
   }
 
   const handleClick = (game) => {
-    if (!game.ready) { showToast('Yakında eklenecek...'); return }
-    if (mode !== null && game.mode !== mode) {
-      showToast(mode === 'reinforcement'
-        ? 'Önce pekiştirme oyunlarını dene!'
-        : 'Bu oyunlar zaten kolayına geliyor!')
-      return
-    }
+    if (!game.ready) { showToast('Yakında eklenecek! 🚀'); return }
     navigate(game.route)
   }
 
@@ -130,7 +124,9 @@ export default function PlayPage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {GAMES.map(game => {
             const isActiveMode = game.mode === mode
-            const locked = !game.ready || !isActiveMode
+            // Sadece placeholder'lar kilitli; mod uyuşmayanlar hafif soluk ama tıklanabilir
+            const isLocked     = !game.ready
+            const opacity      = isLocked ? 0.45 : isActiveMode ? 1 : 0.7
             return (
               <button
                 key={game.id}
@@ -140,8 +136,8 @@ export default function PlayPage() {
                   background: isActiveMode && game.ready ? 'white' : '#F8FAFC',
                   border: `1.5px solid ${isActiveMode && game.ready ? modeBorder : '#E2E8F0'}`,
                   borderRadius: '14px', padding: '16px 18px',
-                  cursor: locked ? 'not-allowed' : 'pointer',
-                  opacity: locked ? 0.45 : 1,
+                  cursor: isLocked ? 'not-allowed' : 'pointer',
+                  opacity,
                   textAlign: 'left', width: '100%',
                   transition: 'all 0.15s',
                   boxShadow: isActiveMode && game.ready ? '0 2px 8px rgba(0,0,0,0.06)' : 'none',
