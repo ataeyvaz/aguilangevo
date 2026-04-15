@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useParentControls, ENERGY_PRESETS } from '../../hooks/useParentControls'
+import { useParentControls, ENERGY_PRESETS, readSpeechQuiz } from '../../hooks/useParentControls'
 
 // ── Sabitler ─────────────────────────────────────────────────────
 
@@ -157,6 +157,7 @@ export default function ParentPanel() {
   )
   const [weekendOn, setWeekendOn] = useState(timeSettings.weekendEnabled)
   const [localNotifs, setLocalNotifs] = useState(notifSettings)
+  const [speechQuizOn, setSpeechQuizOn] = useState(readSpeechQuiz())
 
   // ── Kaydedme ────────────────────────────────────────────────────
 
@@ -186,6 +187,7 @@ export default function ParentPanel() {
     localStorage.setItem('aguilang_time_settings',
       JSON.stringify({ startHour: sh, startMin: sm, endHour: eh, endMin: em, weekendEnabled: weekendOn }))
     localStorage.setItem('aguilang_notifications', JSON.stringify(localNotifs))
+    localStorage.setItem('aguilang_speech_quiz', JSON.stringify(speechQuizOn))
     showSaved('Oturum ayarları kaydedildi ✓')
   }
 
@@ -611,6 +613,22 @@ export default function ParentPanel() {
               />
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* Quiz Ayarları */}
+      <div style={card}>
+        <div style={sectionTitle}>🎤 Quiz Ayarları</div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <div style={{ fontWeight: '600', color: '#0F172A', fontSize: '14px' }}>
+              Sesli Telaffuz Soruları
+            </div>
+            <div style={{ fontSize: '12px', color: '#94A3B8', marginTop: '2px' }}>
+              Her 5 soruda 1 sesli söyleme sorusu gelir
+            </div>
+          </div>
+          <Toggle on={speechQuizOn} onToggle={() => setSpeechQuizOn(v => !v)} />
         </div>
       </div>
 

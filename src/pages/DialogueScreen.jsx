@@ -373,6 +373,18 @@ export default function DialogueScreen() {
                     )}
                   </div>
                 )}
+
+                {/* Aktif opponent satırı: Türkçe çeviri */}
+                {isActive && !isChild && !showDots && (
+                  <div style={{ marginTop: '6px', textAlign: 'left' }}>
+                    <div style={{
+                      fontSize: '13px', color: '#94A3B8',
+                      fontStyle: 'italic', lineHeight: '1.5',
+                    }}>
+                      {line.tr}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )

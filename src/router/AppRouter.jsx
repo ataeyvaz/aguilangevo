@@ -11,15 +11,17 @@ import ParentPanel from '../pages/parent/ParentPanel'
 import LearnedWords from '../pages/LearnedWords'
 import StatsPage from '../pages/StatsPage'
 import DialogueScreen from '../pages/DialogueScreen'
+import ProfilePage from '../pages/ProfilePage'
 
-const ProfilePage = () => (
+const PlayPage = () => (
   <div style={{ padding: '40px', fontFamily: 'Inter, sans-serif', color: '#0F172A' }}>
     <h1 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '24px', fontWeight: '800' }}>
-      👤 Profil
+      🎮 Oyunlar
     </h1>
     <p style={{ color: '#64748B', marginTop: '8px' }}>Yakında eklenecek...</p>
   </div>
 )
+
 
 export default function AppRouter() {
   return (
@@ -37,7 +39,8 @@ export default function AppRouter() {
           <Route path="/learn" element={<FlashCards />} />
           <Route path="/quiz" element={<QuizScreen />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/play" element={<DialogueScreen />} />
+          <Route path="/play" element={<PlayPage />} />
+          <Route path="/dialogue" element={<DialogueScreen />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/learned" element={<LearnedWords />} />
           <Route path="/stats" element={<StatsPage />} />

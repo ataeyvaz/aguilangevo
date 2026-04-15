@@ -190,6 +190,48 @@ export default function CategorySelect() {
             "{search}" için kategori bulunamadı
           </div>
         )}
+
+        {/* Diyaloglar kartı */}
+        <button
+          onClick={() => navigate('/dialogue')}
+          style={{
+            width: '100%',
+            marginTop: '20px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '16px',
+            background: 'linear-gradient(135deg, #EFF8FF 0%, #E0F2FE 100%)',
+            border: '1.5px solid #BAE6FD',
+            borderRadius: '16px',
+            padding: '18px 20px',
+            cursor: 'pointer',
+            textAlign: 'left',
+            transition: 'box-shadow 0.15s',
+          }}
+          onMouseEnter={e => e.currentTarget.style.boxShadow = '0 4px 16px rgba(8,145,178,0.15)'}
+          onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+        >
+          <div style={{
+            width: '52px', height: '52px', borderRadius: '14px',
+            background: '#0891B2',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '26px', flexShrink: 0,
+          }}>
+            💬
+          </div>
+          <div style={{ flex: 1 }}>
+            <div style={{
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontSize: '16px', fontWeight: '800', color: '#0F172A',
+            }}>
+              Diyaloglar
+            </div>
+            <div style={{ fontSize: '13px', color: '#0891B2', marginTop: '2px', fontWeight: '500' }}>
+              6 konuşma senaryosu · TTS ile sesli pratik
+            </div>
+          </div>
+          <div style={{ fontSize: '20px', color: '#0891B2' }}>›</div>
+        </button>
       </div>
     </div>
   )

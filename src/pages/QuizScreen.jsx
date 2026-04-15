@@ -1,7 +1,9 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSession } from '../hooks/useSession'
 import { recordDaily } from '../hooks/useDailyStats'
+import { useSpeech } from '../hooks/useSpeech'
+import { readSpeechQuiz } from '../hooks/useParentControls'
 
 const ALL_CAT_IDS = [
   'animals','colors','numbers','fruits','vegetables','body','family',
@@ -27,9 +29,19 @@ export default function QuizScreen() {
   const [score, setScore]         = useState(0)
   const [showResult, setShowResult] = useState(false)
   const [isCorrect, setIsCorrect] = useState(null)
+  const [speechPhase,  setSpeechPhase]  = useState('idle') // 'idle' | 'listening' | 'done'
+  const [passEnabled,  setPassEnabled]  = useState(false)
+  const sttTimerRef = useRef(null)
 
   const category = JSON.parse(localStorage.getItem('aguilang_active_category') || '{}')
   const lang     = JSON.parse(localStorage.getItem('aguilang_active_lang')     || '{ "id": "en" }')
+
+  const speechQuizEnabled = readSpeechQuiz()
+  const {
+    startListening, stopListening, isListening,
+    transcript, sttSupported,
+    checkAnswer: sttCheck,
+  } = useSpeech(lang.id)
 
   // ── Faz oluşturucu ────────────────────────────────────────────────
   const buildPhase = useCallback((p, pool) => {
@@ -66,6 +78,50 @@ export default function QuizScreen() {
     setBank([])
     setIsCorrect(null)
   }, [])
+
+  // ── STT sonucu gelince değerlendir ───────────────────────────────
+  useEffect(() => {
+    if (!transcript || !q?.word) return
+    clearTimeout(sttTimerRef.current)
+    stopListening()
+    const ok = sttCheck(q.word[lang.id] ?? q.word.word ?? '')
+
+    setSpeechPhase('done')
+    setIsCorrect(ok)
+    recordCard(q.word.id, ok)
+    window.dispatchEvent(new Event('wordStatsUpdated'))
+    recordDaily(ok)
+    setScore(s => ok ? s + 10 : Math.max(0, s - 5))
+  }, [transcript]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Unmount'ta timer temizle
+  useEffect(() => { return () => clearTimeout(sttTimerRef.current) }, [])
+
+  const handleSpeechStart = () => {
+    if (isListening) return
+    setSpeechPhase('listening')
+    setPassEnabled(false)
+    startListening()
+    sttTimerRef.current = setTimeout(() => {
+      stopListening()
+      setPassEnabled(true)
+    }, 5000)
+  }
+
+  const handlePass = () => {
+    clearTimeout(sttTimerRef.current)
+    stopListening()
+    if (q?.word) {
+      recordCard(q.word.id, false)
+      window.dispatchEvent(new Event('wordStatsUpdated'))
+      recordDaily(false)
+    }
+    setScore(s => Math.max(0, s - 5))
+
+    setSpeechPhase('done')
+    setIsCorrect(false)
+    setPassEnabled(false)
+  }
 
   // ── Kelime yükle + karışık havuz ──────────────────────────────────
   useEffect(() => {
@@ -142,6 +198,11 @@ export default function QuizScreen() {
 
   // ── Sonraki soruya geç (kullanıcı butona basar) ───────────────────
   const advanceQuestion = () => {
+    clearTimeout(sttTimerRef.current)
+    stopListening()
+    setSpeechPhase('idle')
+
+    setPassEnabled(false)
     setIsCorrect(null)
     if (current < questions.length - 1) {
       setCurrent(c => c + 1)
@@ -168,7 +229,8 @@ export default function QuizScreen() {
     setSentence(s => s.filter((_, i) => i !== idx))
   }
 
-  const progress = questions.length ? Math.round((current / questions.length) * 100) : 0
+  const progress  = questions.length ? Math.round((current / questions.length) * 100) : 0
+  const isSpeechQ = speechQuizEnabled && sttSupported && current % 5 === 4 && q?.word != null
 
   const PHASE_LABELS = { 1: '🎯 Tanıma', 2: '✏️ Hatırlama', 3: '🧩 Cümle Kurma' }
 
@@ -292,8 +354,68 @@ export default function QuizScreen() {
         maxWidth: '560px', width: '100%', margin: '0 auto',
       }}>
 
+        {/* SESLI TELAFFUZ SORUSU */}
+        {isSpeechQ && (
+          <>
+            <div style={{ fontSize: '72px', marginBottom: '12px' }}>{q.word.emoji}</div>
+            <p style={{ fontSize: '14px', color: '#94A3B8', marginBottom: '8px', textAlign: 'center' }}>
+              Bu kelimeyi söyle:
+            </p>
+            <h2 style={{
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontSize: '32px', fontWeight: '800', color: '#0F172A',
+              marginBottom: '6px', textAlign: 'center',
+            }}>
+              {q.word.word}
+            </h2>
+            <p style={{ fontSize: '15px', color: '#94A3B8', marginBottom: '32px' }}>
+              /{q.word.pron}/
+            </p>
+
+            {speechPhase === 'idle' && (
+              <button
+                onClick={handleSpeechStart}
+                style={{
+                  padding: '14px 36px', background: '#0891B2', border: 'none',
+                  borderRadius: '16px', cursor: 'pointer',
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  fontSize: '16px', fontWeight: '700', color: 'white',
+                  display: 'flex', alignItems: 'center', gap: '8px',
+                }}
+              >
+                🎤 Söyle
+              </button>
+            )}
+
+            {speechPhase === 'listening' && !passEnabled && (
+              <div style={{
+                padding: '14px 36px', background: '#FEE2E2',
+                border: '1.5px solid #FCA5A5', borderRadius: '16px',
+                fontSize: '15px', fontWeight: '600', color: '#DC2626',
+                display: 'flex', alignItems: 'center', gap: '8px',
+              }}>
+                🔴 Dinleniyor...
+              </div>
+            )}
+
+            {speechPhase === 'listening' && passEnabled && (
+              <button
+                onClick={handlePass}
+                style={{
+                  padding: '14px 36px', background: '#FFF7ED',
+                  border: '1.5px solid #FED7AA', borderRadius: '16px', cursor: 'pointer',
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  fontSize: '16px', fontWeight: '700', color: '#9C4600',
+                }}
+              >
+                Geç →
+              </button>
+            )}
+          </>
+        )}
+
         {/* AŞAMA 1 — Çoktan seçmeli */}
-        {q.type === 'choice' && (
+        {!isSpeechQ && q.type === 'choice' && (
           <>
             <div style={{ fontSize: '72px', marginBottom: '12px' }}>{q.word.emoji}</div>
             <h2 style={{
@@ -422,12 +544,25 @@ export default function QuizScreen() {
         {isCorrect !== null && (
           <div style={{
             marginTop: '16px', padding: '12px 20px', borderRadius: '10px',
-            background: isCorrect ? '#F0FDF4' : '#FEF2F2',
-            border: `1px solid ${isCorrect ? '#BBF7D0' : '#FECACA'}`,
-            color: isCorrect ? '#15803D' : '#DC2626',
+            background: isCorrect
+              ? '#F0FDF4'
+              : isSpeechQ ? '#FFF7ED' : '#FEF2F2',
+            border: `1px solid ${isCorrect
+              ? '#BBF7D0'
+              : isSpeechQ ? '#FED7AA' : '#FECACA'}`,
+            color: isCorrect
+              ? '#15803D'
+              : isSpeechQ ? '#9C4600' : '#DC2626',
             fontWeight: '700', fontSize: '15px', textAlign: 'center',
           }}>
-            {isCorrect ? '✅ Doğru!' : `❌ Doğrusu: ${q.word?.word || q.words?.join(' ')}`}
+            {isSpeechQ
+              ? isCorrect
+                ? '✅ Harika! 🌟'
+                : `🔶 Cevap: ${q.word[lang.id] ?? q.word.word}`
+              : isCorrect
+                ? '✅ Doğru!'
+                : `❌ Doğrusu: ${q.word?.word || q.words?.join(' ')}`
+            }
           </div>
         )}
       </div>
@@ -435,28 +570,30 @@ export default function QuizScreen() {
       {/* ── Alt buton alanı ─────────────────────────────────────── */}
       <div style={{ padding: '16px 24px 32px', maxWidth: '560px', width: '100%', margin: '0 auto' }}>
         {isCorrect === null ? (
-          // Kontrol Et
-          <button
-            onClick={checkAnswer}
-            disabled={
-              (q.type === 'choice'   && !selected)          ||
-              (q.type === 'fill'     && !answer.trim())      ||
-              (q.type === 'sentence' && sentence.length === 0)
-            }
-            style={{
-              width: '100%', height: '52px', background: '#0891B2',
-              border: 'none', borderRadius: '12px',
-              fontSize: '16px', fontWeight: '700', color: 'white',
-              cursor: 'pointer', fontFamily: "'Plus Jakarta Sans', sans-serif",
-              opacity: (
+          // Kontrol Et — sesli sorularda gizlenir (STT akışı kendi butonlarını yönetir)
+          !isSpeechQ ? (
+            <button
+              onClick={checkAnswer}
+              disabled={
                 (q.type === 'choice'   && !selected)          ||
                 (q.type === 'fill'     && !answer.trim())      ||
                 (q.type === 'sentence' && sentence.length === 0)
-              ) ? 0.5 : 1,
-            }}
-          >
-            Kontrol Et ✓
-          </button>
+              }
+              style={{
+                width: '100%', height: '52px', background: '#0891B2',
+                border: 'none', borderRadius: '12px',
+                fontSize: '16px', fontWeight: '700', color: 'white',
+                cursor: 'pointer', fontFamily: "'Plus Jakarta Sans', sans-serif",
+                opacity: (
+                  (q.type === 'choice'   && !selected)          ||
+                  (q.type === 'fill'     && !answer.trim())      ||
+                  (q.type === 'sentence' && sentence.length === 0)
+                ) ? 0.5 : 1,
+              }}
+            >
+              Kontrol Et ✓
+            </button>
+          ) : null
         ) : isCorrect ? (
           // Devam Et (doğru cevap)
           <button

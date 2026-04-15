@@ -17,6 +17,7 @@ const KEYS = {
   time:         'aguilang_time_settings',
   vacation:     'aguilang_vacation_mode',
   notifs:       'aguilang_notifications',
+  speechQuiz:   'aguilang_speech_quiz',
 }
 
 export const ENERGY_PRESETS = {
@@ -59,6 +60,7 @@ export function readActiveCategories() { return load(KEYS.categories, DEFAULTS.c
 export function readTimeSettings()     { return load(KEYS.time,       DEFAULTS.time)       }
 export function readVacationMode()     { return load(KEYS.vacation,   DEFAULTS.vacation)   }
 export function readNotifSettings()    { return load(KEYS.notifs,     DEFAULTS.notifs)     }
+export function readSpeechQuiz()       { return load(KEYS.speechQuiz, true)                }
 
 /**
  * Zaman kısıtlaması aktif mi? (şu an çalışma saati dışında mı)
@@ -113,6 +115,7 @@ export function useParentControls() {
   const timeSettings     = readTimeSettings()
   const vacationMode     = readVacationMode()
   const notifSettings    = readNotifSettings()
+  const speechQuiz       = readSpeechQuiz()
 
   // ── Dil ayarları ──
   const setLangEnabled = (langId, enabled) => {
@@ -174,6 +177,8 @@ export function useParentControls() {
     save(KEYS.notifs, { ...current, [key]: val })
   }
 
+  const setSpeechQuiz = (val) => save(KEYS.speechQuiz, val)
+
   return {
     langSettings,
     energyMode,
@@ -181,6 +186,7 @@ export function useParentControls() {
     timeSettings,
     vacationMode,
     notifSettings,
+    speechQuiz,
     // setters
     setLangEnabled,
     setLangPriority,
@@ -190,5 +196,6 @@ export function useParentControls() {
     setTimeSettings,
     setVacationMode,
     setNotif,
+    setSpeechQuiz,
   }
 }
