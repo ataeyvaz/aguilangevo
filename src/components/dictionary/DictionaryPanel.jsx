@@ -79,7 +79,7 @@ export default function DictionaryPanel({ defaultLang = 'en' }) {
     } finally {
       setLoading(false);
     }
-  }, [query, lang]);
+  }, [query, lang, addWords, storeWords]);
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') handleLookup();

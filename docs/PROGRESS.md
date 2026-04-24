@@ -1,6 +1,6 @@
 # AguiLang2 — Proje İlerleme Durumu
 
-_Son güncelleme: 2026-04-17_
+_Son güncelleme: 2026-04-18_
 
 ---
 
@@ -165,12 +165,37 @@ Yarıda çıkılınca kaldığı adımdan devam eder.
 
 ---
 
+## Android (Capacitor)
+
+| Bileşen | Durum | Notlar |
+|---|---|---|
+| `@capacitor/core` + `@capacitor/android` | ✅ Kuruldu | v8.3.1 |
+| `capacitor.config.json` | ✅ Yapılandırıldı | appId: `com.aguilang.app`, webDir: `dist`, androidScheme: `https` |
+| Android platform | ✅ Eklendi | `android/` klasörü oluşturuldu |
+| AndroidManifest.xml izinleri | ✅ Eklendi | `INTERNET`, `RECORD_AUDIO`, `MODIFY_AUDIO_SETTINGS` |
+| `npm run android` script | ✅ Eklendi | `vite build && npx cap sync && npx cap open android` |
+
+**Geliştirme akışı:**
+```
+npm run android        # build → sync → Android Studio'yu aç
+npx cap sync           # sadece web assets güncelle
+npx cap open android   # Android Studio'yu aç (build olmadan)
+```
+
+**Gereksinimler (elle kurulması gerekenler):**
+- Android Studio (Hedgehog veya üstü)
+- Android SDK 34+
+- JDK 17+
+
+---
+
 ## Bekleyen Görevler
 
 ### Yüksek Öncelik
 - [ ] **VoiceGame tam implementasyon** — STT ile kelime/cümle telaffuz oyunu
 - [ ] **Senaryo Puzzle (PuzzleGame)** — diyalog boşluk doldurma oyunu
-- [ ] **Deploy** — Vercel/Netlify yayın + çocuk test kullanıcısıyla canlı test
+- [ ] **APK üretimi** — Android Studio'da Gradle build → `app-debug.apk` oluştur, cihaza yükle
+- [ ] **Deploy (web)** — Vercel/Netlify yayın + çocuk test kullanıcısıyla canlı test
 - [ ] **Gramer → Oyna bağlantısı** — Gramer dersini tamamlayan kullanıcı ilgili oyunlara yönlendirilsin
 
 ### Orta Öncelik
