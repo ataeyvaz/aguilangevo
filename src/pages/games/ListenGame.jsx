@@ -108,17 +108,16 @@ export default function ListenGame() {
   /* ── Loading ── */
   if (loading) return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Inter, sans-serif', color: '#64748B' }}>
-      Yükleniyor...
+      Loading...
     </div>
   )
 
-  /* ── Yeterli kelime yok ── */
   if (!words.length || words.length < 4) return (
     <div style={{ minHeight: '100vh', background: '#F8FAFC', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '16px', fontFamily: 'Inter, sans-serif', textAlign: 'center', padding: '24px' }}>
       <div style={{ fontSize: '48px' }}>📭</div>
-      <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '18px', fontWeight: '700', color: '#0F172A' }}>Yeterli kelime yok</div>
-      <div style={{ fontSize: '14px', color: '#64748B' }}>Önce flash kartlarla kelime çalış.</div>
-      <button onClick={() => navigate('/categories')} style={{ padding: '11px 28px', background: '#0891B2', color: 'white', border: 'none', borderRadius: '12px', fontSize: '14px', fontWeight: '700', cursor: 'pointer' }}>Kategori Seç</button>
+      <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '18px', fontWeight: '700', color: '#0F172A' }}>Not enough words</div>
+      <div style={{ fontSize: '14px', color: '#64748B' }}>Study some words first.</div>
+      <button onClick={() => navigate('/categories')} style={{ padding: '11px 28px', background: '#0891B2', color: 'white', border: 'none', borderRadius: '12px', fontSize: '14px', fontWeight: '700', cursor: 'pointer' }}>Select Category</button>
     </div>
   )
 
@@ -126,11 +125,11 @@ export default function ListenGame() {
   if (gameOver) return (
     <div style={{ minHeight: '100vh', background: '#F8FAFC', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '20px', fontFamily: 'Inter, sans-serif', textAlign: 'center', padding: '24px' }}>
       <div style={{ fontSize: '64px' }}>🎉</div>
-      <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '32px', fontWeight: '800', color: '#0F172A' }}>{score} Puan!</div>
-      <div style={{ fontSize: '16px', color: '#64748B' }}>{correctCount} / {QUESTION_COUNT} doğru</div>
+      <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '32px', fontWeight: '800', color: '#0F172A' }}>{score} Points!</div>
+      <div style={{ fontSize: '16px', color: '#64748B' }}>{correctCount} / {QUESTION_COUNT} correct</div>
       <div style={{ display: 'flex', gap: '12px', marginTop: '8px' }}>
-        <button onClick={handleRestart} style={{ padding: '12px 24px', background: 'white', border: '1.5px solid #E2E8F0', borderRadius: '12px', fontSize: '14px', fontWeight: '600', cursor: 'pointer', color: '#64748B', fontFamily: 'Inter, sans-serif' }}>🔄 Tekrar Oyna</button>
-        <button onClick={() => navigate('/play')} style={{ padding: '12px 24px', background: '#0891B2', border: 'none', borderRadius: '12px', fontSize: '14px', fontWeight: '700', cursor: 'pointer', color: 'white', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>← Oyunlar</button>
+        <button onClick={handleRestart} style={{ padding: '12px 24px', background: 'white', border: '1.5px solid #E2E8F0', borderRadius: '12px', fontSize: '14px', fontWeight: '600', cursor: 'pointer', color: '#64748B', fontFamily: 'Inter, sans-serif' }}>🔄 Play Again</button>
+        <button onClick={() => navigate('/play')} style={{ padding: '12px 24px', background: '#0891B2', border: 'none', borderRadius: '12px', fontSize: '14px', fontWeight: '700', cursor: 'pointer', color: 'white', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>← Games</button>
       </div>
     </div>
   )
@@ -144,12 +143,12 @@ export default function ListenGame() {
       <div style={{ background: 'white', borderBottom: '1px solid #E2E8F0', padding: '14px 24px' }}>
         <div style={{ maxWidth: '480px', margin: '0 auto', display: 'flex', alignItems: 'center', gap: '12px' }}>
           <button onClick={() => navigate('/play')} style={{ background: '#F1F5F9', border: 'none', borderRadius: '8px', width: '32px', height: '32px', cursor: 'pointer', fontSize: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>←</button>
-          <div style={{ flex: 1, fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '16px', fontWeight: '700', color: '#0F172A' }}>🎧 Dinle & Seç</div>
-          <div style={{ fontSize: '14px', fontWeight: '800', color: '#0891B2' }}>{score} puan</div>
+          <div style={{ flex: 1, fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '16px', fontWeight: '700', color: '#0F172A' }}>🎧 Listen & Pick</div>
+          <div style={{ fontSize: '14px', fontWeight: '800', color: '#0891B2' }}>{score} pts</div>
         </div>
         <div style={{ maxWidth: '480px', margin: '10px auto 0' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#94A3B8', marginBottom: '6px' }}>
-            <span>Soru {qIndex + 1} / {QUESTION_COUNT}</span>
+            <span>Question {qIndex + 1} / {QUESTION_COUNT}</span>
           </div>
           <div style={{ height: '6px', background: '#E2E8F0', borderRadius: '3px', overflow: 'hidden' }}>
             <div style={{ height: '100%', width: `${((qIndex + 1) / QUESTION_COUNT) * 100}%`, background: '#0891B2', borderRadius: '3px', transition: 'width 0.4s' }} />
@@ -162,12 +161,12 @@ export default function ListenGame() {
         <div style={{ textAlign: 'center' }}>
           <div style={{ fontSize: '52px', marginBottom: '10px' }}>🎧</div>
           <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '18px', fontWeight: '700', color: '#0F172A' }}>
-            Hangi kelimeyi duydun?
+            Which word did you hear?
           </div>
           <button
             onClick={replay}
             style={{ marginTop: '12px', padding: '8px 20px', background: '#EFF8FF', border: '1px solid #BAE6FD', borderRadius: '20px', fontSize: '13px', fontWeight: '600', color: '#0891B2', cursor: 'pointer' }}
-          >🔊 Tekrar dinle</button>
+          >🔊 Listen Again</button>
         </div>
 
         {/* Seçenekler */}

@@ -1,50 +1,51 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useParentControls, ENERGY_PRESETS, readSpeechQuiz } from '../../hooks/useParentControls'
+import { useTranslation } from '../../i18n/translations'
 
-// ── Sabitler ─────────────────────────────────────────────────────
+// ── Constants ─────────────────────────────────────────────────────
 
 const WEEKLY_PLAN_KEY = 'aguilang_weekly_plan'
 
-const DAYS = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar']
+const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
 const ALL_CATS = [
-  { id: 'animals',    label: 'Hayvanlar',   emoji: '🐾' },
-  { id: 'colors',     label: 'Renkler',     emoji: '🎨' },
-  { id: 'numbers',    label: 'Sayılar',     emoji: '🔢' },
-  { id: 'fruits',     label: 'Meyveler',    emoji: '🍎' },
-  { id: 'vegetables', label: 'Sebzeler',    emoji: '🥦' },
-  { id: 'body',       label: 'Vücut',       emoji: '🫀' },
-  { id: 'family',     label: 'Aile',        emoji: '👨‍👩‍👧' },
-  { id: 'school',     label: 'Okul',        emoji: '🏫' },
-  { id: 'food',       label: 'Yiyecekler',  emoji: '🍽️' },
-  { id: 'greetings',  label: 'Selamlaşma',  emoji: '👋' },
-  { id: 'questions',  label: 'Sorular',     emoji: '❓' },
-  { id: 'clothing',   label: 'Giyim',       emoji: '👕' },
-  { id: 'home',       label: 'Ev',          emoji: '🏠' },
-  { id: 'transport',  label: 'Ulaşım',      emoji: '🚗' },
-  { id: 'time',       label: 'Zaman',       emoji: '⏰' },
-  { id: 'jobs',       label: 'Meslekler',   emoji: '💼' },
-  { id: 'sports',     label: 'Spor',        emoji: '⚽' },
-  { id: 'places',     label: 'Yerler',      emoji: '📍' },
-  { id: 'adjectives', label: 'Sıfatlar',    emoji: '📝' },
-  { id: 'verbs',      label: 'Fiiller',     emoji: '🏃' },
+  { id: 'animals',    label: 'Animals',     emoji: '🐾' },
+  { id: 'colors',     label: 'Colors',      emoji: '🎨' },
+  { id: 'numbers',    label: 'Numbers',     emoji: '🔢' },
+  { id: 'fruits',     label: 'Fruits',      emoji: '🍎' },
+  { id: 'vegetables', label: 'Vegetables',  emoji: '🥦' },
+  { id: 'body',       label: 'Body',        emoji: '🫀' },
+  { id: 'family',     label: 'Family',      emoji: '👨‍👩‍👧' },
+  { id: 'school',     label: 'School',      emoji: '🏫' },
+  { id: 'food',       label: 'Food',        emoji: '🍽️' },
+  { id: 'greetings',  label: 'Greetings',   emoji: '👋' },
+  { id: 'questions',  label: 'Questions',   emoji: '❓' },
+  { id: 'clothing',   label: 'Clothing',    emoji: '👕' },
+  { id: 'home',       label: 'Home',        emoji: '🏠' },
+  { id: 'transport',  label: 'Transport',   emoji: '🚗' },
+  { id: 'time',       label: 'Time',        emoji: '⏰' },
+  { id: 'jobs',       label: 'Jobs',        emoji: '💼' },
+  { id: 'sports',     label: 'Sports',      emoji: '⚽' },
+  { id: 'places',     label: 'Places',      emoji: '📍' },
+  { id: 'adjectives', label: 'Adjectives',  emoji: '📝' },
+  { id: 'verbs',      label: 'Verbs',       emoji: '🏃' },
 ]
 
 const LANG_OPTIONS = [
-  { id: 'en', label: 'İngilizce', flag: '🇬🇧' },
-  { id: 'de', label: 'Almanca',   flag: '🇩🇪' },
-  { id: 'es', label: 'İspanyolca', flag: '🇪🇸' },
+  { id: 'en', label: 'English',    flag: '🇬🇧' },
+  { id: 'es', label: 'Spanish',    flag: '🇪🇸' },
+  { id: 'pt', label: 'Portuguese', flag: '🇧🇷' },
 ]
 
 const ENERGY_OPTIONS = [
-  { mode: 'low',    label: 'Düşük',  icon: '🌙', desc: `${ENERGY_PRESETS.low.cardLimit} kart · ${ENERGY_PRESETS.low.durationMinutes} dk` },
-  { mode: 'medium', label: 'Orta',   icon: '⚡', desc: `${ENERGY_PRESETS.medium.cardLimit} kart · ${ENERGY_PRESETS.medium.durationMinutes} dk` },
-  { mode: 'high',   label: 'Yüksek', icon: '🔥', desc: `${ENERGY_PRESETS.high.cardLimit} kart · ${ENERGY_PRESETS.high.durationMinutes} dk` },
-  { mode: 'custom', label: 'Manuel', icon: '⚙️', desc: 'Özelleştir' },
+  { mode: 'low',    label: 'Low',      icon: '🌙', desc: `${ENERGY_PRESETS.low.cardLimit} cards · ${ENERGY_PRESETS.low.durationMinutes} min` },
+  { mode: 'medium', label: 'Medium',   icon: '⚡', desc: `${ENERGY_PRESETS.medium.cardLimit} cards · ${ENERGY_PRESETS.medium.durationMinutes} min` },
+  { mode: 'high',   label: 'High',     icon: '🔥', desc: `${ENERGY_PRESETS.high.cardLimit} cards · ${ENERGY_PRESETS.high.durationMinutes} min` },
+  { mode: 'custom', label: 'Custom',   icon: '⚙️', desc: 'Customize' },
 ]
 
-// ── Yardımcı fonksiyonlar ─────────────────────────────────────────
+// ── Helpers ─────────────────────────────────────────────────────
 
 function pad(n) { return String(n).padStart(2, '0') }
 
@@ -59,7 +60,7 @@ function loadWeeklyPlan() {
   }
 }
 
-// ── Stil yardımcıları ─────────────────────────────────────────────
+// ── Style helpers ─────────────────────────────────────────────────
 
 const card = {
   background: 'white',
@@ -117,10 +118,17 @@ const Toggle = ({ on, onToggle }) => (
   </div>
 )
 
-// ── Ana bileşen ───────────────────────────────────────────────────
+// ── Main component ───────────────────────────────────────────────
+
+const UI_LANG_OPTIONS = [
+  { id: 'en', label: 'English', flag: '🇺🇸' },
+  { id: 'es', label: 'Español', flag: '🇪🇸' },
+  { id: 'pt', label: 'Português', flag: '🇧🇷' },
+]
 
 export default function ParentPanel() {
   const navigate = useNavigate()
+  const { lang: currentUiLang, setLang } = useTranslation()
 
   const {
     langSettings,
@@ -134,11 +142,10 @@ export default function ParentPanel() {
   const [activeTab, setActiveTab] = useState(1)
   const [savedMsg, setSavedMsg] = useState('')
 
-  // Sıfırlama state'leri
-  const [resetStep, setResetStep] = useState({})   // { word:0, daily:0, all:0, cat:0 }
+  const [resetStep, setResetStep] = useState({})
   const [resetCatId, setResetCatId] = useState('animals')
 
-  // Tab 2 — Kontrol
+  // Tab 2 — Controls
   const [localLangEnabled, setLocalLangEnabled] = useState(langSettings.enabled)
   const [localLangPriority, setLocalLangPriority] = useState(langSettings.priority)
   const [localEnergy, setLocalEnergy] = useState(energyData.mode)
@@ -148,7 +155,7 @@ export default function ParentPanel() {
   // Tab 3 — Plan
   const [weeklyPlan, setWeeklyPlan] = useState(loadWeeklyPlan)
 
-  // Tab 4 — Oturum
+  // Tab 4 — Session
   const [startTime, setStartTime] = useState(
     `${pad(timeSettings.startHour)}:${pad(timeSettings.startMin)}`
   )
@@ -159,7 +166,7 @@ export default function ParentPanel() {
   const [localNotifs, setLocalNotifs] = useState(notifSettings)
   const [speechQuizOn, setSpeechQuizOn] = useState(readSpeechQuiz())
 
-  // ── Kaydedme ────────────────────────────────────────────────────
+  // ── Save ────────────────────────────────────────────────────────
 
   const showSaved = (msg) => {
     setSavedMsg(msg)
@@ -173,12 +180,12 @@ export default function ParentPanel() {
       JSON.stringify({ mode: localEnergy, custom: energyData.custom ?? ENERGY_PRESETS.medium }))
     localStorage.setItem('aguilang_active_categories', JSON.stringify(localCats))
     localStorage.setItem('aguilang_vacation_mode', JSON.stringify({ active: localVacation }))
-    showSaved('Kontrol ayarları kaydedildi ✓')
+    showSaved('Settings saved ✓')
   }
 
   const savePlan = () => {
     localStorage.setItem(WEEKLY_PLAN_KEY, JSON.stringify(weeklyPlan))
-    showSaved('Haftalık plan kaydedildi ✓')
+    showSaved('Weekly plan saved ✓')
   }
 
   const saveSession = () => {
@@ -188,10 +195,10 @@ export default function ParentPanel() {
       JSON.stringify({ startHour: sh, startMin: sm, endHour: eh, endMin: em, weekendEnabled: weekendOn }))
     localStorage.setItem('aguilang_notifications', JSON.stringify(localNotifs))
     localStorage.setItem('aguilang_speech_quiz', JSON.stringify(speechQuizOn))
-    showSaved('Oturum ayarları kaydedildi ✓')
+    showSaved('Session settings saved ✓')
   }
 
-  // ── Okuma (Tab 1) ────────────────────────────────────────────────
+  // ── Stats (Tab 1) ────────────────────────────────────────────────
 
   const profile = (() => {
     try { return JSON.parse(localStorage.getItem('aguilang_active_profile') || 'null') }
@@ -208,17 +215,17 @@ export default function ParentPanel() {
     .sort((a, b) => b[1].wrong - a[1].wrong)
     .slice(0, 8)
 
-  const totalSeen   = Object.values(wordStats).reduce((s, w) => s + (w.seen || 0), 0)
+  const totalSeen    = Object.values(wordStats).reduce((s, w) => s + (w.seen || 0), 0)
   const totalCorrect = Object.values(wordStats).reduce((s, w) => s + (w.correct || 0), 0)
 
-  // ── Tab içerikleri ───────────────────────────────────────────────
+  // ── Tab renderers ───────────────────────────────────────────────
 
   const renderStats = () => (
     <div>
-      {/* Profil kartı */}
+      {/* Profile card */}
       {profile ? (
         <div style={card}>
-          <div style={sectionTitle}>👤 Aktif Profil</div>
+          <div style={sectionTitle}>👤 Active Profile</div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <div style={{
               width: '48px', height: '48px', borderRadius: '50%',
@@ -231,30 +238,30 @@ export default function ParentPanel() {
             </div>
             <div>
               <div style={{ fontWeight: '700', color: '#0F172A', fontSize: '16px' }}>
-                {profile.name || 'İsimsiz'}
+                {profile.name || 'Unnamed'}
               </div>
               <div style={{ fontSize: '13px', color: '#64748B', marginTop: '2px' }}>
-                🔥 {profile.streak || 0} gün seri &nbsp;·&nbsp;
-                ⭐ {profile.points || 0} puan &nbsp;·&nbsp;
-                Seviye {profile.level || 1}
+                🔥 {profile.streak || 0} day streak &nbsp;·&nbsp;
+                ⭐ {profile.points || 0} pts &nbsp;·&nbsp;
+                Level {profile.level || 1}
               </div>
             </div>
           </div>
         </div>
       ) : (
         <div style={{ ...card, textAlign: 'center', color: '#94A3B8', fontSize: '14px' }}>
-          Henüz profil oluşturulmamış.
+          No profile created yet.
         </div>
       )}
 
-      {/* Kelime istatistikleri */}
+      {/* Word statistics */}
       <div style={card}>
-        <div style={sectionTitle}>📊 Kelime İstatistikleri</div>
+        <div style={sectionTitle}>📊 Word Statistics</div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginBottom: '16px' }}>
           {[
-            { label: 'Toplam Görülen', value: totalSeen },
-            { label: 'Doğru Cevap',   value: totalCorrect },
-            { label: 'Zorlanılan',     value: hardWords.length },
+            { label: 'Total Seen', value: totalSeen },
+            { label: 'Correct',    value: totalCorrect },
+            { label: 'Difficult',  value: hardWords.length },
           ].map((s, i) => (
             <div key={i} style={{
               background: '#F8FAFC', borderRadius: '10px',
@@ -272,7 +279,7 @@ export default function ParentPanel() {
         {hardWords.length > 0 && (
           <>
             <div style={{ fontSize: '13px', fontWeight: '600', color: '#64748B', marginBottom: '8px' }}>
-              ⚠️ Zorlanılan kelimeler
+              ⚠️ Difficult words
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
               {hardWords.map(([id, s]) => (
@@ -283,7 +290,7 @@ export default function ParentPanel() {
                 }}>
                   <span style={{ fontWeight: '700', color: '#9C4600', fontSize: '14px' }}>{id}</span>
                   <span style={{ fontSize: '12px', color: '#EF4444', fontWeight: '600' }}>
-                    ❌ {s.wrong} yanlış
+                    ❌ {s.wrong} wrong
                   </span>
                 </div>
               ))}
@@ -292,11 +299,11 @@ export default function ParentPanel() {
         )}
       </div>
 
-      {/* Haftalık özet — hardcoded */}
+      {/* Weekly summary — hardcoded */}
       <div style={card}>
-        <div style={sectionTitle}>📅 Haftalık Özet</div>
+        <div style={sectionTitle}>📅 Weekly Summary</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          {['Pzt', 'Sal', 'Çar', 'Per', 'Cum'].map((day, i) => {
+          {['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].map((day, i) => {
             const pct = [80, 100, 60, 40, 90][i]
             return (
               <div key={day} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -317,9 +324,37 @@ export default function ParentPanel() {
 
   const renderControls = () => (
     <div>
-      {/* Dil kontrolü */}
+      {/* UI Language switcher */}
       <div style={card}>
-        <div style={sectionTitle}>🌐 Dil Kontrolü</div>
+        <div style={sectionTitle}>🌍 App Language</div>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          {UI_LANG_OPTIONS.map(({ id, label, flag }) => {
+            const active = currentUiLang === id
+            return (
+              <button
+                key={id}
+                onClick={() => setLang(id)}
+                style={{
+                  flex: 1, padding: '10px 8px',
+                  border: `2px solid ${active ? '#0891B2' : '#E2E8F0'}`,
+                  borderRadius: '10px',
+                  background: active ? '#EFF8FF' : 'white',
+                  color: active ? '#0891B2' : '#94A3B8',
+                  fontWeight: '700', fontSize: '13px',
+                  cursor: 'pointer',
+                }}
+              >
+                <div style={{ fontSize: '20px', marginBottom: '4px' }}>{flag}</div>
+                {label}
+              </button>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* Language control */}
+      <div style={card}>
+        <div style={sectionTitle}>🌐 Language</div>
         <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
           {LANG_OPTIONS.map(({ id, label, flag }) => {
             const enabled = localLangEnabled.includes(id)
@@ -350,7 +385,7 @@ export default function ParentPanel() {
         </div>
 
         <div style={{ fontSize: '13px', fontWeight: '600', color: '#64748B', marginBottom: '8px' }}>
-          Öncelikli dil
+          Priority language
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
           {LANG_OPTIONS.filter(l => localLangEnabled.includes(l.id)).map(({ id, label, flag }) => (
@@ -376,9 +411,9 @@ export default function ParentPanel() {
         </div>
       </div>
 
-      {/* Enerji seviyesi */}
+      {/* Energy level */}
       <div style={card}>
-        <div style={sectionTitle}>⚡ Enerji Seviyesi</div>
+        <div style={sectionTitle}>⚡ Energy Level</div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
           {ENERGY_OPTIONS.map(({ mode, label, icon, desc }) => {
             const active = localEnergy === mode
@@ -407,12 +442,12 @@ export default function ParentPanel() {
         </div>
       </div>
 
-      {/* Aktif kategoriler */}
+      {/* Active categories */}
       <div style={card}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-          <div style={sectionTitle}>📚 Aktif Kategoriler</div>
+          <div style={sectionTitle}>📚 Active Categories</div>
           <span style={{ fontSize: '12px', color: '#94A3B8' }}>
-            {localCats.length}/20 seçili
+            {localCats.length}/20 selected
           </span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '6px' }}>
@@ -448,20 +483,20 @@ export default function ParentPanel() {
         </div>
       </div>
 
-      {/* Tatil modu */}
+      {/* Vacation mode */}
       <div style={card}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
-            <div style={{ fontWeight: '700', color: '#0F172A', fontSize: '14px' }}>🏖️ Tatil Modu</div>
+            <div style={{ fontWeight: '700', color: '#0F172A', fontSize: '14px' }}>🏖️ Vacation Mode</div>
             <div style={{ fontSize: '12px', color: '#94A3B8', marginTop: '2px' }}>
-              Açıkken zaman kısıtlaması devre dışı
+              Disables time restrictions
             </div>
           </div>
           <Toggle on={localVacation} onToggle={() => setLocalVacation(v => !v)} />
         </div>
       </div>
 
-      <button onClick={saveControls} style={saveBtn}>Kaydet</button>
+      <button onClick={saveControls} style={saveBtn}>Save</button>
     </div>
   )
 
@@ -480,7 +515,7 @@ export default function ParentPanel() {
     return (
     <div>
       <div style={card}>
-        <div style={sectionTitle}>📅 Haftalık Öğrenme Planı</div>
+        <div style={sectionTitle}>📅 Weekly Learning Plan</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {weeklyPlan.map((entry, i) => {
             const effectiveCatId = activePlanCats.some(c => c.id === entry.categoryId)
@@ -525,9 +560,9 @@ export default function ParentPanel() {
                     background: 'white', color: '#0F172A',
                   }}
                 >
-                  <option value="low">🌙 Düşük</option>
-                  <option value="medium">⚡ Orta</option>
-                  <option value="high">🔥 Yüksek</option>
+                  <option value="low">🌙 Low</option>
+                  <option value="medium">⚡ Medium</option>
+                  <option value="high">🔥 High</option>
                 </select>
               </div>
             </div>
@@ -535,20 +570,20 @@ export default function ParentPanel() {
           })}
         </div>
       </div>
-      <button onClick={savePlan} style={saveBtn}>Kaydet</button>
+      <button onClick={savePlan} style={saveBtn}>Save</button>
     </div>
   )
   }
 
   const renderSession = () => (
     <div>
-      {/* Çalışma saatleri */}
+      {/* Study hours */}
       <div style={card}>
-        <div style={sectionTitle}>🕐 Çalışma Saatleri</div>
+        <div style={sectionTitle}>🕐 Study Hours</div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
           <div>
             <div style={{ fontSize: '12px', color: '#94A3B8', marginBottom: '6px', fontWeight: '600' }}>
-              Başlangıç
+              Start
             </div>
             <input
               type="time"
@@ -564,7 +599,7 @@ export default function ParentPanel() {
           </div>
           <div>
             <div style={{ fontSize: '12px', color: '#94A3B8', marginBottom: '6px', fontWeight: '600' }}>
-              Bitiş
+              End
             </div>
             <input
               type="time"
@@ -583,24 +618,24 @@ export default function ParentPanel() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <div style={{ fontWeight: '700', color: '#0F172A', fontSize: '14px' }}>
-              Hafta Sonu
+              Weekend
             </div>
             <div style={{ fontSize: '12px', color: '#94A3B8', marginTop: '2px' }}>
-              Cumartesi ve Pazar çalışma
+              Study on Saturday and Sunday
             </div>
           </div>
           <Toggle on={weekendOn} onToggle={() => setWeekendOn(v => !v)} />
         </div>
       </div>
 
-      {/* Bildirimler */}
+      {/* Notifications */}
       <div style={card}>
-        <div style={sectionTitle}>🔔 Bildirimler</div>
+        <div style={sectionTitle}>🔔 Notifications</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
           {[
-            { key: 'onComplete',    label: 'Ders Tamamlandı',   desc: 'Her ders sonunda bildirim' },
-            { key: 'streakWarning', label: 'Seri Uyarısı',      desc: 'Seri kırılmak üzereyken' },
-            { key: 'weeklyReport',  label: 'Haftalık Rapor',    desc: 'Pazar günü özet raporu' },
+            { key: 'onComplete',    label: 'Lesson Completed',  desc: 'Notification after each lesson' },
+            { key: 'streakWarning', label: 'Streak Warning',    desc: 'When your streak is at risk' },
+            { key: 'weeklyReport',  label: 'Weekly Report',     desc: 'Summary report on Sunday' },
           ].map(({ key, label, desc }) => (
             <div key={key} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
@@ -616,31 +651,31 @@ export default function ParentPanel() {
         </div>
       </div>
 
-      {/* Quiz Ayarları */}
+      {/* Quiz Settings */}
       <div style={card}>
-        <div style={sectionTitle}>🎤 Quiz Ayarları</div>
+        <div style={sectionTitle}>🎤 Quiz Settings</div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <div style={{ fontWeight: '600', color: '#0F172A', fontSize: '14px' }}>
-              Sesli Telaffuz Soruları
+              Voice Pronunciation
             </div>
             <div style={{ fontSize: '12px', color: '#94A3B8', marginTop: '2px' }}>
-              Her 5 soruda 1 sesli söyleme sorusu gelir
+              1 voice question every 5 questions
             </div>
           </div>
           <Toggle on={speechQuizOn} onToggle={() => setSpeechQuizOn(v => !v)} />
         </div>
       </div>
 
-      <button onClick={saveSession} style={saveBtn}>Kaydet</button>
+      <button onClick={saveSession} style={saveBtn}>Save</button>
     </div>
   )
 
-  // ── Sıfırlama ─────────────────────────────────────────────────────
+  // ── Reset ─────────────────────────────────────────────────────────
 
   const recordReset = (label) => {
-    const now = new Date().toLocaleString('tr-TR')
-    setSavedMsg(`✅ Sıfırlandı — ${now}`)
+    const now = new Date().toLocaleString('en-US')
+    setSavedMsg(`✅ Reset — ${now}`)
     localStorage.setItem('aguilang_last_reset', JSON.stringify({ label, time: now }))
     setResetStep({})
     window.dispatchEvent(new Event('wordStatsUpdated'))
@@ -659,66 +694,66 @@ export default function ParentPanel() {
       const stats = JSON.parse(localStorage.getItem('aguilang_word_stats') || '{}')
       wordIds.forEach(id => { delete stats[id] })
       localStorage.setItem('aguilang_word_stats', JSON.stringify(stats))
-      recordReset(`${resetCatId} kategorisi`)
+      recordReset(`${resetCatId} category`)
     } catch { /* skip */ }
   }
 
   const renderReset = () => (
     <div>
-      {/* Quiz istatistikleri */}
+      {/* Quiz statistics */}
       <div style={card}>
-        <div style={sectionTitle}>📊 Quiz İstatistiklerini Sıfırla</div>
+        <div style={sectionTitle}>📊 Reset Quiz Statistics</div>
         <div style={{ fontSize: '13px', color: '#64748B', marginBottom: '12px' }}>
-          Tüm kelime doğru/yanlış kayıtları silinir.
+          All word correct/wrong records will be deleted.
         </div>
         {resetStep.word !== 1 ? (
           <button
             onClick={() => setResetStep(s => ({ ...s, word: 1 }))}
             style={{ ...saveBtn, background: '#F1F5F9', color: '#475569' }}
           >
-            Sıfırla
+            Reset
           </button>
         ) : (
           <div style={{ background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: '10px', padding: '12px' }}>
             <div style={{ fontSize: '13px', fontWeight: '600', color: '#DC2626', marginBottom: '10px' }}>
-              ⚠️ Tüm kelime istatistikleri silinecek. Emin misin?
+              ⚠️ All word statistics will be deleted. Are you sure?
             </div>
             <div style={{ display: 'flex', gap: '8px' }}>
-              <button onClick={() => setResetStep({})} style={{ flex: 1, padding: '9px', background: '#F1F5F9', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', color: '#475569' }}>İptal</button>
-              <button onClick={() => { localStorage.setItem('aguilang_word_stats', '{}'); recordReset('Quiz istatistikleri') }} style={{ flex: 1, padding: '9px', background: '#EF4444', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '700', color: 'white' }}>Evet, Sil</button>
+              <button onClick={() => setResetStep({})} style={{ flex: 1, padding: '9px', background: '#F1F5F9', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', color: '#475569' }}>Cancel</button>
+              <button onClick={() => { localStorage.setItem('aguilang_word_stats', '{}'); recordReset('Quiz statistics') }} style={{ flex: 1, padding: '9px', background: '#EF4444', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '700', color: 'white' }}>Yes, Delete</button>
             </div>
           </div>
         )}
       </div>
 
-      {/* Günlük istatistikler */}
+      {/* Daily statistics */}
       <div style={card}>
-        <div style={sectionTitle}>📅 Günlük İstatistikleri Sıfırla</div>
+        <div style={sectionTitle}>📅 Reset Daily Statistics</div>
         <div style={{ fontSize: '13px', color: '#64748B', marginBottom: '12px' }}>
-          Günlük ilerleme kayıtları silinir.
+          Daily progress records will be deleted.
         </div>
         {resetStep.daily !== 1 ? (
           <button onClick={() => setResetStep(s => ({ ...s, daily: 1 }))} style={{ ...saveBtn, background: '#F1F5F9', color: '#475569' }}>
-            Sıfırla
+            Reset
           </button>
         ) : (
           <div style={{ background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: '10px', padding: '12px' }}>
             <div style={{ fontSize: '13px', fontWeight: '600', color: '#DC2626', marginBottom: '10px' }}>
-              ⚠️ Günlük ilerleme kayıtları silinecek. Emin misin?
+              ⚠️ Daily progress records will be deleted. Are you sure?
             </div>
             <div style={{ display: 'flex', gap: '8px' }}>
-              <button onClick={() => setResetStep({})} style={{ flex: 1, padding: '9px', background: '#F1F5F9', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', color: '#475569' }}>İptal</button>
-              <button onClick={() => { localStorage.setItem('aguilang_daily_stats', '{}'); recordReset('Günlük istatistikler') }} style={{ flex: 1, padding: '9px', background: '#EF4444', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '700', color: 'white' }}>Evet, Sil</button>
+              <button onClick={() => setResetStep({})} style={{ flex: 1, padding: '9px', background: '#F1F5F9', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', color: '#475569' }}>Cancel</button>
+              <button onClick={() => { localStorage.setItem('aguilang_daily_stats', '{}'); recordReset('Daily statistics') }} style={{ flex: 1, padding: '9px', background: '#EF4444', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '700', color: 'white' }}>Yes, Delete</button>
             </div>
           </div>
         )}
       </div>
 
-      {/* Kategori bazlı */}
+      {/* Reset by category */}
       <div style={card}>
-        <div style={sectionTitle}>📚 Kategori Bazlı Sıfırla</div>
+        <div style={sectionTitle}>📚 Reset by Category</div>
         <div style={{ fontSize: '13px', color: '#64748B', marginBottom: '12px' }}>
-          Seçilen kategorinin kelime istatistikleri silinir.
+          Word statistics for the selected category will be deleted.
         </div>
         <select
           value={resetCatId}
@@ -729,59 +764,59 @@ export default function ParentPanel() {
         </select>
         {resetStep.cat !== 1 ? (
           <button onClick={() => setResetStep(s => ({ ...s, cat: 1 }))} style={{ ...saveBtn, background: '#F1F5F9', color: '#475569' }}>
-            Sıfırla
+            Reset
           </button>
         ) : (
           <div style={{ background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: '10px', padding: '12px' }}>
             <div style={{ fontSize: '13px', fontWeight: '600', color: '#DC2626', marginBottom: '10px' }}>
-              ⚠️ Bu kategorinin tüm kelime verileri silinecek. Emin misin?
+              ⚠️ All word data for this category will be deleted. Are you sure?
             </div>
             <div style={{ display: 'flex', gap: '8px' }}>
-              <button onClick={() => setResetStep({})} style={{ flex: 1, padding: '9px', background: '#F1F5F9', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', color: '#475569' }}>İptal</button>
-              <button onClick={handleCategoryReset} style={{ flex: 1, padding: '9px', background: '#EF4444', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '700', color: 'white' }}>Evet, Sil</button>
+              <button onClick={() => setResetStep({})} style={{ flex: 1, padding: '9px', background: '#F1F5F9', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', color: '#475569' }}>Cancel</button>
+              <button onClick={handleCategoryReset} style={{ flex: 1, padding: '9px', background: '#EF4444', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '700', color: 'white' }}>Yes, Delete</button>
             </div>
           </div>
         )}
       </div>
 
-      {/* Tüm ilerlemeyi sıfırla — çift onay */}
+      {/* Reset all progress — double confirm */}
       <div style={{ ...card, border: '1.5px solid #FECACA' }}>
-        <div style={{ ...sectionTitle, color: '#DC2626' }}>🗑️ Tüm İlerlemeyi Sıfırla</div>
+        <div style={{ ...sectionTitle, color: '#DC2626' }}>🗑️ Reset All Progress</div>
         <div style={{ fontSize: '13px', color: '#64748B', marginBottom: '12px' }}>
-          Kelime istatistikleri, günlük ilerleme, aktif kategori ve dil ayarları silinir. Geri alınamaz!
+          Word statistics, daily progress, active category and language settings will be deleted. Cannot be undone!
         </div>
         {!resetStep.all ? (
           <button onClick={() => setResetStep(s => ({ ...s, all: 1 }))} style={{ ...saveBtn, background: '#FEF2F2', color: '#DC2626', border: '1.5px solid #FECACA' }}>
-            Tüm Veriyi Sıfırla
+            Reset All Data
           </button>
         ) : resetStep.all === 1 ? (
           <div style={{ background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: '10px', padding: '14px' }}>
             <div style={{ fontSize: '13px', fontWeight: '700', color: '#DC2626', marginBottom: '10px' }}>
-              ⚠️ Bu işlem geri alınamaz. Devam etmek istediğine emin misin?
+              ⚠️ This cannot be undone. Are you sure you want to continue?
             </div>
             <div style={{ display: 'flex', gap: '8px' }}>
-              <button onClick={() => setResetStep({})} style={{ flex: 1, padding: '9px', background: '#F1F5F9', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', color: '#475569' }}>İptal</button>
-              <button onClick={() => setResetStep(s => ({ ...s, all: 2 }))} style={{ flex: 1, padding: '9px', background: '#F97316', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '700', color: 'white' }}>Devam Et</button>
+              <button onClick={() => setResetStep({})} style={{ flex: 1, padding: '9px', background: '#F1F5F9', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', color: '#475569' }}>Cancel</button>
+              <button onClick={() => setResetStep(s => ({ ...s, all: 2 }))} style={{ flex: 1, padding: '9px', background: '#F97316', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '700', color: 'white' }}>Continue</button>
             </div>
           </div>
         ) : (
           <div style={{ background: '#FEF2F2', border: '2px solid #EF4444', borderRadius: '10px', padding: '14px' }}>
             <div style={{ fontSize: '13px', fontWeight: '700', color: '#DC2626', marginBottom: '10px' }}>
-              🚨 Son adım: Tüm ilerleme kalıcı olarak silinecek!
+              🚨 Final step: All progress will be permanently deleted!
             </div>
             <div style={{ display: 'flex', gap: '8px' }}>
-              <button onClick={() => setResetStep({})} style={{ flex: 1, padding: '9px', background: '#F1F5F9', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', color: '#475569' }}>İptal</button>
+              <button onClick={() => setResetStep({})} style={{ flex: 1, padding: '9px', background: '#F1F5F9', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', color: '#475569' }}>Cancel</button>
               <button
                 onClick={() => {
                   localStorage.setItem('aguilang_word_stats', '{}')
                   localStorage.setItem('aguilang_daily_stats', '{}')
                   localStorage.removeItem('aguilang_active_category')
                   localStorage.removeItem('aguilang_active_lang')
-                  recordReset('Tüm ilerleme')
+                  recordReset('All progress')
                 }}
                 style={{ flex: 1, padding: '9px', background: '#EF4444', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '700', color: 'white' }}
               >
-                Tüm Veriyi Sil
+                Delete All Data
               </button>
             </div>
           </div>
@@ -793,11 +828,11 @@ export default function ParentPanel() {
   // ── Render ────────────────────────────────────────────────────────
 
   const TABS = [
-    { id: 1, label: 'İstatistik', icon: '📊' },
-    { id: 2, label: 'Kontrol',    icon: '🎛️' },
-    { id: 3, label: 'Plan',       icon: '📅' },
-    { id: 4, label: 'Oturum',     icon: '🕐' },
-    { id: 5, label: 'Sıfırla',   icon: '🗑️' },
+    { id: 1, label: 'Stats',    icon: '📊' },
+    { id: 2, label: 'Controls', icon: '🎛️' },
+    { id: 3, label: 'Plan',     icon: '📅' },
+    { id: 4, label: 'Session',  icon: '🕐' },
+    { id: 5, label: 'Reset',    icon: '🗑️' },
   ]
 
   return (
@@ -817,7 +852,7 @@ export default function ParentPanel() {
       }}>
         <div style={{ maxWidth: '640px', margin: '0 auto', display: 'flex', alignItems: 'center', gap: '12px' }}>
           <button
-            onClick={() => navigate('/parent')}
+            onClick={() => navigate('/settings')}
             style={{
               background: '#F1F5F9', border: 'none', borderRadius: '8px',
               width: '36px', height: '36px', cursor: 'pointer', fontSize: '16px',
@@ -829,7 +864,7 @@ export default function ParentPanel() {
               fontFamily: "'Plus Jakarta Sans', sans-serif",
               fontSize: '17px', fontWeight: '800', color: '#0F172A',
             }}>
-              🔒 Ebeveyn Paneli
+              🔒 Settings
             </div>
           </div>
           <button
@@ -840,12 +875,12 @@ export default function ParentPanel() {
               fontSize: '13px', fontWeight: '600', color: '#0891B2',
             }}
           >
-            Çık
+            Exit
           </button>
         </div>
       </div>
 
-      {/* Sekmeler */}
+      {/* Tabs */}
       <div style={{
         background: 'white',
         borderBottom: '1px solid #E2E8F0',
@@ -877,7 +912,7 @@ export default function ParentPanel() {
         </div>
       </div>
 
-      {/* Kaydedildi bildirimi */}
+      {/* Saved notification */}
       {savedMsg && (
         <div style={{
           background: '#F0FDF4', border: '1px solid #BBF7D0',
@@ -888,7 +923,7 @@ export default function ParentPanel() {
         </div>
       )}
 
-      {/* İçerik */}
+      {/* Content */}
       <div style={{ maxWidth: '640px', margin: '0 auto', padding: '20px' }}>
         {activeTab === 1 && renderStats()}
         {activeTab === 2 && renderControls()}

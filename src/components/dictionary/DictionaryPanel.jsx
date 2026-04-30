@@ -7,10 +7,10 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 import { lookupWord, getCacheStats, clearDictionaryCache } from '../../services/dictionaryService';
 import { useWordStore } from '../../store/useWordStore';
 
-const LANG_LABELS = { en: '🇬🇧 İngilizce', de: '🇩🇪 Almanca', es: '🇪🇸 İspanyolca' };
-const POS_TR = {
-  noun: 'isim', verb: 'fiil', adjective: 'sıfat',
-  adverb: 'zarf', preposition: 'edat', conjunction: 'bağlaç', pronoun: 'zamir',
+const LANG_LABELS = { en: '🇬🇧 English', es: '🇪🇸 Spanish', pt: '🇧🇷 Portuguese' };
+const POS_LABELS = {
+  noun: 'noun', verb: 'verb', adjective: 'adjective',
+  adverb: 'adverb', preposition: 'preposition', conjunction: 'conjunction', pronoun: 'pronoun',
 };
 
 // ─── ANA BİLEŞEN ─────────────────────────────────────────────────────────────
@@ -332,7 +332,7 @@ function ResultCard({ result, onSave, initialSaved = false }) {
 function ConfidenceBadge({ score }) {
   const pct   = Math.round(score * 100);
   const color  = score > 0.8 ? 'green' : score > 0.5 ? 'yellow' : 'red';
-  const labels = { green: 'Yüksek', yellow: 'Orta', red: 'Düşük' };
+  const labels = { green: 'High', yellow: 'Medium', red: 'Low' };
   const colors = {
     green:  'bg-green-50 text-green-600 dark:bg-green-900 dark:text-green-400',
     yellow: 'bg-yellow-50 text-yellow-600 dark:bg-yellow-900 dark:text-yellow-400',
@@ -340,7 +340,7 @@ function ConfidenceBadge({ score }) {
   };
   return (
     <span className={`text-xs px-2 py-0.5 rounded-full ${colors[color]}`}>
-      {labels[color]} güven (%{pct})
+      {labels[color]} confidence ({pct}%)
     </span>
   );
 }

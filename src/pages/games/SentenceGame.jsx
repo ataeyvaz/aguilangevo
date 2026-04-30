@@ -30,7 +30,7 @@ export default function SentenceGame() {
       try {
         const mod  = await import(`../../data/${category.id}-a1.json`)
         const all  = mod.default.translations?.[lang.id]?.words || []
-        // Tüm kelimelerin sentences dizilerini topla
+        // Collect all sentence arrays from words
         const allSents = all.flatMap(w =>
           (w.sentences || [])
             .filter(s => Array.isArray(s.words) && s.words.length >= 3)
@@ -82,18 +82,18 @@ export default function SentenceGame() {
       setResult('correct')
       setScore(sc => sc + 15)
       setCorrect(c => c + 1)
-      // TTS: cümleyi seslendir
+      // TTS: speak the sentence
       const text = s.text || s.en || s[lang.id] || ''
       if (text) speak('sent_' + qIndex, text, lang.id)
-      // 1.5sn sonra sonraki soru
+      // 1.5s later go to next question
       setTimeout(() => {
         if (qIndex + 1 >= sentences.length) { setGameOver(true) }
         else setQIndex(i => i + 1)
       }, 1500)
     } else {
       setResult('wrong')
-      setHint(`İlk kelime: "${s.words[0]}"`)
-      // Shake animasyonu: class toggle via ref
+      setHint(`First word: "${s.words[0]}"`)
+      // Shake animation: class toggle via ref
       if (shakeRef.current) {
         shakeRef.current.style.animation = 'none'
         void shakeRef.current.offsetHeight // reflow
@@ -112,28 +112,28 @@ export default function SentenceGame() {
   /* ── Loading ── */
   if (loading) return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Inter, sans-serif', color: '#64748B' }}>
-      Yükleniyor...
+      Loading...
     </div>
   )
 
   if (!sentences.length) return (
     <div style={{ minHeight: '100vh', background: '#F8FAFC', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '16px', fontFamily: 'Inter, sans-serif', textAlign: 'center', padding: '24px' }}>
       <div style={{ fontSize: '48px' }}>📭</div>
-      <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '18px', fontWeight: '700', color: '#0F172A' }}>Bu kategoride cümle bulunamadı</div>
-      <div style={{ fontSize: '14px', color: '#64748B' }}>Önce flash kartlarla kelime çalış.</div>
-      <button onClick={() => navigate('/categories')} style={{ padding: '11px 28px', background: '#0891B2', color: 'white', border: 'none', borderRadius: '12px', fontSize: '14px', fontWeight: '700', cursor: 'pointer' }}>Kategori Seç</button>
+      <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '18px', fontWeight: '700', color: '#0F172A' }}>No sentences found in this category</div>
+      <div style={{ fontSize: '14px', color: '#64748B' }}>Practice words with flashcards first.</div>
+      <button onClick={() => navigate('/categories')} style={{ padding: '11px 28px', background: '#0891B2', color: 'white', border: 'none', borderRadius: '12px', fontSize: '14px', fontWeight: '700', cursor: 'pointer' }}>Select Category</button>
     </div>
   )
 
-  /* ── Özet ── */
+  /* ── Summary ── */
   if (gameOver) return (
     <div style={{ minHeight: '100vh', background: '#F8FAFC', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '20px', fontFamily: 'Inter, sans-serif', textAlign: 'center', padding: '24px' }}>
       <div style={{ fontSize: '64px' }}>📝</div>
-      <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '32px', fontWeight: '800', color: '#0F172A' }}>{score} Puan!</div>
-      <div style={{ fontSize: '16px', color: '#64748B' }}>{correct} / {sentences.length} doğru</div>
+      <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '32px', fontWeight: '800', color: '#0F172A' }}>{score} Points!</div>
+      <div style={{ fontSize: '16px', color: '#64748B' }}>{correct} / {sentences.length} correct</div>
       <div style={{ display: 'flex', gap: '12px', marginTop: '8px' }}>
-        <button onClick={handleRestart} style={{ padding: '12px 24px', background: 'white', border: '1.5px solid #E2E8F0', borderRadius: '12px', fontSize: '14px', fontWeight: '600', cursor: 'pointer', color: '#64748B' }}>🔄 Tekrar</button>
-        <button onClick={() => navigate('/play')} style={{ padding: '12px 24px', background: '#0891B2', border: 'none', borderRadius: '12px', fontSize: '14px', fontWeight: '700', cursor: 'pointer', color: 'white' }}>← Oyunlar</button>
+        <button onClick={handleRestart} style={{ padding: '12px 24px', background: 'white', border: '1.5px solid #E2E8F0', borderRadius: '12px', fontSize: '14px', fontWeight: '600', cursor: 'pointer', color: '#64748B' }}>🔄 Retry</button>
+        <button onClick={() => navigate('/play')} style={{ padding: '12px 24px', background: '#0891B2', border: 'none', borderRadius: '12px', fontSize: '14px', fontWeight: '700', cursor: 'pointer', color: 'white' }}>← Games</button>
       </div>
     </div>
   )
@@ -147,7 +147,7 @@ export default function SentenceGame() {
     <div style={{ minHeight: '100vh', background: '#F8FAFC', display: 'flex', flexDirection: 'column', fontFamily: 'Inter, sans-serif' }}>
       <style>{`
         @keyframes sgShake {
-          0%,100% { transform: translateX(0) }
+          0%, 100% { transform: translateX(0) }
           20%      { transform: translateX(-8px) }
           40%      { transform: translateX(8px) }
           60%      { transform: translateX(-6px) }
@@ -159,13 +159,10 @@ export default function SentenceGame() {
       <div style={{ background: 'white', borderBottom: '1px solid #E2E8F0', padding: '14px 24px' }}>
         <div style={{ maxWidth: '520px', margin: '0 auto', display: 'flex', alignItems: 'center', gap: '12px' }}>
           <button onClick={() => navigate('/play')} style={{ background: '#F1F5F9', border: 'none', borderRadius: '8px', width: '32px', height: '32px', cursor: 'pointer', fontSize: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>←</button>
-          <div style={{ flex: 1, fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '16px', fontWeight: '700', color: '#0F172A' }}>📝 Cümle Kur</div>
-          <div style={{ fontSize: '14px', fontWeight: '800', color: '#0891B2' }}>{score} puan</div>
+          <div style={{ flex: 1, fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '16px', fontWeight: '700', color: '#0F172A' }}>📝 Build Sentence</div>
+          <div style={{ fontSize: '14px', fontWeight: '800', color: '#0891B2' }}>{score} pts</div>
         </div>
         <div style={{ maxWidth: '520px', margin: '10px auto 0' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#94A3B8', marginBottom: '6px' }}>
-            <span>Soru {qIndex + 1} / {sentences.length}</span>
-          </div>
           <div style={{ height: '6px', background: '#E2E8F0', borderRadius: '3px', overflow: 'hidden' }}>
             <div style={{ height: '100%', width: `${((qIndex + 1) / sentences.length) * 100}%`, background: '#0891B2', borderRadius: '3px', transition: 'width 0.4s' }} />
           </div>
@@ -175,14 +172,14 @@ export default function SentenceGame() {
       {/* Content */}
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '20px 20px 32px', gap: '16px', maxWidth: '520px', width: '100%', margin: '0 auto' }}>
 
-        {/* Türkçe ipucu */}
+        {/* Translation hint */}
         {s.tr && (
           <div style={{ fontSize: '13px', color: '#94A3B8', textAlign: 'center' }}>
             💡 {s.tr}
           </div>
         )}
 
-        {/* Yerleştirme alanı */}
+        {/* Placement area */}
         <div
           ref={shakeRef}
           style={{
@@ -195,9 +192,7 @@ export default function SentenceGame() {
           }}
         >
           {placed.length === 0 && (
-            <span style={{ fontSize: '13px', color: '#CBD5E1', fontStyle: 'italic' }}>
-              Kelimelere tıklayarak cümle kur…
-            </span>
+            <span style={{ color: '#CBD5E1', fontSize: '14px' }}>Tap words from below...</span>
           )}
           {placed.map(token => (
             <button
@@ -219,14 +214,14 @@ export default function SentenceGame() {
           ))}
         </div>
 
-        {/* Hata ipucu */}
+        {/* Wrong answer hint */}
         {hint && (
           <div style={{ fontSize: '13px', color: '#DC2626', fontWeight: '600', textAlign: 'center' }}>
             {hint}
           </div>
         )}
 
-        {/* Mevcut kelimeler */}
+        {/* Available words */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', justifyContent: 'center', minHeight: '48px' }}>
           {available.map(token => (
             <button
@@ -234,9 +229,11 @@ export default function SentenceGame() {
               onClick={() => tapAvailable(token)}
               style={{
                 padding: '8px 16px',
-                background: 'white', border: '1.5px solid #E2E8F0',
+                background: 'white',
+                border: '1.5px solid #E2E8F0',
                 borderRadius: '20px', fontSize: '14px', fontWeight: '600',
-                color: '#0F172A', cursor: 'pointer',
+                color: '#0F172A',
+                cursor: result === 'correct' ? 'default' : 'pointer',
                 fontFamily: "'Plus Jakarta Sans', sans-serif",
                 transition: 'all 0.15s',
               }}
@@ -246,12 +243,12 @@ export default function SentenceGame() {
           ))}
         </div>
 
-        {/* Yapı ipucu */}
+        {/* Usage hint */}
         <div style={{ fontSize: '12px', color: '#CBD5E1', textAlign: 'center' }}>
-          💡 Kim + Ne yapar?
+          💡 What + Action?
         </div>
 
-        {/* Kontrol Et */}
+        {/* Check */}
         <button
           onClick={handleCheck}
           disabled={!placed.length || result === 'correct'}
@@ -267,7 +264,7 @@ export default function SentenceGame() {
             marginTop: 'auto',
           }}
         >
-          {result === 'correct' ? '✅ Doğru!' : 'Kontrol Et'}
+          {result === 'correct' ? '✅ Correct!' : 'Check'}
         </button>
       </div>
     </div>

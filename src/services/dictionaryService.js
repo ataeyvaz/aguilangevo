@@ -1,20 +1,20 @@
 /**
  * AguiLang2 - Dictionary Service
- * MyMemory API + önbellek + fallback stratejisi
+ * MyMemory API + cache + fallback strategy
  *
- * MyMemory: ücretsiz, 5000 istek/gün (email ile 10000/gün)
- * API: https://api.mymemory.translated.net/get?q=WORD&langpair=en|tr
+ * MyMemory: free, 5000 requests/day (10000/day with email)
+ * API: https://api.mymemory.translated.net/get?q=WORD&langpair=en|es
  */
 
 const CACHE_KEY = 'aguilang2_dict_cache';
-const CACHE_TTL = 7 * 24 * 60 * 60 * 1000; // 7 gün
+const CACHE_TTL = 7 * 24 * 60 * 60 * 1000; // 7 days
 const API_BASE = 'https://api.mymemory.translated.net/get';
 
-// İsteğe bağlı: MyMemory hesap email'i (günlük limit artışı için)
+// Optional: MyMemory account email (for increased daily limit)
 // .env: VITE_MYMEMORY_EMAIL=your@email.com
 const USER_EMAIL = import.meta.env?.VITE_MYMEMORY_EMAIL || '';
 
-// ─── CACHE MANAGEMENT ────────────────────────────────────────────────────────
+// ─── Cache Management ────────────────────────────────────
 function getCache() {
   try {
     const raw = localStorage.getItem(CACHE_KEY);
@@ -25,8 +25,8 @@ function getCache() {
 function setCache(cache) {
   try {
     localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
-  } catch (e) {
-    // localStorage doluysa eski girdileri temizle
+  } catch {
+    // Clean old entries if localStorage is full
     clearOldCache();
   }
 }
@@ -44,14 +44,15 @@ function getCacheKey(word, sourceLang, targetLang) {
   return `${word.toLowerCase().trim()}|${sourceLang}|${targetLang}`;
 }
 
-// ─── MYMEMORY API ─────────────────────────────────────────────────────────────
+// ─── MyMemory API ─────────────────────────────────────────
 /**
- * MyMemory'den çeviri al
+ * Fetch translation from MyMemory
  * @param {string} word
- * @param {string} sourceLang - 'en','de','es'
- * @param {string} targetLang - 'tr'
+ * @param {string} sourceLang - 'en','es','pt'
+ * @param {string} targetLang - target language code
  */
-async function fetchFromMyMemory(word, sourceLang = 'en', targetLang = 'tr') {
+async function fetchFromMyMemory(word, sourceLang = 'en', targetLang) {
+  if (!targetLang) throw new Error('targetLang is required');
   const langpair = `${sourceLang}|${targetLang}`;
   const params = new URLSearchParams({ q: word, langpair });
   if (USER_EMAIL) params.append('de', USER_EMAIL);
@@ -79,8 +80,8 @@ async function fetchFromMyMemory(word, sourceLang = 'en', targetLang = 'tr') {
   };
 }
 
-// ─── FALLBACK: WIKTIONARY ─────────────────────────────────────────────────────
-async function fetchFromWiktionary(word, sourceLang = 'en') {
+// ─── Fallback: Wiktionary ─────────────────────────────────
+async function fetchFromWiktionary(word) {
   const response = await fetch(
     `https://en.wiktionary.org/api/rest_v1/page/summary/${encodeURIComponent(word)}`,
     { signal: AbortSignal.timeout(4000) }
@@ -96,22 +97,23 @@ async function fetchFromWiktionary(word, sourceLang = 'en') {
   };
 }
 
-// ─── ANA SÖZLÜK FONKSİYONU ───────────────────────────────────────────────────
+// ─── Main Dictionary Function ─────────────────────────────
 /**
- * Kelime sorgula - cache → MyMemory → Wiktionary fallback
+ * Lookup word - cache → MyMemory → Wiktionary fallback
  *
  * @param {string} word
- * @param {string} sourceLang - 'en' | 'de' | 'es'
- * @param {string} targetLang - 'tr'
+ * @param {string} sourceLang - 'en' | 'es' | 'pt'
+ * @param {string} targetLang - target language code
  * @returns {Promise<DictionaryResult>}
  */
-export async function lookupWord(word, sourceLang = 'en', targetLang = 'tr') {
-  if (!word?.trim()) throw new Error('Kelime boş olamaz');
+export async function lookupWord(word, sourceLang = 'en', targetLang) {
+  if (!targetLang) throw new Error('targetLang is required');
+  if (!word?.trim()) throw new Error('Word cannot be empty');
 
   const cacheKey = getCacheKey(word, sourceLang, targetLang);
   const cache = getCache();
 
-  // Cache kontrolü
+  // Cache check
   if (cache[cacheKey]) {
     const entry = cache[cacheKey];
     if (Date.now() - entry.timestamp < CACHE_TTL) {
@@ -121,7 +123,7 @@ export async function lookupWord(word, sourceLang = 'en', targetLang = 'tr') {
 
   let result;
 
-  // 1. MyMemory dene
+  // 1. Try MyMemory
   try {
     const myMemoryResult = await fetchFromMyMemory(word, sourceLang, targetLang);
     result = {
@@ -135,11 +137,11 @@ export async function lookupWord(word, sourceLang = 'en', targetLang = 'tr') {
       timestamp: Date.now(),
     };
   } catch (myMemoryError) {
-    console.warn('MyMemory başarısız, Wiktionary deneniyor...', myMemoryError);
+    console.warn('MyMemory failed, trying Wiktionary...', myMemoryError);
 
     // 2. Wiktionary fallback
     try {
-      const wikiResult = await fetchFromWiktionary(word, sourceLang);
+      const wikiResult = await fetchFromWiktionary(word);
       result = {
         word: word.trim(),
         translation: null,
@@ -153,23 +155,23 @@ export async function lookupWord(word, sourceLang = 'en', targetLang = 'tr') {
         timestamp: Date.now(),
       };
     } catch {
-      throw new Error(`"${word}" için çeviri bulunamadı. İnternet bağlantınızı kontrol edin.`);
+      throw new Error(`Translation not found for "${word}". Please check your internet connection.`);
     }
   }
 
-  // Cache'e kaydet
+  // Save to cache
   const updatedCache = { ...getCache(), [cacheKey]: { data: result, timestamp: Date.now() } };
   setCache(updatedCache);
 
   return result;
 }
 
-// ─── TOPLU ÇEVIRI ─────────────────────────────────────────────────────────────
+// ─── Batch Translation ────────────────────────────────────
 /**
- * Birden fazla kelimeyi sırayla çevirir (rate limit'e takılmamak için gecikmeli)
+ * Translate multiple words sequentially (with delay to avoid rate limits)
  * @param {string[]} words
  * @param {string} sourceLang
- * @param {number} delayMs - istekler arası bekleme (varsayılan 300ms)
+ * @param {number} delayMs - delay between requests (default 300ms)
  */
 export async function batchLookup(words, sourceLang = 'en', delayMs = 300) {
   const results = [];
@@ -182,7 +184,7 @@ export async function batchLookup(words, sourceLang = 'en', delayMs = 300) {
       results.push({ word: words[i], error: err.message });
     }
 
-    // Son kelime değilse bekle
+    // Wait if not last word
     if (i < words.length - 1) {
       await new Promise(r => setTimeout(r, delayMs));
     }
@@ -191,7 +193,7 @@ export async function batchLookup(words, sourceLang = 'en', delayMs = 300) {
   return results;
 }
 
-// ─── CACHE STATS ─────────────────────────────────────────────────────────────
+// ─── Cache Stats ─────────────────────────────────────────
 export function getCacheStats() {
   const cache = getCache();
   const entries = Object.values(cache);
@@ -207,19 +209,19 @@ export function clearDictionaryCache() {
   localStorage.removeItem(CACHE_KEY);
 }
 
-// ─── HOOKS KULLANIMI ─────────────────────────────────────────────────────────
+// ─── Hook Usage Example ──────────────────────────────────
 /**
- * React hook olarak kullanmak için:
+ * For use in React hook:
  *
  * function useDictionary() {
  *   const [result, setResult] = useState(null)
  *   const [loading, setLoading] = useState(false)
  *   const [error, setError] = useState(null)
  *
- *   const lookup = useCallback(async (word, lang) => {
+ *   const lookup = useCallback(async (word, lang, targetLang) => {
  *     setLoading(true); setError(null)
  *     try {
- *       const data = await lookupWord(word, lang)
+ *       const data = await lookupWord(word, lang, targetLang)
  *       setResult(data)
  *     } catch(e) {
  *       setError(e.message)

@@ -17,8 +17,8 @@ export default function QuizScreen() {
   const { recordCard, startSession } = useSession()
   const navigate = useNavigate()
 
-  const [words, setWords]         = useState([])      // ana kategori kelimeleri
-  const [mixedPool, setMixedPool] = useState([])      // faz 1 için karışık havuz
+  const [words, setWords]         = useState([])      // main category words
+  const [mixedPool, setMixedPool] = useState([])      // phase 1 mixed pool
   const [phase, setPhase]         = useState(1)
   const [questions, setQuestions] = useState([])
   const [current, setCurrent]     = useState(0)
@@ -33,8 +33,12 @@ export default function QuizScreen() {
   const [passEnabled,  setPassEnabled]  = useState(false)
   const sttTimerRef = useRef(null)
 
-  const category = JSON.parse(localStorage.getItem('aguilang_active_category') || '{}')
-  const lang     = JSON.parse(localStorage.getItem('aguilang_active_lang')     || '{ "id": "en" }')
+  const [category, setCategory] = useState(() =>
+    JSON.parse(localStorage.getItem('aguilang_active_category') || '{}')
+  )
+  const [lang, setLang] = useState(() =>
+    JSON.parse(localStorage.getItem('aguilang_active_lang') || '{"id":"en"}')
+  )
 
   const speechQuizEnabled = readSpeechQuiz()
   const {
@@ -43,7 +47,7 @@ export default function QuizScreen() {
     checkAnswer: sttCheck,
   } = useSpeech(lang.id)
 
-  // ── Faz oluşturucu ────────────────────────────────────────────────
+  // ── Phase builder ────────────────────────────────────────
   const buildPhase = useCallback((p, pool) => {
     const picked = shuffle(pool).slice(0, 5)
 
@@ -64,9 +68,9 @@ export default function QuizScreen() {
         }))
       } else {
         setQuestions([
-          { tr: 'Bir köpeğim var.', words: ['I', 'have', 'a', 'dog'],     type: 'sentence' },
-          { tr: 'Kedi küçük.',      words: ['The', 'cat', 'is', 'small'],  type: 'sentence' },
-          { tr: 'Elma kırmızı.',    words: ['The', 'apple', 'is', 'red'],  type: 'sentence' },
+          { tr: 'I have a dog.', words: ['I', 'have', 'a', 'dog'],     type: 'sentence' },
+          { tr: 'The cat is small.',      words: ['The', 'cat', 'is', 'small'],  type: 'sentence' },
+          { tr: 'The apple is red.',    words: ['The', 'apple', 'is', 'red'],  type: 'sentence' },
         ])
       }
     }
@@ -79,13 +83,13 @@ export default function QuizScreen() {
     setIsCorrect(null)
   }, [])
 
-  // ── STT sonucu gelince değerlendir ───────────────────────────────
+  // ── STT result evaluation ─────────────────────────────────
   useEffect(() => {
     if (!transcript || !q?.word) return
     clearTimeout(sttTimerRef.current)
     stopListening()
     const ok = sttCheck(q.word[lang.id] ?? q.word.word ?? '')
-
+    
     setSpeechPhase('done')
     setIsCorrect(ok)
     recordCard(q.word.id, ok)
@@ -94,8 +98,21 @@ export default function QuizScreen() {
     setScore(s => ok ? s + 10 : Math.max(0, s - 5))
   }, [transcript]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Unmount'ta timer temizle
+  // Unmount cleanup
   useEffect(() => { return () => clearTimeout(sttTimerRef.current) }, [])
+
+  useEffect(() => {
+    const sync = () => {
+      setCategory(JSON.parse(localStorage.getItem('aguilang_active_category') || '{}'))
+      setLang(JSON.parse(localStorage.getItem('aguilang_active_lang') || '{"id":"en"}'))
+    }
+    window.addEventListener('storage', sync)
+    window.addEventListener('aguilang_lang_changed', sync)
+    return () => {
+      window.removeEventListener('storage', sync)
+      window.removeEventListener('aguilang_lang_changed', sync)
+    }
+  }, [])
 
   const handleSpeechStart = () => {
     if (isListening) return
@@ -117,17 +134,19 @@ export default function QuizScreen() {
       recordDaily(false)
     }
     setScore(s => Math.max(0, s - 5))
-
+    
     setSpeechPhase('done')
     setIsCorrect(false)
     setPassEnabled(false)
   }
 
-  // ── Kelime yükle + karışık havuz ──────────────────────────────────
+  // ── Load words + mixed pool ──────────────────────────────────
   useEffect(() => {
+    let cancelled = false
     const loadWords = async () => {
       try {
         const module = await import(`../data/${category.id}-a1.json`)
+        if (cancelled) return
         const langData = module.default.translations?.[lang.id]
         if (!langData?.words) return
 
@@ -135,7 +154,7 @@ export default function QuizScreen() {
         setWords(mainWords)
         startSession(category.id, lang.id)
 
-        // 2 rastgele kategori yükle, %30 karıştır
+        // Pick 2 random categories, ~30% mix
         const otherIds   = ALL_CAT_IDS.filter(id => id !== category.id)
         const pickedIds  = shuffle(otherIds).slice(0, 2)
         let crossWords   = []
@@ -148,14 +167,16 @@ export default function QuizScreen() {
           } catch { /* skip */ }
         }))
 
+        if (cancelled) return
         const mixed = crossWords.length >= 5 ? [...mainWords, ...crossWords] : mainWords
         setMixedPool(mixed)
         buildPhase(1, mixed)
       } catch {
-        setWords([])
+        if (!cancelled) setWords([])
       }
     }
     if (category.id) loadWords()
+    return () => { cancelled = true }
   }, [category.id, lang.id, buildPhase]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const q = questions[current]
@@ -167,7 +188,7 @@ export default function QuizScreen() {
     }
   }, [current, phase, q?.type, q?.words])
 
-  // ── Cevap kontrol ─────────────────────────────────────────────────
+  // ── Answer check ─────────────────────────────────────────
   const checkAnswer = () => {
     if (!q) return
     let correct = false
@@ -191,17 +212,17 @@ export default function QuizScreen() {
     if (correct) {
       setScore(s => s + 10)
     } else if (!q.wrongRetry) {
-      // Yanlış cevap: soruyu listenin sonuna ekle (1 kez)
+      // Wrong answer: add to end of queue (1 retry)
       setQuestions(prev => [...prev, { ...q, wrongRetry: true }])
     }
   }
 
-  // ── Sonraki soruya geç (kullanıcı butona basar) ───────────────────
+  // ── Advance to next question (user clicks button) ───────────
   const advanceQuestion = () => {
     clearTimeout(sttTimerRef.current)
     stopListening()
     setSpeechPhase('idle')
-
+    
     setPassEnabled(false)
     setIsCorrect(null)
     if (current < questions.length - 1) {
@@ -212,7 +233,7 @@ export default function QuizScreen() {
       if (phase < 3) {
         const nextPhase = phase + 1
         setPhase(nextPhase)
-        buildPhase(nextPhase, words) // faz 2 ve 3 sadece ana kelimeler
+        buildPhase(nextPhase, words) // phase 2 and 3 use only main words
       } else {
         setShowResult(true)
       }
@@ -232,9 +253,9 @@ export default function QuizScreen() {
   const progress  = questions.length ? Math.round((current / questions.length) * 100) : 0
   const isSpeechQ = speechQuizEnabled && sttSupported && current % 5 === 4 && q?.word != null
 
-  const PHASE_LABELS = { 1: '🎯 Tanıma', 2: '✏️ Hatırlama', 3: '🧩 Cümle Kurma' }
+  const PHASE_LABELS = { 1: '🎯 Recognition', 2: '✏️ Recall', 3: '🧩 Build Sentence' }
 
-  // ── Sonuç ekranı ──────────────────────────────────────────────────
+  // ── Result screen ──────────────────────────────────────────
   if (showResult) return (
     <div style={{
       minHeight: '100vh', background: '#F8FAFC',
@@ -249,10 +270,10 @@ export default function QuizScreen() {
         fontFamily: "'Plus Jakarta Sans', sans-serif",
         fontSize: '28px', fontWeight: '800', color: '#0F172A', marginBottom: '8px',
       }}>
-        {score >= 100 ? 'Mükemmel!' : score >= 70 ? 'Harika!' : 'İyi gidiyorsun!'}
+        {score >= 100 ? 'Perfect!' : score >= 70 ? 'Great job!' : 'Keep going!'}
       </h2>
       <p style={{ color: '#64748B', fontSize: '16px', marginBottom: '32px' }}>
-        {score} puan kazandın · {category.name} kategorisi
+        {score} points earned · {category.name} category
       </p>
       <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
         <button
@@ -262,7 +283,7 @@ export default function QuizScreen() {
             border: '1.5px solid #E2E8F0', borderRadius: '12px',
             fontSize: '15px', fontWeight: '600', color: '#64748B', cursor: 'pointer',
           }}
-        >🔄 Tekrar</button>
+        >🔄 Retry</button>
         <button
           onClick={() => navigate('/categories')}
           style={{
@@ -270,7 +291,7 @@ export default function QuizScreen() {
             borderRadius: '12px', fontSize: '15px', fontWeight: '600',
             color: 'white', cursor: 'pointer',
           }}
-        >📚 Kategoriler</button>
+        >📚 Categories</button>
         <button
           onClick={() => navigate('/dashboard')}
           style={{
@@ -285,7 +306,7 @@ export default function QuizScreen() {
 
   if (!q) return null
 
-  // ── Quiz ekranı ───────────────────────────────────────────────────
+  // ── Quiz screen ───────────────────────────────────────────
   return (
     <div style={{
       minHeight: '100vh', background: '#F8FAFC',
@@ -311,12 +332,12 @@ export default function QuizScreen() {
                 {PHASE_LABELS[phase]}
                 {q.wrongRetry && (
                   <span style={{ fontSize: '11px', color: '#F59E0B', marginLeft: '8px', fontWeight: '600' }}>
-                    🔄 Tekrar
+                    🔄 Retry
                   </span>
                 )}
               </div>
               <div style={{ fontSize: '12px', color: '#94A3B8' }}>
-                {category.emoji} {category.name} · Soru {current + 1}/{questions.length}
+                {category.emoji} {category.name} · Question {current + 1}/{questions.length}
               </div>
             </div>
             <div style={{
@@ -347,19 +368,19 @@ export default function QuizScreen() {
         </div>
       </div>
 
-      {/* Soru */}
+      {/* Question */}
       <div style={{
         flex: 1, display: 'flex', flexDirection: 'column',
         alignItems: 'center', padding: '32px 24px',
         maxWidth: '560px', width: '100%', margin: '0 auto',
       }}>
 
-        {/* SESLI TELAFFUZ SORUSU */}
+        {/* SPEECH QUIZ QUESTION */}
         {isSpeechQ && (
           <>
             <div style={{ fontSize: '72px', marginBottom: '12px' }}>{q.word.emoji}</div>
             <p style={{ fontSize: '14px', color: '#94A3B8', marginBottom: '8px', textAlign: 'center' }}>
-              Bu kelimeyi söyle:
+              Say this word:
             </p>
             <h2 style={{
               fontFamily: "'Plus Jakarta Sans', sans-serif",
@@ -383,7 +404,7 @@ export default function QuizScreen() {
                   display: 'flex', alignItems: 'center', gap: '8px',
                 }}
               >
-                🎤 Söyle
+                🎤 Say it
               </button>
             )}
 
@@ -394,7 +415,7 @@ export default function QuizScreen() {
                 fontSize: '15px', fontWeight: '600', color: '#DC2626',
                 display: 'flex', alignItems: 'center', gap: '8px',
               }}>
-                🔴 Dinleniyor...
+                🔴 Listening...
               </div>
             )}
 
@@ -408,13 +429,13 @@ export default function QuizScreen() {
                   fontSize: '16px', fontWeight: '700', color: '#9C4600',
                 }}
               >
-                Geç →
+                Skip →
               </button>
             )}
           </>
         )}
 
-        {/* AŞAMA 1 — Çoktan seçmeli */}
+        {/* PHASE 1 — Multiple choice */}
         {!isSpeechQ && q.type === 'choice' && (
           <>
             <div style={{ fontSize: '72px', marginBottom: '12px' }}>{q.word.emoji}</div>
@@ -424,7 +445,7 @@ export default function QuizScreen() {
               marginBottom: '8px', textAlign: 'center',
             }}>{q.word.word}</h2>
             <p style={{ fontSize: '14px', color: '#94A3B8', marginBottom: '28px' }}>
-              Türkçe karşılığı hangisi?
+              What is the translation?
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', width: '100%' }}>
               {q.options.map(opt => (
@@ -447,19 +468,19 @@ export default function QuizScreen() {
                     transition: 'all 0.15s',
                   }}
                 >
-                  {opt.tr}
+                  {opt.translation}
                 </button>
               ))}
             </div>
           </>
         )}
 
-        {/* AŞAMA 2 — Boşluk doldur */}
+        {/* PHASE 2 — Fill in the blank */}
         {q.type === 'fill' && (
           <>
             <div style={{ fontSize: '72px', marginBottom: '12px' }}>{q.word.emoji}</div>
             <p style={{ fontSize: '20px', color: '#64748B', marginBottom: '8px', textAlign: 'center' }}>
-              <strong style={{ color: '#0F172A' }}>{q.word.tr}</strong> kelimesini yaz
+              <strong style={{ color: '#0F172A' }}>{q.word.translation}</strong> - write it
             </p>
             <p style={{ fontSize: '13px', color: '#94A3B8', marginBottom: '24px' }}>/{q.word.pron}/</p>
             <input
@@ -467,7 +488,7 @@ export default function QuizScreen() {
               value={answer}
               onChange={e => setAnswer(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && answer && isCorrect === null && checkAnswer()}
-              placeholder="Cevabını yaz..."
+              placeholder="Type your answer..."
               disabled={isCorrect !== null}
               style={{
                 width: '100%', padding: '16px', fontSize: '20px', textAlign: 'center',
@@ -481,11 +502,11 @@ export default function QuizScreen() {
           </>
         )}
 
-        {/* AŞAMA 3 — Cümle kurma */}
+        {/* PHASE 3 — Build sentence */}
         {q.type === 'sentence' && (
           <>
             <p style={{ fontSize: '14px', color: '#94A3B8', marginBottom: '8px', textAlign: 'center' }}>
-              Bu cümleyi {lang.name || 'İngilizce'} olarak kur:
+              Build this sentence in {lang.name || 'English'}:
             </p>
             <h3 style={{
               fontFamily: "'Plus Jakarta Sans', sans-serif",
@@ -503,7 +524,7 @@ export default function QuizScreen() {
               marginBottom: '16px', alignItems: 'center',
             }}>
               {sentence.length === 0 && (
-                <span style={{ color: '#CBD5E1', fontSize: '14px' }}>Aşağıdan kelime seç...</span>
+                <span style={{ color: '#CBD5E1', fontSize: '14px' }}>Pick words from below...</span>
               )}
               {sentence.map((w, i) => (
                 <button
@@ -540,7 +561,7 @@ export default function QuizScreen() {
           </>
         )}
 
-        {/* Geri bildirim */}
+        {/* Feedback */}
         {isCorrect !== null && (
           <div style={{
             marginTop: '16px', padding: '12px 20px', borderRadius: '10px',
@@ -557,20 +578,20 @@ export default function QuizScreen() {
           }}>
             {isSpeechQ
               ? isCorrect
-                ? '✅ Harika! 🌟'
-                : `🔶 Cevap: ${q.word[lang.id] ?? q.word.word}`
+                ? '✅ Great! 🌟'
+                : `🔶 Answer: ${q.word[lang.id] ?? q.word.word}`
               : isCorrect
-                ? '✅ Doğru!'
-                : `❌ Doğrusu: ${q.word?.word || q.words?.join(' ')}`
+                ? '✅ Correct!'
+                : `❌ Correct answer: ${q.word?.word || q.words?.join(' ')}`
             }
           </div>
         )}
       </div>
 
-      {/* ── Alt buton alanı ─────────────────────────────────────── */}
+      {/* ── Bottom button area ─────────────────────────────── */}
       <div style={{ padding: '16px 24px 32px', maxWidth: '560px', width: '100%', margin: '0 auto' }}>
         {isCorrect === null ? (
-          // Kontrol Et — sesli sorularda gizlenir (STT akışı kendi butonlarını yönetir)
+          // Check Answer — hidden for speech questions (STT manages its own buttons)
           !isSpeechQ ? (
             <button
               onClick={checkAnswer}
@@ -591,11 +612,11 @@ export default function QuizScreen() {
                 ) ? 0.5 : 1,
               }}
             >
-              Kontrol Et ✓
+              Check Answer ✓
             </button>
           ) : null
         ) : isCorrect ? (
-          // Devam Et (doğru cevap)
+          // Continue (correct answer)
           <button
             onClick={advanceQuestion}
             style={{
@@ -605,10 +626,10 @@ export default function QuizScreen() {
               cursor: 'pointer', fontFamily: "'Plus Jakarta Sans', sans-serif",
             }}
           >
-            Devam Et →
+            Continue →
           </button>
         ) : (
-          // Anladım (yanlış cevap)
+          // I Understand (wrong answer)
           <button
             onClick={advanceQuestion}
             style={{
@@ -618,7 +639,7 @@ export default function QuizScreen() {
               cursor: 'pointer', fontFamily: "'Plus Jakarta Sans', sans-serif",
             }}
           >
-            Anladım ✓
+            I Understand ✓
           </button>
         )}
       </div>

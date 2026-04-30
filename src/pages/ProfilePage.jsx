@@ -4,9 +4,9 @@ import { useProgress, BADGE_DEFS } from '../hooks/useProgress'
 import { useSettings } from '../hooks/useSettings'
 
 const TTS_RATES = [
-  { label: 'Yavaş',  value: 0.6 },
+  { label: 'Slow',   value: 0.6 },
   { label: 'Normal', value: 0.9 },
-  { label: 'Hızlı',  value: 1.2 },
+  { label: 'Fast',   value: 1.2 },
 ]
 
 const Divider = () => (
@@ -17,45 +17,63 @@ export default function ProfilePage() {
   const navigate = useNavigate()
   const profile   = JSON.parse(localStorage.getItem('aguilang_active_profile') || '{}')
   const profileId = profile.id || profile.name || 'default'
-  const isChild   = profile.type === 'child'
 
-  const { earnedBadges, allBadges } = useProgress(profileId)
-  const { settings, save }          = useSettings()
+  const { earnedBadges } = useProgress(profileId)
+  const { settings, save } = useSettings()
 
   const earnedIds = new Set(earnedBadges.map(b => b.id))
 
-  const [resetMsg, setResetMsg] = useState('')
+  const [resetMsg,     setResetMsg]     = useState('')
+  const [profileName,  setProfileName]  = useState(profile.name || 'Aguila')
+  const [profileType,  setProfileType]  = useState(profile.type || 'adult')
+
+  const isChild = profileType === 'child'
+
+  const saveProfile = (updates) => {
+    const updated = { ...profile, ...updates }
+    localStorage.setItem('aguilang_active_profile', JSON.stringify(updated))
+  }
+
+  const handleNameChange = (e) => {
+    const name = e.target.value
+    setProfileName(name)
+    saveProfile({ name: name || 'Aguila', initial: (name || 'Aguila')[0]?.toUpperCase() })
+  }
+
+  const handleTypeChange = (type) => {
+    setProfileType(type)
+    saveProfile({ type })
+  }
 
   const confirmReset = (msg, fn) => {
     if (window.confirm(msg)) {
       fn()
-      setResetMsg('Sıfırlandı ✓')
+      setResetMsg('Reset ✓')
       setTimeout(() => setResetMsg(''), 2500)
       window.dispatchEvent(new Event('wordStatsUpdated'))
     }
   }
 
   const resetWords = () => confirmReset(
-    'Tüm kelime istatistikleri silinecek. Emin misin?',
+    'All word stats will be deleted. Are you sure?',
     () => localStorage.setItem('aguilang_word_stats', '{}')
   )
 
   const resetDaily = () => confirmReset(
-    'Tüm günlük veriler silinecek. Emin misin?',
+    'All daily data will be deleted. Are you sure?',
     () => localStorage.setItem('aguilang_daily_stats', '{}')
   )
 
   const resetAll = () => {
-    if (!window.confirm('Tüm kelime istatistikleri ve günlük veriler silinecek. Profilin korunacak. Emin misin?')) return
-    if (!window.confirm('Son kez onaylıyor musun? Bu işlem geri alınamaz.')) return
+    if (!window.confirm('All word stats and daily data will be deleted. Your profile will be kept. Are you sure?')) return
+    if (!window.confirm('Final confirmation: This action cannot be undone.')) return
     const RESET_KEYS = ['aguilang_word_stats', 'aguilang_daily_stats', 'aguilang_last_reset']
     RESET_KEYS.forEach(k => localStorage.removeItem(k))
     window.dispatchEvent(new Event('wordStatsUpdated'))
-    setResetMsg('Sıfırlandı ✓')
+    setResetMsg('Reset ✓')
     setTimeout(() => setResetMsg(''), 2500)
   }
 
-  // ── Stil sabitleri ────────────────────────────────────────────
   const card = {
     background: 'white', borderRadius: '16px',
     border: '1px solid #E2E8F0', padding: '20px',
@@ -80,14 +98,14 @@ export default function ProfilePage() {
             fontFamily: "'Plus Jakarta Sans', sans-serif",
             fontSize: '20px', fontWeight: '800', color: '#0F172A',
           }}>
-            👤 Profil
+            👤 Profile
           </div>
         </div>
       </div>
 
       <div style={{ maxWidth: '560px', margin: '0 auto', padding: '20px 24px 60px' }}>
 
-        {/* ── 1. Profil Kartı ───────────────────────────────── */}
+        {/* ── 1. Profile Card ─────────────────────────────── */}
         <div style={card}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
             <div style={{
@@ -97,35 +115,81 @@ export default function ProfilePage() {
               fontFamily: "'Plus Jakarta Sans', sans-serif",
               fontSize: '24px', fontWeight: '800', color: 'white', flexShrink: 0,
             }}>
-              {profile.initial || (profile.name?.[0]?.toUpperCase()) || '?'}
+              {(profileName || 'Aguila')[0]?.toUpperCase()}
             </div>
             <div style={{ flex: 1 }}>
               <div style={{
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
-                fontSize: '20px', fontWeight: '800', color: '#0F172A',
-              }}>
-                {profile.name || 'İsimsiz'}
-              </div>
-              <div style={{
-                display: 'inline-block', marginTop: '4px',
+                display: 'inline-block',
                 background: isChild ? '#EFF8FF' : '#F0FDF4',
                 border: `1px solid ${isChild ? '#BAE6FD' : '#BBF7D0'}`,
                 borderRadius: '20px', padding: '2px 10px',
                 fontSize: '12px', fontWeight: '700',
                 color: isChild ? '#0891B2' : '#15803D',
               }}>
-                {isChild ? '🧒 Çocuk' : '👤 Yetişkin'}
+                {isChild ? '🧒 Child' : '👤 Adult'}
               </div>
             </div>
+          </div>
+
+          {/* Name input */}
+          <div style={{ marginBottom: '14px' }}>
+            <label style={{
+              display: 'block', fontSize: '13px', fontWeight: '600',
+              color: '#64748B', marginBottom: '6px',
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+            }}>
+              Your name:
+            </label>
+            <input
+              type="text"
+              value={profileName}
+              onChange={handleNameChange}
+              placeholder="Aguila"
+              style={{
+                width: '100%', padding: '10px 14px',
+                border: '1.5px solid #E2E8F0', borderRadius: '10px',
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontSize: '15px', fontWeight: '700', color: '#0F172A',
+                background: 'white', outline: 'none', boxSizing: 'border-box',
+              }}
+            />
+          </div>
+
+          {/* Adult / Child toggle */}
+          <div style={{ display: 'flex', gap: '8px', marginBottom: '14px' }}>
+            {[
+              { type: 'adult', icon: '👤', label: 'Adult' },
+              { type: 'child', icon: '🧒', label: 'Child' },
+            ].map(({ type, icon, label }) => {
+              const active = profileType === type
+              return (
+                <button
+                  key={type}
+                  onClick={() => handleTypeChange(type)}
+                  style={{
+                    flex: 1, padding: '10px 0',
+                    background: active ? '#0891B2' : 'white',
+                    border: `1.5px solid ${active ? '#0891B2' : '#E2E8F0'}`,
+                    borderRadius: '10px', cursor: 'pointer',
+                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    fontSize: '14px', fontWeight: '700',
+                    color: active ? 'white' : '#64748B',
+                    transition: 'all 0.15s',
+                  }}
+                >
+                  {icon} {label}
+                </button>
+              )
+            })}
           </div>
 
           <Divider />
 
           <div style={{ display: 'flex', gap: '10px', marginTop: '14px' }}>
             {[
-              { icon: '⭐', label: 'Puan',   value: profile.points || 0 },
-              { icon: '🏆', label: 'Seviye', value: profile.level  || 1 },
-              { icon: '🔥', label: 'Seri',   value: `${profile.streak || 0} gün` },
+              { icon: '⭐', label: 'Points', value: profile.points || 0 },
+              { icon: '🏆', label: 'Level',  value: profile.level  || 1 },
+              { icon: '🔥', label: 'Streak', value: `${profile.streak || 0} days` },
             ].map((s, i) => (
               <div key={i} style={{
                 flex: 1, background: '#F8FAFC', border: '1px solid #E2E8F0',
@@ -140,24 +204,11 @@ export default function ProfilePage() {
               </div>
             ))}
           </div>
-
-          <button
-            onClick={() => navigate('/')}
-            style={{
-              width: '100%', marginTop: '16px', padding: '11px',
-              background: 'white', border: '1.5px solid #E2E8F0',
-              borderRadius: '10px', cursor: 'pointer',
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
-              fontSize: '14px', fontWeight: '600', color: '#64748B',
-            }}
-          >
-            🔄 Profili Değiştir
-          </button>
         </div>
 
-        {/* ── 2. Rozetler ───────────────────────────────────── */}
+        {/* ── 2. Badges ───────────────────────────────────── */}
         <div style={card}>
-          <div style={sectionTitle}>🏅 Rozetler</div>
+          <div style={sectionTitle}>🏅 Badges</div>
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fill, minmax(90px, 1fr))',
@@ -201,15 +252,15 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/* ── 3. Ayarlar ────────────────────────────────────── */}
+        {/* ── 3. Settings ─────────────────────────────────── */}
         <div style={card}>
-          <div style={sectionTitle}>⚙️ Ayarlar</div>
+          <div style={sectionTitle}>⚙️ Settings</div>
 
           {/* TTS Toggle */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
             <div>
-              <div style={{ fontWeight: '600', color: '#0F172A', fontSize: '14px' }}>Sesli Okuma (TTS)</div>
-              <div style={{ fontSize: '12px', color: '#94A3B8', marginTop: '2px' }}>Kelimeler otomatik seslendirilir</div>
+              <div style={{ fontWeight: '600', color: '#0F172A', fontSize: '14px' }}>Text to Speech (TTS)</div>
+              <div style={{ fontSize: '12px', color: '#94A3B8', marginTop: '2px' }}>Words are automatically read aloud</div>
             </div>
             <div
               onClick={() => save({ ttsEnabled: !settings.ttsEnabled })}
@@ -231,10 +282,10 @@ export default function ProfilePage() {
 
           <Divider />
 
-          {/* TTS Hızı */}
+          {/* Reading Speed */}
           <div style={{ marginTop: '16px' }}>
             <div style={{ fontWeight: '600', color: '#0F172A', fontSize: '14px', marginBottom: '10px' }}>
-              Okuma Hızı
+              Reading Speed
             </div>
             <div style={{ display: 'flex', gap: '8px' }}>
               {TTS_RATES.map(r => {
@@ -261,13 +312,13 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* Sıfırlama — sadece yetişkin */}
+          {/* Reset Data — adults only */}
           {!isChild && (
             <>
               <Divider />
               <div style={{ marginTop: '16px' }}>
                 <div style={{ fontWeight: '700', color: '#EF4444', fontSize: '14px', marginBottom: '12px' }}>
-                  Veri Sıfırlama
+                  Reset Data
                 </div>
                 {resetMsg && (
                   <div style={{
@@ -289,7 +340,7 @@ export default function ProfilePage() {
                       color: '#9C4600', textAlign: 'left',
                     }}
                   >
-                    📊 Kelime istatistiklerini sıfırla
+                    📊 Reset word statistics
                   </button>
                   <button
                     onClick={resetDaily}
@@ -300,7 +351,7 @@ export default function ProfilePage() {
                       color: '#9C4600', textAlign: 'left',
                     }}
                   >
-                    📅 Günlük verileri sıfırla
+                    📅 Reset daily data
                   </button>
                   <button
                     onClick={resetAll}
@@ -311,7 +362,7 @@ export default function ProfilePage() {
                       color: '#DC2626', textAlign: 'left',
                     }}
                   >
-                    🗑️ Tüm Öğrenme Verilerini Sıfırla
+                    🗑️ Reset All Learning Data
                   </button>
                 </div>
               </div>

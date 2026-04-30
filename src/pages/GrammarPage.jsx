@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getAllProgress } from '../hooks/useGrammar'
+import { useTranslation } from '../i18n/translations'
 
 const LESSON_META = [
   { en: 'Simple Present',   de: 'Präsens',              es: 'Presente',              icon: '⚡' },
@@ -13,6 +14,7 @@ const LESSON_META = [
 
 export default function GrammarPage() {
   const navigate  = useNavigate()
+  const { t } = useTranslation()
   const lang      = JSON.parse(localStorage.getItem('aguilang_active_lang') || '{"id":"en"}')
   const [summary, setSummary] = useState({ total: 6, completed: 0, lessons: [] })
 
@@ -36,9 +38,9 @@ export default function GrammarPage() {
           <div style={{
             fontFamily: "'Plus Jakarta Sans', sans-serif",
             fontSize: '20px', fontWeight: '800', color: '#0F172A',
-          }}>📐 Gramer Modülü</div>
+          }}>📐 Grammar</div>
           <div style={{ fontSize: '13px', color: '#64748B', marginTop: '2px' }}>
-            {summary.completed} / {summary.total} ders tamamlandı
+            {summary.completed} / {summary.total} {t('lessons completed')}
           </div>
         </div>
       </div>
@@ -93,18 +95,18 @@ export default function GrammarPage() {
                     <div style={{
                       fontFamily: "'Plus Jakarta Sans', sans-serif",
                       fontSize: '12px', fontWeight: '700', color: '#94A3B8',
-                    }}>DERS {lessonNumber}</div>
+                    }}>{t('lesson').toUpperCase()} {lessonNumber}</div>
                     {isCompleted && (
                       <div style={{
                         fontSize: '10px', fontWeight: '700', color: '#15803D',
                         background: '#DCFCE7', borderRadius: '6px', padding: '2px 7px',
-                      }}>Tamamlandı</div>
+                      }}>{t('lesson completed')}</div>
                     )}
                     {inProgress && !isCompleted && (
                       <div style={{
                         fontSize: '10px', fontWeight: '700', color: '#92400E',
                         background: '#FEF3C7', borderRadius: '6px', padding: '2px 7px',
-                      }}>Devam ediyor</div>
+                      }}>In Progress</div>
                     )}
                   </div>
                   <div style={{
@@ -113,7 +115,7 @@ export default function GrammarPage() {
                   }}>{subtitle}</div>
                   {inProgress && (
                     <div style={{ fontSize: '11px', color: '#94A3B8', marginTop: '2px' }}>
-                      Adım {prog.currentStep + 1} / 4'te kaldın
+                      Step {prog.currentStep + 1} / 4
                     </div>
                   )}
                 </div>
@@ -131,7 +133,7 @@ export default function GrammarPage() {
                     fontFamily: "'Plus Jakarta Sans', sans-serif",
                   }}
                 >
-                  {isCompleted ? '🔄 Tekrar' : inProgress ? '▶ Devam Et' : 'Başla →'}
+                  {isCompleted ? '🔄 Repeat' : inProgress ? '▶ Continue' : `${t('start')} →`}
                 </button>
               </div>
             )

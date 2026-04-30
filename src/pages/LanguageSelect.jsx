@@ -4,37 +4,28 @@ const LANGUAGES = [
   {
     id: 'en',
     code: 'GB',
-    name: 'İngilizce',
+    name: 'English',
     native: 'English',
     flag: '/flags/gb.png',
     color: '#1D4ED8',
     bg: '#EFF6FF',
   },
   {
-    id: 'de',
-    code: 'DE',
-    name: 'Almanca',
-    native: 'Deutsch',
-    flag: '/flags/de.png',
-    color: '#D97706',
-    bg: '#FFFBEB',
-  },
-  {
     id: 'es',
     code: 'ES',
-    name: 'İspanyolca',
+    name: 'Spanish',
     native: 'Español',
     flag: '/flags/es.png',
     color: '#DC2626',
     bg: '#FEF2F2',
   },
   {
-    id: 'it',
-    code: 'IT',
-    name: 'İtalyanca',
-    native: 'Italiano',
-    flag: '/flags/it.png',
-    color: '#16A34A',
+    id: 'pt',
+    code: 'PT',
+    name: 'Portuguese',
+    native: 'Português',
+    flag: '/flags/pt.png',
+    color: '#0EA5E9',
     bg: '#F0FDF4',
   },
 ]
@@ -79,7 +70,7 @@ export default function LanguageSelect() {
       padding: '24px',
       fontFamily: 'Inter, sans-serif',
     }}>
-      {/* Başlık */}
+      {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: '32px' }}>
         <div style={{ fontSize: '40px', marginBottom: '8px' }}>👋</div>
         <h1 style={{
@@ -89,15 +80,15 @@ export default function LanguageSelect() {
           color: '#0F172A',
           margin: '0 0 6px',
         }}>
-          Merhaba, {profile.name || 'Kahraman'}!
+          Hello, {profile.name || 'Aguila'}!
         </h1>
         <p style={{ fontSize: '15px', color: '#64748B', margin: 0 }}>
-          Hangi dili öğrenmek istiyorsun?
+          Which language do you want to learn?
         </p>
       </div>
 
       <div style={{ width: '100%', maxWidth: '420px' }}>
-        {/* Ana dil — kilitli */}
+        {/* Source language - locked */}
         <div style={{
           fontSize: '11px',
           fontWeight: '700',
@@ -107,7 +98,7 @@ export default function LanguageSelect() {
           marginBottom: '8px',
           paddingLeft: '4px',
         }}>
-          Ana Dilin
+          Source Language
         </div>
         <div style={{
           width: '100%',
@@ -132,7 +123,7 @@ export default function LanguageSelect() {
             fontWeight: '700',
             color: '#64748B',
           }}>
-            TR
+            EN
           </div>
           <div style={{ flex: 1 }}>
             <div style={{
@@ -140,13 +131,13 @@ export default function LanguageSelect() {
               fontSize: '16px',
               fontWeight: '700',
               color: '#64748B',
-            }}>Türkçe</div>
-            <div style={{ fontSize: '12px', color: '#94A3B8' }}>Turkce</div>
+            }}>English</div>
+            <div style={{ fontSize: '12px', color: '#94A3B8' }}>English</div>
           </div>
           <div style={{ fontSize: '16px' }}>🔒</div>
         </div>
 
-        {/* Öğrenilecek diller */}
+        {/* Target languages */}
         <div style={{
           fontSize: '11px',
           fontWeight: '700',
@@ -156,7 +147,7 @@ export default function LanguageSelect() {
           marginBottom: '8px',
           paddingLeft: '4px',
         }}>
-          Öğrenmek İstediğin Dil
+          Language to Learn
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {visibleLangs.map(lang => (
@@ -188,7 +179,7 @@ export default function LanguageSelect() {
                 e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.06)'
               }}
             >
-              {/* Bayrak */}
+              {/* Flag */}
               <div style={{
                 width: '44px',
                 height: '44px',
@@ -214,7 +205,7 @@ export default function LanguageSelect() {
                 />
               </div>
 
-              {/* Bilgi */}
+              {/* Info */}
               <div style={{ flex: 1 }}>
                 <div style={{
                   fontFamily: "'Plus Jakarta Sans', sans-serif",
@@ -230,14 +221,14 @@ export default function LanguageSelect() {
                 </div>
               </div>
 
-              {/* Ok */}
+              {/* Arrow */}
               <div style={{ color: '#CBD5E1', fontSize: '18px' }}>›</div>
             </button>
           ))}
         </div>
       </div>
 
-      {/* Geri */}
+      {/* Back */}
       <button
         onClick={() => navigate('/')}
         style={{
@@ -249,7 +240,7 @@ export default function LanguageSelect() {
           cursor: 'pointer',
         }}
       >
-        ← Geri dön
+        ← Go Back
       </button>
     </div>
   )

@@ -2,26 +2,26 @@ import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 
 const CATEGORIES = [
-  { id: 'animals',    name: 'Hayvanlar',   emoji: '🐾', count: 45, bg: '#F0FDF4', color: '#16A34A' },
-  { id: 'colors',     name: 'Renkler',     emoji: '🎨', count: 36, bg: '#FDF4FF', color: '#9333EA' },
-  { id: 'numbers',    name: 'Sayılar',     emoji: '🔢', count: 29, bg: '#EFF6FF', color: '#2563EB' },
-  { id: 'fruits',     name: 'Meyveler',    emoji: '🍎', count: 36, bg: '#FFF7ED', color: '#EA580C' },
-  { id: 'vegetables', name: 'Sebzeler',    emoji: '🥕', count: 11, bg: '#F0FDF4', color: '#15803D' },
-  { id: 'body',       name: 'Vücut',       emoji: '🫀', count: 18, bg: '#FDF2F8', color: '#DB2777' },
-  { id: 'family',     name: 'Aile',        emoji: '👨‍👩‍👧', count: 17, bg: '#FFF7ED', color: '#C2410C' },
-  { id: 'school',     name: 'Okul',        emoji: '🏫', count: 18, bg: '#EFF6FF', color: '#1D4ED8' },
-  { id: 'food',       name: 'Yiyecekler',  emoji: '🍕', count: 22, bg: '#FEF9C3', color: '#A16207' },
-  { id: 'greetings',  name: 'Selamlama',   emoji: '👋', count: 15, bg: '#F0FDFA', color: '#0F766E' },
-  { id: 'questions',  name: 'Sorular',     emoji: '❓', count: 10, bg: '#F5F3FF', color: '#7C3AED' },
-  { id: 'clothing',   name: 'Kıyafetler',  emoji: '👗', count: 27, bg: '#FDF2F8', color: '#BE185D' },
-  { id: 'home',       name: 'Ev',          emoji: '🏠', count: 36, bg: '#F0FDF4', color: '#166534' },
-  { id: 'transport',  name: 'Ulaşım',      emoji: '🚗', count: 16, bg: '#EFF6FF', color: '#1E40AF' },
-  { id: 'time',       name: 'Zaman',       emoji: '⏰', count: 37, bg: '#FFFBEB', color: '#B45309' },
-  { id: 'jobs',       name: 'Meslekler',   emoji: '👷', count: 21, bg: '#F8FAFC', color: '#475569' },
-  { id: 'sports',     name: 'Sporlar',     emoji: '⚽', count: 15, bg: '#F0FDF4', color: '#15803D' },
-  { id: 'places',     name: 'Yerler',      emoji: '📍', count: 29, bg: '#FEF2F2', color: '#DC2626' },
-  { id: 'adjectives', name: 'Sıfatlar',    emoji: '✨', count: 50, bg: '#F5F3FF', color: '#6D28D9' },
-  { id: 'verbs',      name: 'Fiiller',     emoji: '🏃', count: 65, bg: '#FFF7ED', color: '#C2410C' },
+  { id: 'animals',    name: 'Animals',   emoji: '🐾', count: 45, bg: '#F0FDF4', color: '#16A34A' },
+  { id: 'colors',     name: 'Colors',     emoji: '🎨', count: 36, bg: '#FDF4FF', color: '#9333EA' },
+  { id: 'numbers',    name: 'Numbers',     emoji: '🔢', count: 29, bg: '#EFF6FF', color: '#2563EB' },
+  { id: 'fruits',     name: 'Fruits',    emoji: '🍎', count: 36, bg: '#FFF7ED', color: '#EA580C' },
+  { id: 'vegetables', name: 'Vegetables',    emoji: '🥕', count: 11, bg: '#F0FDF4', color: '#15803D' },
+  { id: 'body',       name: 'Body',       emoji: '🫀', count: 18, bg: '#FDF2F8', color: '#DB2777' },
+  { id: 'family',     name: 'Family',        emoji: '👨‍👩‍👧', count: 17, bg: '#FFF7ED', color: '#C2410C' },
+  { id: 'school',     name: 'School',        emoji: '🏫', count: 18, bg: '#EFF6FF', color: '#1D4ED8' },
+  { id: 'food',       name: 'Food',  emoji: '🍕', count: 22, bg: '#FEF9C3', color: '#A16207' },
+  { id: 'greetings',  name: 'Greetings',   emoji: '👋', count: 15, bg: '#F0FDFA', color: '#0F766E' },
+  { id: 'questions',  name: 'Questions',     emoji: '❓', count: 10, bg: '#F5F3FF', color: '#7C3AED' },
+  { id: 'clothing',   name: 'Clothing',  emoji: '👗', count: 27, bg: '#FDF2F8', color: '#BE185D' },
+  { id: 'home',       name: 'Home',          emoji: '🏠', count: 36, bg: '#F0FDF4', color: '#166534' },
+  { id: 'transport',  name: 'Transport',      emoji: '🚗', count: 16, bg: '#EFF6FF', color: '#1E40AF' },
+  { id: 'time',       name: 'Time',       emoji: '⏰', count: 37, bg: '#FFFBEB', color: '#B45309' },
+  { id: 'jobs',       name: 'Jobs',   emoji: '👷', count: 21, bg: '#F8FAFC', color: '#475569' },
+  { id: 'sports',     name: 'Sports',     emoji: '⚽', count: 15, bg: '#F0FDF4', color: '#15803D' },
+  { id: 'places',     name: 'Places',      emoji: '📍', count: 29, bg: '#FEF2F2', color: '#DC2626' },
+  { id: 'adjectives', name: 'Adjectives',    emoji: '✨', count: 50, bg: '#F5F3FF', color: '#6D28D9' },
+  { id: 'verbs',      name: 'Verbs',     emoji: '🏃', count: 65, bg: '#FFF7ED', color: '#C2410C' },
 ]
 
 export default function CategorySelect() {
@@ -80,7 +80,7 @@ export default function CategorySelect() {
             </button>
             <div>
               <div style={{ fontSize: '12px', color: '#94A3B8', fontWeight: '600' }}>
-                {lang.name || 'İngilizce'} · {profile.name || 'Kartal'}
+                {lang.name || 'English'} · {profile.name || 'Aguila'}
               </div>
               <div style={{
                 fontFamily: "'Plus Jakarta Sans', sans-serif",
@@ -88,7 +88,7 @@ export default function CategorySelect() {
                 fontWeight: '800',
                 color: '#0F172A',
               }}>
-                Kategori Seç
+                Select Category
               </div>
             </div>
           </div>
@@ -104,7 +104,7 @@ export default function CategorySelect() {
             }}>🔍</span>
             <input
               type="text"
-              placeholder="Kategori ara..."
+              placeholder="Search categories..."
               value={search}
               onChange={e => setSearch(e.target.value)}
               style={{
@@ -174,7 +174,7 @@ export default function CategorySelect() {
                 borderRadius: '6px',
                 padding: '2px 8px',
               }}>
-                {cat.count} kelime
+                {cat.count} words
               </span>
             </button>
           ))}
@@ -187,7 +187,7 @@ export default function CategorySelect() {
             color: '#94A3B8',
             fontSize: '15px',
           }}>
-            "{search}" için kategori bulunamadı
+            No categories found for "{search}"
           </div>
         )}
 
@@ -224,10 +224,10 @@ export default function CategorySelect() {
               fontFamily: "'Plus Jakarta Sans', sans-serif",
               fontSize: '16px', fontWeight: '800', color: '#0F172A',
             }}>
-              Diyaloglar
+                Dialogues
             </div>
             <div style={{ fontSize: '13px', color: '#0891B2', marginTop: '2px', fontWeight: '500' }}>
-              6 konuşma senaryosu · TTS ile sesli pratik
+                6 dialogue scenarios · Voice practice with TTS
             </div>
           </div>
           <div style={{ fontSize: '20px', color: '#0891B2' }}>›</div>

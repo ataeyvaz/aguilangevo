@@ -2,14 +2,14 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const GAMES = [
-  { id: 'listen',    emoji: '🎧', name: 'Dinle & Seç',     desc: 'Duyduğun kelimeyi bul',           route: '/games/listen',    mode: 'reinforcement', ready: true  },
-  { id: 'memory',    emoji: '🧠', name: 'Hafıza Eşleştir', desc: 'Kelime-emoji çiftlerini eşleştir', route: '/games/memory',    mode: 'reinforcement', ready: true  },
-  { id: 'truefalse', emoji: '✅', name: 'Doğru / Yanlış',  desc: 'Cümle + emoji eşleşiyor mu?',      route: '/games/truefalse', mode: 'reinforcement', ready: true  },
-  { id: 'speed',     emoji: '⚡', name: 'Hız Turu',         desc: 'Süre bitmeden cevapla',            route: '/games/speed',     mode: 'growth',        ready: true  },
-  { id: 'sentence',  emoji: '📝', name: 'Cümle Kur',       desc: 'Kelimeleri doğru sıraya diz',      route: '/games/sentence',  mode: 'growth',        ready: true  },
-  { id: 'voice',     emoji: '🎤', name: 'Hazineyi Aç',     desc: 'Söyle, hazineyi kazan',            route: '/games/voice',     mode: 'growth',        ready: true  },
-  { id: 'puzzle',    emoji: '🧩', name: 'Senaryo Puzzle',  desc: 'Diyalog boşluklarını doldur',      route: '/games/puzzle',    mode: 'growth',        ready: false },
-  { id: 'farman',   emoji: '🌾', name: 'FarMan',          desc: 'Tarlanı hasat et, hayaletlerden kaç!', route: '/games/farman', mode: 'growth',        ready: true  },
+  { id: 'listen',    emoji: '🎧', name: 'Listen & Pick',    desc: 'Find the word you hear',              route: '/games/listen',    mode: 'reinforcement', ready: true  },
+  { id: 'memory',    emoji: '🧠', name: 'Memory Match',     desc: 'Match word-emoji pairs',              route: '/games/memory',    mode: 'reinforcement', ready: true  },
+  { id: 'truefalse', emoji: '✅', name: 'True / False',     desc: 'Does the sentence match the emoji?',  route: '/games/truefalse', mode: 'reinforcement', ready: true  },
+  { id: 'speed',     emoji: '⚡', name: 'Speed Round',      desc: 'Answer before time runs out',         route: '/games/speed',     mode: 'growth',        ready: true  },
+  { id: 'sentence',  emoji: '📝', name: 'Build a Sentence', desc: 'Put the words in the right order',    route: '/games/sentence',  mode: 'growth',        ready: true  },
+  { id: 'voice',     emoji: '🎤', name: 'Voice Quest',      desc: 'Speak to win the treasure',           route: '/games/voice',     mode: 'growth',        ready: true  },
+  { id: 'puzzle',    emoji: '🧩', name: 'Scenario Puzzle',  desc: 'Fill in the dialogue gaps',           route: '/games/puzzle',    mode: 'growth',        ready: false },
+  { id: 'farman',    emoji: '🌾', name: 'FarMan',           desc: 'Harvest your field, flee the ghosts!',route: '/games/farman',    mode: 'growth',        ready: true  },
 ]
 
 export default function PlayPage() {
@@ -37,7 +37,7 @@ export default function PlayPage() {
   }
 
   const handleClick = (game) => {
-    if (!game.ready) { showToast('Yakında eklenecek! 🚀'); return }
+    if (!game.ready) { showToast('Coming soon! 🚀'); return }
     navigate(game.route)
   }
 
@@ -57,9 +57,9 @@ export default function PlayPage() {
         <div style={{
           fontFamily: "'Plus Jakarta Sans', sans-serif",
           fontSize: '22px', fontWeight: '800', color: '#0F172A',
-        }}>Önce biraz öğren!</div>
+        }}>Learn some words first!</div>
         <div style={{ fontSize: '15px', color: '#64748B', maxWidth: '280px', lineHeight: '1.6' }}>
-          Oyunları açmak için önce flash kartlarla kelime çalış.
+          Study some flashcards first to unlock the games.
         </div>
         <button
           onClick={() => navigate('/categories')}
@@ -69,15 +69,15 @@ export default function PlayPage() {
             borderRadius: '12px', fontSize: '15px', fontWeight: '700',
             cursor: 'pointer', fontFamily: "'Plus Jakarta Sans', sans-serif",
           }}
-        >Kelime Çalış →</button>
+        >Study Words →</button>
       </div>
     )
   }
 
-  const modeLabel = mode === 'reinforcement' ? '🔵 Pekiştirici Mod' : '🟡 Gelişim Modu'
+  const modeLabel = mode === 'reinforcement' ? '🔵 Review Mode' : '🟡 Growth Mode'
   const modeDesc  = mode === 'reinforcement'
-    ? 'Kelimeleri pekiştirme zamanı'
-    : 'İleri seviye oyunlar seni bekliyor'
+    ? 'Time to reinforce your words'
+    : 'Advanced games await you'
 
   return (
     <div style={{ minHeight: '100vh', background: '#F8FAFC', fontFamily: 'Inter, sans-serif' }}>
@@ -97,7 +97,7 @@ export default function PlayPage() {
           <div style={{
             fontFamily: "'Plus Jakarta Sans', sans-serif",
             fontSize: '20px', fontWeight: '800', color: '#0F172A',
-          }}>🎮 Oyunlar</div>
+          }}>🎮 Games</div>
         </div>
       </div>
 
@@ -162,7 +162,7 @@ export default function PlayPage() {
                     fontSize: '11px', fontWeight: '700', color: '#94A3B8',
                     background: '#F1F5F9', borderRadius: '8px',
                     padding: '3px 8px', flexShrink: 0,
-                  }}>Yakında</div>
+                  }}>Soon</div>
                 )}
                 {game.ready && isActiveMode && (
                   <div style={{ fontSize: '20px', color: modeColor, flexShrink: 0 }}>›</div>

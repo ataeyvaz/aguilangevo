@@ -39,7 +39,7 @@ export function getTodayStats() {
  */
 export function getDailyStats(days = 7) {
   const all = loadAll()
-  const DAY_NAMES = ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt']
+  const DAY_NAMES = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
   const result = []
   for (let i = days - 1; i >= 0; i--) {
     const d = new Date()

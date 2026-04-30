@@ -1,6 +1,6 @@
 {
-  "appId": "com.aguilang.app",
-  "appName": "AguiLang",
+  "appId": "com.aguilangevo.app",
+  "appName": "Aguilangevo",
   "webDir": "dist",
   "server": {
     "androidScheme": "https"

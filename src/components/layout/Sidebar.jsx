@@ -1,22 +1,24 @@
 import { NavLink, useLocation } from 'react-router-dom'
-
-const navItems = [
-  { to: '/dashboard',  label: 'Dashboard',   icon: '🏠', match: ['/dashboard'] },
-  { to: '/stats',      label: 'İstatistik',  icon: '📊', match: ['/stats'] },
-  { to: '/learned',    label: 'Kelimelerim', icon: '🎯', match: ['/learned'] },
-  { to: '/learn-hub',  label: 'Öğren',       icon: '📚', match: ['/learn-hub', '/categories', '/learn', '/quiz', '/dialogue', '/grammar'], sub: [
-    { to: '/categories', label: 'Kelimeler', icon: '🔤' },
-    { to: '/grammar',    label: 'Gramer',    icon: '📐' },
-  ]},
-  { to: '/play',       label: 'Oyna',        icon: '🎮', match: ['/play', '/games'] },
-  { to: '/dictionary', label: 'Sözlük',      icon: '📖', match: ['/dictionary'] },
-  { to: '/levels',     label: 'Seviyeler',   icon: '🏆', match: ['/levels'] },
-  { to: '/profile',    label: 'Profil',      icon: '👤', match: ['/profile'] },
-]
+import { useTranslation } from '../../i18n/translations'
 
 export default function Sidebar() {
   const { pathname } = useLocation()
+  const { t } = useTranslation()
   const profile = JSON.parse(localStorage.getItem('aguilang_active_profile') || '{}')
+
+  const navItems = [
+    { to: '/dashboard',  label: t('dashboard'),   icon: '🏠', match: ['/dashboard'] },
+    { to: '/stats',      label: t('statistics'),  icon: '📊', match: ['/stats'] },
+    { to: '/learned',    label: t('my words'),    icon: '🎯', match: ['/learned'] },
+    { to: '/learn-hub',  label: t('learn'),       icon: '📚', match: ['/learn-hub', '/categories', '/learn', '/quiz', '/dialogue', '/grammar'], sub: [
+      { to: '/categories', label: t('words'),   icon: '🔤' },
+      { to: '/grammar',    label: t('grammar'), icon: '📐' },
+    ]},
+    { to: '/play',       label: t('games'),       icon: '🎮', match: ['/play', '/games'] },
+    { to: '/dictionary', label: t('dictionary'),  icon: '📖', match: ['/dictionary'] },
+    { to: '/levels',     label: t('levels'),      icon: '🏆', match: ['/levels'] },
+    { to: '/profile',    label: t('profile'),     icon: '👤', match: ['/profile'] },
+  ]
 
   const isActive = (match) => match.some(p => pathname === p || pathname.startsWith(p + '/'))
 
@@ -37,16 +39,20 @@ export default function Sidebar() {
         padding: '20px 20px 16px',
         borderBottom: '1px solid #E2E8F0',
       }}>
-        <span style={{ fontSize: '24px' }}>🦅</span>
+        <img
+          src="/aguilapp.png"
+          alt="AguilangEvo"
+          style={{ width: '32px', height: '32px', borderRadius: '8px' }}
+        />
         <span style={{
           fontFamily: "'Plus Jakarta Sans', sans-serif",
           fontSize: '18px', fontWeight: '800', color: '#0F172A',
         }}>
-          AguiLang
+          AguiLangEvo
         </span>
       </div>
 
-      {/* Profil özeti */}
+      {/* Profile summary */}
       {profile.name && (
         <div style={{
           margin: '12px 12px 0',
@@ -62,7 +68,7 @@ export default function Sidebar() {
             {profile.name}
           </div>
           <div style={{ fontSize: '12px', color: '#64748B', marginTop: '2px' }}>
-            ⭐ {profile.points || 0} puan · Seviye {profile.level || 1}
+            ⭐ {profile.points || 0} points · Level {profile.level || 1}
           </div>
         </div>
       )}
@@ -88,7 +94,7 @@ export default function Sidebar() {
                 <span style={{ fontSize: '18px' }}>{icon}</span>
                 <span>{label}</span>
               </NavLink>
-              {/* Sub-links — sadece ana link aktifken göster */}
+              {/* Sub-links — show only when parent is active */}
               {sub && active && (
                 <div style={{ paddingLeft: '16px', display: 'flex', flexDirection: 'column', gap: '1px', marginTop: '2px' }}>
                   {sub.map(s => {
@@ -119,13 +125,13 @@ export default function Sidebar() {
         })}
       </nav>
 
-      {/* Ebeveyn linki */}
+      {/* Settings link */}
       <div style={{ padding: '12px', borderTop: '1px solid #E2E8F0' }}>
         {(() => {
-          const active = pathname === '/parent'
+          const active = pathname === '/settings'
           return (
             <NavLink
-              to="/parent"
+              to="/settings"
               style={{
                 display: 'flex', alignItems: 'center', gap: '10px',
                 padding: '9px 12px', borderRadius: '10px',
@@ -137,7 +143,7 @@ export default function Sidebar() {
               }}
             >
               <span style={{ fontSize: '18px' }}>🔒</span>
-              <span>Ebeveyn Paneli</span>
+              <span>{t('settings')}</span>
             </NavLink>
           )
         })()}

@@ -224,7 +224,7 @@ export default function FarManGame() {
         { r: ortaR,         c: 1,     yon: 'bati',  aktif: true },
         { r: ortaR,         c: GC - 2, yon: 'dogu', aktif: true },
       ]
-      rozetKazan('🚪', 'Kapı Açıldı')
+      rozetKazan('🚪', 'Door Opened')
     }
     function kapidanGectiMi() {
       for (const k of kapilar) if (k.aktif && k.r === pacman.y && k.c === pacman.x) return k
@@ -233,7 +233,7 @@ export default function FarManGame() {
     function hasatBar() {
       const y = toplamM > 0 ? Math.round(toplanmis / toplamM * 100) : 0
       el('fm-bar').style.width = y + '%'
-      el('fm-baryazi').innerText = 'Hasat: ' + y + '% ' + (y >= 90 ? '— 🚪 Kapılar açık!' : '— Kapı için %90 gerekli')
+      el('fm-baryazi').innerText = 'Harvest: ' + y + '% ' + (y >= 90 ? '— 🚪 Doors open!' : '— Need 90% for doors')
     }
 
     function yeniHaritaAc(svDegisim, px, py) {
@@ -284,15 +284,15 @@ export default function FarManGame() {
       setTimeout(() => d.remove(), 3500)
     }
     function rozetKontrol() {
-      if (puan >= 1)      rozetKazan('⭐', 'İlk Hasat')
-      if (puan >= 20)     rozetKazan('🌾', 'Çiftçi')
-      if (puan >= 50)     rozetKazan('🚜', 'Traktör')
-      if (puan >= 100)    rozetKazan('🏆', 'Şampiyon')
-      if (seviye >= 3)    rozetKazan('🌽', '3. Seviye')
-      if (seviye >= 5)    rozetKazan('👑', 'Efsane')
-      if (lazerGucu >= 3) rozetKazan('⚡', 'Lazer Ustası')
-      if (tarla >= 5)     rozetKazan('🗺️', 'Kaşif')
-      if (MOD === 'bolgeli' && puan >= 30) rozetKazan('🗂️', 'Bölge Ustası')
+      if (puan >= 1)      rozetKazan('⭐', 'First Harvest')
+      if (puan >= 20)     rozetKazan('🌾', 'Farmer')
+      if (puan >= 50)     rozetKazan('🚜', 'Tractor')
+      if (puan >= 100)    rozetKazan('🏆', 'Champion')
+      if (seviye >= 3)    rozetKazan('🌽', 'Level 3')
+      if (seviye >= 5)    rozetKazan('👑', 'Legend')
+      if (lazerGucu >= 3) rozetKazan('⚡', 'Laser Master')
+      if (tarla >= 5)     rozetKazan('🗺️', 'Explorer')
+      if (MOD === 'bolgeli' && puan >= 30) rozetKazan('🗂️', 'Zone Master')
     }
     function canGoster() {
       let k = '', max = 3 + Math.floor(seviye / 2)
@@ -325,7 +325,7 @@ export default function FarManGame() {
         } else {
           btn.style.background = '#333'; btn.style.borderColor = '#555'
           btn.style.opacity = '0.3'; btn.style.pointerEvents = 'none'
-          btn.innerText = '🔫 Lazer'
+          btn.innerText = '🔫 Laser'
         }
       }
     }
@@ -359,7 +359,7 @@ export default function FarManGame() {
         if (m.mahsul.bonus === 'lazer')  lazerAdet++
         if (m.mahsul.bonus === 'kalkan') kalkan = Math.max(kalkan, 30)
         if (m.mahsul.bonus === 'zirh')   zirh++
-        if (m.mahsul.bonus === 'can') { canlar++; canGoster(); rozetKazan('❤️', 'Ekstra Can') }
+        if (m.mahsul.bonus === 'can') { canlar++; canGoster(); rozetKazan('❤️', 'Extra Life') }
         if (puan > enY) { enY = puan; localStorage.setItem('farman_en_' + ISIM, enY); el('fm-enyuksek').innerText = enY }
         rozetKontrol(); kapilariGuncelle(); hasatBar(); gucGoster()
         break
@@ -373,7 +373,7 @@ export default function FarManGame() {
         else if (g.tip === 'hiz') hizS = 20
         else if (g.tip === 'lazer') lazerAdet += 3
         else if (g.tip === 'ekstraCan') { canlar++; canGoster() }
-        rozetKazan(gIkon[g.tip] || '✨', 'Güç Alındı'); gucGoster(); break
+        rozetKazan(gIkon[g.tip] || '✨', 'Power Gained'); gucGoster(); break
       }
     }
 
@@ -393,26 +393,26 @@ export default function FarManGame() {
       if (kapi && !gecisKilidi) {
         gecisKilidi = true; kapilar = []
         if (kapi.yon === 'dogu') {
-          gecisAnim('➡️🗺️', 'Yeni Tarlaya!', 1200, () => {
+          gecisAnim('➡️🗺️', 'New Farm!', 1200, () => {
             let odul = ''
-            if (seviye % 3 === 0) { canlar++; canGoster(); odul = '❤️ +1 Can!' }
-            else if (seviye % 3 === 1) { lazerAdet += 3; odul = '🔫 +3 Lazer!'; gucGoster() }
-            else { lazerGucu = Math.min(lazerGucu + 1, 5); odul = '⚡ Lazer Güçlendi!'; gucGoster() }
+            if (seviye % 3 === 0) { canlar++; canGoster(); odul = '❤️ +1 Life!' }
+            else if (seviye % 3 === 1) { lazerAdet += 3; odul = '🔫 +3 Laser!'; gucGoster() }
+            else { lazerGucu = Math.min(lazerGucu + 1, 5); odul = '⚡ Laser Upgraded!'; gucGoster() }
             if (odul) odulGoster(odul)
             yeniHaritaAc(1, 1, 1)
             clearInterval(gIntRef.current); gIntRef.current = setInterval(guncelle, seviyeHizi()); gecisKilidi = false
           })
         } else if (kapi.yon === 'bati') {
-          gecisAnim('⬅️🗺️', 'Önceki Tarla!', 1200, () => {
+          gecisAnim('⬅️🗺️', 'Previous Farm!', 1200, () => {
             yeniHaritaAc(-1, GC - 2, 1)
             clearInterval(gIntRef.current); gIntRef.current = setInterval(guncelle, seviyeHizi()); gecisKilidi = false
           })
         } else if (kapi.yon === 'kuzey') {
-          gecisAnim('⬆️🌾', 'Yukarı Genişliyor!', 1000, () => {
+          gecisAnim('⬆️🌾', 'Expanding North!', 1000, () => {
             yukariGenisle(); clearInterval(gIntRef.current); gIntRef.current = setInterval(guncelle, seviyeHizi()); gecisKilidi = false
           })
         } else {
-          gecisAnim('⬇️🌾', 'Aşağı Genişliyor!', 1000, () => {
+          gecisAnim('⬇️🌾', 'Expanding South!', 1000, () => {
             asagiGenisle(); clearInterval(gIntRef.current); gIntRef.current = setInterval(guncelle, seviyeHizi()); gecisKilidi = false
           })
         }
@@ -470,9 +470,9 @@ export default function FarManGame() {
           canlar--; canGoster(); gucGoster()
           if (canlar <= 0) {
             oyunBitti = true
-            el('fm-mesaj-baslik').innerText = puan > 30 ? '🌾 Harika!' : '💀 Oyun Bitti!'
-            el('fm-mesaj-puan').innerText = 'Puan: ' + puan + ' | Sv: ' + seviye + ' | Tarla: ' + tarla
-            el('fm-mesaj-enyuksek').innerText = 'En Yüksek: ' + enY
+            el('fm-mesaj-baslik').innerText = puan > 30 ? '🌾 Awesome!' : '💀 Game Over!'
+            el('fm-mesaj-puan').innerText = 'Score: ' + puan + ' | Lv: ' + seviye + ' | Field: ' + tarla
+            el('fm-mesaj-enyuksek').innerText = 'Best: ' + enY
             el('fm-mesaj-rozet').innerText = rozetler.join(' ')
             mesajRef.current.style.display = 'block'
           } else { pacman.x = 1; pacman.y = camR + 1; pacman.yon = { dx: 1, dy: 0 } }
@@ -651,16 +651,16 @@ export default function FarManGame() {
           <div style={{ fontSize: '56px', marginBottom: '4px' }}>🌾</div>
           <h2 style={{ color: '#4caf50', fontSize: '28px', marginBottom: '6px' }}>FarMan</h2>
           <div style={{ fontSize: '26px', margin: '8px 0', letterSpacing: '4px' }}>🥕🍅🌽🍓💎</div>
-          <div style={{ color: '#aaa', fontSize: '13px', marginBottom: '14px' }}>Tarlanı hasat et, hayaletlerden kaç!</div>
+          <div style={{ color: '#aaa', fontSize: '13px', marginBottom: '14px' }}>Harvest your field, escape the ghosts!</div>
           <input
-            type="text" placeholder="Adın ne?" maxLength={20} value={playerName}
+            type="text" placeholder="Your name?" maxLength={20} value={playerName}
             onChange={e => setPlayerName(e.target.value)}
             onKeyDown={e => { if (e.key === 'Enter' && playerName.trim()) setPhase('playing') }}
             style={{ width: '100%', fontSize: '20px', padding: '10px', borderRadius: '10px', border: '2px solid #4caf50', background: '#1a2e1a', color: 'white', textAlign: 'center', marginBottom: '12px', boxSizing: 'border-box' }}
           />
-          <div style={{ color: '#aaa', fontSize: '11px', textTransform: 'uppercase', marginBottom: '7px', textAlign: 'left' }}>🎯 Hasat Modu</div>
+          <div style={{ color: '#aaa', fontSize: '11px', textTransform: 'uppercase', marginBottom: '7px', textAlign: 'left' }}>🎯 Harvest Mode</div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '14px' }}>
-            {[{ value: 'karisik', ikon: '🎲', ad: 'Karışık', acik: 'Her yerde farklı ürün' }, { value: 'bolgeli', ikon: '🗂️', ad: 'Bölgeli', acik: 'Her bölge tek ürün türü' }].map(m => (
+            {[{ value: 'karisik', ikon: '🎲', ad: 'Mixed', acik: 'Different crops everywhere' }, { value: 'bolgeli', ikon: '🗂️', ad: 'Zoned', acik: 'Each zone has one crop type' }].map(m => (
               <div key={m.value} onClick={() => setGameMode(m.value)} style={{ padding: '10px 6px', border: `2px solid ${gameMode === m.value ? '#f5c518' : '#333'}`, borderRadius: '12px', color: 'white', cursor: 'pointer', background: gameMode === m.value ? '#1a2e0a' : '#1a2e1a', textAlign: 'center' }}>
                 <div style={{ fontSize: '30px', marginBottom: '4px' }}>{m.ikon}</div>
                 <div style={{ fontWeight: 'bold', fontSize: '14px' }}>{m.ad}</div>
@@ -669,10 +669,10 @@ export default function FarManGame() {
             ))}
           </div>
           <button disabled={!playerName.trim()} onClick={() => setPhase('playing')} style={{ width: '100%', fontSize: '20px', padding: '12px', background: playerName.trim() ? '#4caf50' : '#2a5a2a', color: 'white', border: 'none', borderRadius: '10px', cursor: playerName.trim() ? 'pointer' : 'not-allowed' }}>
-            🚜 Tarlaya Git!
+            🚜 Go to Farm!
           </button>
           <button onClick={() => navigate('/play')} style={{ marginTop: '10px', width: '100%', fontSize: '14px', padding: '8px', background: 'transparent', color: '#666', border: '1px solid #333', borderRadius: '8px', cursor: 'pointer' }}>
-            ← Geri Dön
+            ← Back
           </button>
         </div>
       </div>
@@ -683,10 +683,10 @@ export default function FarManGame() {
   return (
     <div style={{ width: '100%', height: '100vh', background: '#1a2e1a', color: 'white', fontFamily: 'Arial,sans-serif', overflow: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <button onClick={() => { settingsPanelRef.current.style.display = 'flex' }} style={{ position: 'fixed', top: '6px', right: '6px', background: '#162e16', border: '2px solid #4caf50', color: 'white', borderRadius: '50%', width: '30px', height: '30px', fontSize: '15px', cursor: 'pointer', zIndex: 300 }}>⚙️</button>
-      <div style={{ position: 'fixed', top: '6px', left: '44px', background: '#162e16', border: '1px solid #4caf50', borderRadius: '8px', padding: '2px 7px', fontSize: '10px', color: '#4caf50', zIndex: 200 }}>{gameMode === 'karisik' ? '🎲 Karışık' : '🗂️ Bölgeli'}</div>
+      <div style={{ position: 'fixed', top: '6px', left: '44px', background: '#162e16', border: '1px solid #4caf50', borderRadius: '8px', padding: '2px 7px', fontSize: '10px', color: '#4caf50', zIndex: 200 }}>{gameMode === 'karisik' ? '🎲 Mixed' : '🗂️ Zoned'}</div>
 
       <div style={{ width: '100%', display: 'flex', justifyContent: 'space-around', alignItems: 'center', background: '#162e16', borderBottom: '2px solid #4caf50', padding: '4px 6px', flexShrink: 0 }}>
-        {[['Puan','fm-puan','0'],['Can','fm-can','❤️❤️❤️'],['Seviye','fm-seviye','1'],['Tarla','fm-tarla','1'],['En Yüksek','fm-enyuksek','0'],['Lazer','fm-lazergucu','⚡1']].map(([label,id,init]) => (
+        {[['Score','fm-puan','0'],['Lives','fm-can','❤️❤️❤️'],['Level','fm-seviye','1'],['Field','fm-tarla','1'],['Best','fm-enyuksek','0'],['Laser','fm-lazergucu','⚡1']].map(([label,id,init]) => (
           <div key={id} style={{ textAlign: 'center' }}>
             <div style={{ fontSize: '9px', color: '#aaa', textTransform: 'uppercase' }}>{label}</div>
             <div id={id} style={{ fontSize: '14px', fontWeight: 'bold', color: '#f5c518' }}>{init}</div>
@@ -698,7 +698,7 @@ export default function FarManGame() {
         <div style={{ background: '#333', borderRadius: '5px', height: '8px', overflow: 'hidden' }}>
           <div id="fm-bar" style={{ background: 'linear-gradient(90deg,#4caf50,#f5c518)', height: '100%', borderRadius: '5px', width: '0%', transition: 'width 0.3s' }} />
         </div>
-        <div id="fm-baryazi" style={{ fontSize: '9px', color: '#aaa', textAlign: 'right', marginTop: '1px' }}>Hasat: 0% — Kapı için %90 gerekli</div>
+        <div id="fm-baryazi" style={{ fontSize: '9px', color: '#aaa', textAlign: 'right', marginTop: '1px' }}>Harvest: 0% — Need 90% for doors</div>
       </div>
 
       <div style={{ display: 'flex', gap: '4px', padding: '2px 6px', flexWrap: 'wrap', justifyContent: 'center', width: '100%', flexShrink: 0 }}>
@@ -714,46 +714,46 @@ export default function FarManGame() {
 
       <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '3px 8px', background: '#162e16', borderTop: '2px solid #4caf50', flexShrink: 0 }}>
         <div id="fm-rozetler" style={{ fontSize: '14px', letterSpacing: '2px', flex: 1, textAlign: 'left', overflow: 'hidden' }} />
-        <button id="fm-lazer-btn" onClick={() => callbacks.current.lazerAt?.()} style={{ fontSize: '16px', padding: '5px 14px', border: '2px solid #555', background: '#333', color: 'white', borderRadius: '10px', cursor: 'pointer', opacity: 0.3, pointerEvents: 'none', transition: '0.2s', flexShrink: 0 }}>🔫 Lazer</button>
-        <div style={{ fontSize: '9px', color: '#555', flexShrink: 0, marginLeft: '6px' }}>⬆️⬇️⬅️➡️ | 📱kaydır</div>
+        <button id="fm-lazer-btn" onClick={() => callbacks.current.lazerAt?.()} style={{ fontSize: '16px', padding: '5px 14px', border: '2px solid #555', background: '#333', color: 'white', borderRadius: '10px', cursor: 'pointer', opacity: 0.3, pointerEvents: 'none', transition: '0.2s', flexShrink: 0 }}>🔫 Laser</button>
+        <div style={{ fontSize: '9px', color: '#555', flexShrink: 0, marginLeft: '6px' }}>⬆️⬇️⬅️➡️ | 📱swipe</div>
       </div>
 
       <div ref={settingsPanelRef} style={{ position: 'fixed', top: 0, right: 0, width: '250px', height: '100vh', background: '#162e16', borderLeft: '3px solid #4caf50', padding: '12px', zIndex: 400, display: 'none', flexDirection: 'column', gap: '9px', overflowY: 'auto' }}>
-        <h3 style={{ color: '#4caf50', fontSize: '17px' }}>⚙️ Ayarlar</h3>
+        <h3 style={{ color: '#4caf50', fontSize: '17px' }}>⚙️ Settings</h3>
         <div style={{ background: '#1a2e1a', borderRadius: '9px', padding: '8px' }}>
-          <label style={{ display: 'block', color: '#aaa', fontSize: '10px', marginBottom: '4px', textTransform: 'uppercase' }}>⚡ Hız</label>
+          <label style={{ display: 'block', color: '#aaa', fontSize: '10px', marginBottom: '4px', textTransform: 'uppercase' }}>⚡ Speed</label>
           <select onChange={e => callbacks.current.hizSec?.(e.target.value)} defaultValue="180" style={{ width: '100%', background: '#162e16', color: 'white', border: '1px solid #4caf50', borderRadius: '7px', padding: '5px', fontSize: '13px' }}>
-            <option value="250">🐢 Yavaş</option>
+            <option value="250">🐢 Slow</option>
             <option value="180">⚖️ Normal</option>
-            <option value="120">🐇 Hızlı</option>
-            <option value="80">⚡ Çılgın</option>
+            <option value="120">🐇 Fast</option>
+            <option value="80">⚡ Crazy</option>
           </select>
         </div>
         <div style={{ background: '#1a2e1a', borderRadius: '9px', padding: '8px' }}>
-          <label style={{ display: 'block', color: '#aaa', fontSize: '10px', marginBottom: '4px', textTransform: 'uppercase' }}>🎨 Tema</label>
+          <label style={{ display: 'block', color: '#aaa', fontSize: '10px', marginBottom: '4px', textTransform: 'uppercase' }}>🎨 Theme</label>
           <select onChange={e => callbacks.current.temaSec?.(e.target.value)} defaultValue="tarim" style={{ width: '100%', background: '#162e16', color: 'white', border: '1px solid #4caf50', borderRadius: '7px', padding: '5px', fontSize: '13px' }}>
-            <option value="tarim">🌿 Tarım</option>
-            <option value="gece">🌙 Gece</option>
-            <option value="sonbahar">🍂 Sonbahar</option>
-            <option value="kar">❄️ Kış</option>
+            <option value="tarim">🌿 Farm</option>
+            <option value="gece">🌙 Night</option>
+            <option value="sonbahar">🍂 Autumn</option>
+            <option value="kar">❄️ Winter</option>
           </select>
         </div>
-        <button onClick={() => { callbacks.current.ayarlariKaydet?.(); settingsPanelRef.current.style.display = 'none' }} style={{ fontSize: '14px', padding: '8px', border: 'none', borderRadius: '9px', cursor: 'pointer', width: '100%', color: 'white', background: '#4caf50' }}>✅ Kapat</button>
-        <button onClick={() => setPhase('start')} style={{ fontSize: '14px', padding: '8px', border: 'none', borderRadius: '9px', cursor: 'pointer', width: '100%', color: 'white', background: '#333', marginTop: '4px' }}>🏠 Ana Sayfa</button>
+        <button onClick={() => { callbacks.current.ayarlariKaydet?.(); settingsPanelRef.current.style.display = 'none' }} style={{ fontSize: '14px', padding: '8px', border: 'none', borderRadius: '9px', cursor: 'pointer', width: '100%', color: 'white', background: '#4caf50' }}>✅ Close</button>
+        <button onClick={() => setPhase('start')} style={{ fontSize: '14px', padding: '8px', border: 'none', borderRadius: '9px', cursor: 'pointer', width: '100%', color: 'white', background: '#333', marginTop: '4px' }}>🏠 Home</button>
       </div>
 
       <div ref={mesajRef} style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', background: 'rgba(0,0,0,0.96)', borderRadius: '18px', padding: '20px 26px', display: 'none', zIndex: 100, minWidth: '240px', textAlign: 'center', border: '3px solid #e94560' }}>
-        <h2 id="fm-mesaj-baslik">💀 Oyun Bitti!</h2>
+        <h2 id="fm-mesaj-baslik">💀 Game Over!</h2>
         <p id="fm-mesaj-puan" style={{ fontSize: '13px', color: '#aaa', margin: '3px 0' }} />
         <p id="fm-mesaj-enyuksek" style={{ fontSize: '13px', color: '#aaa', margin: '3px 0' }} />
         <p id="fm-mesaj-rozet" style={{ fontSize: '13px', color: '#aaa', margin: '3px 0' }} />
-        <button onClick={() => callbacks.current.yenidenBasla?.()} style={{ marginTop: '7px', fontSize: '14px', padding: '8px', border: 'none', borderRadius: '9px', cursor: 'pointer', width: '100%', color: 'white', background: '#e94560' }}>🔄 Tekrar</button>
-        <button onClick={() => setPhase('start')} style={{ marginTop: '5px', fontSize: '14px', padding: '8px', border: 'none', borderRadius: '9px', cursor: 'pointer', width: '100%', color: 'white', background: '#333' }}>🏠 Ana Sayfa</button>
+        <button onClick={() => callbacks.current.yenidenBasla?.()} style={{ marginTop: '7px', fontSize: '14px', padding: '8px', border: 'none', borderRadius: '9px', cursor: 'pointer', width: '100%', color: 'white', background: '#e94560' }}>🔄 Restart</button>
+        <button onClick={() => setPhase('start')} style={{ marginTop: '5px', fontSize: '14px', padding: '8px', border: 'none', borderRadius: '9px', cursor: 'pointer', width: '100%', color: 'white', background: '#333' }}>🏠 Home</button>
       </div>
 
       <div ref={gecisOverlayRef} style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', background: 'rgba(0,0,0,0.96)', borderRadius: '18px', padding: '20px 26px', display: 'none', zIndex: 100, minWidth: '180px', textAlign: 'center', border: '3px solid #00ffcc' }}>
         <div id="fm-gecis-ikon" style={{ fontSize: '36px' }}>🚪</div>
-        <div id="fm-gecis-yazi" style={{ fontSize: '18px', color: '#00ffcc', marginTop: '8px' }}>Geçiş...</div>
+        <div id="fm-gecis-yazi" style={{ fontSize: '18px', color: '#00ffcc', marginTop: '8px' }}>Transitioning...</div>
       </div>
     </div>
   )

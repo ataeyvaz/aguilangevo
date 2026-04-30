@@ -30,10 +30,10 @@ export default function ParentGate() {
 
     if (next.length === 4) {
       if (next.join('') === storedPin()) {
-        navigate('/parent/panel')
+        navigate('/settings/panel')
       } else {
         setShake(true)
-        setErrorMsg('Yanlış PIN')
+        setErrorMsg('Wrong PIN')
         setTimeout(() => {
           setShake(false)
           setErrorMsg('')
@@ -85,10 +85,10 @@ export default function ParentGate() {
           fontFamily: "'Plus Jakarta Sans', sans-serif",
           fontSize: '22px', fontWeight: '800', color: '#0F172A', marginBottom: '4px',
         }}>
-          AguiLang
+          AguiLangEvo
         </div>
         <div style={{ fontSize: '14px', color: '#64748B', marginBottom: '32px' }}>
-          Ebeveyn Paneli
+          Parent Panel
         </div>
 
         {/* PIN dots */}
@@ -137,7 +137,7 @@ export default function ParentGate() {
         </div>
 
         <div style={{ marginTop: '24px', fontSize: '12px', color: '#CBD5E1' }}>
-          Varsayılan PIN: 1234
+          Default PIN: 1234
         </div>
       </div>
     </div>

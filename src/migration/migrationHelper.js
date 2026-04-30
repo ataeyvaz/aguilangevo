@@ -1,21 +1,21 @@
 /**
  * AguiLang2 - Migration Utility
- * AguiLang1 Tatoeba verilerini AguiLang2 formatına dönüştürür
+ * Migrate AguiLang1 Tatoeba data to AguiLang2 format
  *
- * KULLANIM:
+ * USAGE:
  *   import { migrateAguiLang1Data } from './migrationHelper'
  *   const result = await migrateAguiLang1Data()
  */
 
-// ─── AguiLang1 JSON FORMATINI ALGILAMA ──────────────────────────────────────
-// AguiLang1 Tatoeba formatı (olası yapılar):
+// ─── Detect AguiLang1 JSON Format ──────────────────────────────────────
+// AguiLang1 Tatoeba format (possible structures):
 // Format A: { sentences: [{id, text, translation, tags}] }
 // Format B: { words: [{word, meaning, example, level}] }
-// Format C: [{en: "...", tr: "...", level: "A1", category: "..."}]
+// Format C: [{en: "...", es: "...", level: "A1", category: "..."}]
 
 /**
- * AguiLang1 dosya adından dil ve seviye bilgisi çıkarır
- * Örnek dosya adları: "en-tr-a1.json", "de-tr-b1.json", "es-a2.json"
+ * Extract language and level info from AguiLang1 filename
+ * Example filenames: "en-es-a1.json", "de-es-b1.json", "es-a2.json"
  */
 export function parseFilename(filename) {
   const base = filename.replace('.json', '').toLowerCase();
@@ -33,7 +33,7 @@ export function parseFilename(filename) {
 }
 
 /**
- * AguiLang1 tek bir JSON dosyasını AguiLang2 WordEntry[] formatına dönüştürür
+ * Convert a single AguiLang1 JSON file to AguiLang2 WordEntry[] format
  */
 export function convertAguiLang1File(rawData, filename) {
   const { sourceLanguage, targetLanguage, level } = parseFilename(filename);
@@ -43,14 +43,14 @@ export function convertAguiLang1File(rawData, filename) {
   rawItems.forEach((item, index) => {
     let word, translation, language, id;
 
-    if (targetLanguage && targetLanguage !== 'tr' && item[targetLanguage]) {
-      // e.g. en-de-a1.json: word=German, translation=English, language='de'
+    if (targetLanguage && item[targetLanguage]) {
+      // e.g. en-es-a1.json: word=Spanish, translation=English, language='es'
       word = item[targetLanguage];
       translation = item[sourceLanguage] || '';
       language = targetLanguage;
       id = `${targetLanguage}_${level}_general_${index}`;
     } else {
-      // en-tr-a1.json or default: source word + Turkish translation
+      // en-es-a1.json or default: source word + Spanish translation
       word = extractWord(item, sourceLanguage);
       translation = extractTranslation(item);
       language = sourceLanguage;
@@ -76,22 +76,27 @@ export function convertAguiLang1File(rawData, filename) {
     });
   });
 
-  console.log(`✅ ${filename}: ${entries.length} kelime dönüştürüldü`);
+  console.log(`✅ ${filename}: ${entries.length} words converted`);
   return entries;
 }
 
-// ─── NORMALIZE RAW DATA ──────────────────────────────────────────────────────
+// ─── Normalize Raw Data ─────────────────────────────────────────────────
 function normalizeRawData(raw) {
   if (Array.isArray(raw)) return raw;
   if (raw.sentences) return raw.sentences;
   if (raw.words) return raw.words;
   if (raw.data) return raw.data;
   if (raw.entries) return raw.entries;
-  // object map formatı: { "hello": { tr: "merhaba", ... } }
+  // object map format: { "hello": { es: "hola", ... } }
   if (typeof raw === 'object') {
-    return Object.entries(raw).map(([key, val]) => ({
-      word: key, ...(typeof val === 'string' ? { translation: val } : val)
-    }));
+    return Object.entries(raw).map(([key, val]) => {
+      if (typeof val === 'object' && val !== null) {
+        delete val.tr;
+      }
+      return {
+        word: key, ...(typeof val === 'string' ? { translation: val } : val)
+      };
+    });
   }
   return [];
 }
@@ -102,8 +107,8 @@ function extractWord(item, language) {
 }
 
 function extractTranslation(item) {
-  return item.translation || item.tr || item.meaning ||
-         item.turkish || item.translate || item.definition || '';
+  return item.translation || item.meaning ||
+         item.translate || item.definition || '';
 }
 
 function extractExamples(item) {
@@ -114,28 +119,28 @@ function extractExamples(item) {
   return [];
 }
 
-// ─── KATEGORI TAHMINI ────────────────────────────────────────────────────────
+// ─── Category Guessing ──────────────────────────────────────────────────
 const CATEGORY_KEYWORDS = {
-  'greetings':      ['hello','hi','bye','goodbye','welcome','thank','please','sorry','merhaba','güle güle'],
-  'numbers':        ['one','two','three','number','count','bir','iki','üç','sayı'],
-  'colors':         ['red','blue','green','color','colour','kırmızı','mavi','yeşil','renk'],
-  'family':         ['mother','father','sister','brother','family','anne','baba','kardeş','aile'],
-  'food-drinks':    ['eat','food','drink','bread','water','coffee','yemek','içmek','ekmek','su','kahve'],
-  'animals':        ['dog','cat','bird','animal','köpek','kedi','kuş','hayvan'],
-  'body-parts':     ['head','hand','eye','body','baş','el','göz','vücut'],
-  'clothing':       ['shirt','dress','clothes','wear','gömlek','elbise','giysi'],
-  'transportation': ['car','bus','train','travel','araba','otobüs','tren','seyahat'],
-  'weather':        ['rain','sun','cloud','weather','yağmur','güneş','bulut','hava'],
-  'home':           ['house','room','door','home','ev','oda','kapı'],
-  'school':         ['school','learn','study','teacher','okul','öğren','öğretmen'],
-  'sports':         ['sport','play','game','ball','spor','oyna','top'],
-  'time':           ['time','day','week','month','year','zaman','gün','hafta'],
-  'professions':    ['work','job','doctor','teacher','iş','doktor','çalışmak'],
-  'health':         ['sick','doctor','medicine','hospital','hasta','ilaç','hastane'],
-  'travel':         ['travel','trip','hotel','airport','seyahat','otel','havalimanı'],
-  'shopping':       ['buy','shop','price','money','almak','dükkan','fiyat','para'],
-  'technology':     ['computer','phone','internet','digital','bilgisayar','telefon'],
-  'business':       ['business','company','office','meeting','şirket','ofis','toplantı'],
+  'greetings':      ['hello','hi','bye','goodbye','welcome','thank','please','sorry'],
+  'numbers':        ['one','two','three','number','count'],
+  'colors':         ['red','blue','green','color','colour'],
+  'family':         ['mother','father','sister','brother','family'],
+  'food-drinks':    ['eat','food','drink','bread','water','coffee'],
+  'animals':        ['dog','cat','bird','animal'],
+  'body-parts':     ['head','hand','eye','body'],
+  'clothing':       ['shirt','dress','clothes','wear'],
+  'transportation': ['car','bus','train','travel'],
+  'weather':        ['rain','sun','cloud','weather'],
+  'home':           ['house','room','door','home'],
+  'school':         ['school','learn','study','teacher'],
+  'sports':         ['sport','play','game','ball'],
+  'time':           ['time','day','week','month','year'],
+  'professions':    ['work','job','doctor','teacher'],
+  'health':         ['sick','doctor','medicine','hospital'],
+  'travel':         ['travel','trip','hotel','airport'],
+  'shopping':       ['buy','shop','price','money'],
+  'technology':     ['computer','phone','internet','digital'],
+  'business':       ['business','company','office','meeting'],
 };
 
 function guessCategory(word, translation) {
@@ -146,10 +151,10 @@ function guessCategory(word, translation) {
   return 'general';
 }
 
-// ─── BATCH MIGRATION ─────────────────────────────────────────────────────────
+// ─── Batch Migration ────────────────────────────────────────────────────
 /**
- * Birden fazla AguiLang1 dosyasını toplu migrate eder
- * @param {Object[]} files - [{ name: 'en-tr-a1.json', data: {...} }]
+ * Batch migrate multiple AguiLang1 files
+ * @param {Object[]} files - [{ name: 'en-es-a1.json', data: {...} }]
  * @returns {{ entries: WordEntry[], stats: Object }}
  */
 export function batchMigrate(files) {
@@ -178,19 +183,19 @@ export function batchMigrate(files) {
   return { entries: allEntries, stats };
 }
 
-// ─── KULLANIM ÖRNEĞİ ─────────────────────────────────────────────────────────
+// ─── Usage Example ─────────────────────────────────────────────────────
 /**
- * React component içinde kullanım:
+ * Usage in React component:
  *
  * import { batchMigrate } from './migrationHelper'
- * import en_a1 from '../../aguilang1/en-tr-a1.json'
- * import de_b1 from '../../aguilang1/de-tr-b1.json'
+ * import en_a1 from '../../aguilang1/en-es-a1.json'
+ * import de_b1 from '../../aguilang1/de-es-b1.json'
  *
  * const { entries, stats } = batchMigrate([
- *   { name: 'en-tr-a1.json', data: en_a1 },
- *   { name: 'de-tr-b1.json', data: de_b1 },
+ *   { name: 'en-es-a1.json', data: en_a1 },
+ *   { name: 'de-es-b1.json', data: de_b1 },
  * ])
  *
- * // localStorage'a kaydet
+ * // Save to localStorage
  * localStorage.setItem('aguilang2_migrated_words', JSON.stringify(entries))
  */

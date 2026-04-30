@@ -33,7 +33,7 @@ const ALL_CATEGORY_IDS = [
 ]
 
 const DEFAULTS = {
-  lang:       { enabled: ['en', 'de', 'es'], priority: 'en' },
+  lang:       { enabled: ['en', 'es', 'pt'], priority: 'en' },
   energy:     { mode: 'medium', custom: { cardLimit: 10, durationMinutes: 15, quizEnabled: true, gameEnabled: false } },
   categories: ALL_CATEGORY_IDS,
   time:       { startHour: 14, startMin: 0, endHour: 20, endMin: 0, weekendEnabled: true },
@@ -89,7 +89,7 @@ export function checkTimeRestriction() {
     const startStr = `${pad(ts.startHour)}:${pad(ts.startMin)}`
     return {
       blocked: true,
-      message: `Şu an ders zamanı değil 🦅\nSaat ${startStr}'de görüşürüz!`,
+      message: `Not study time yet 🦅\nSee you at ${startStr}!`,
     }
   }
 

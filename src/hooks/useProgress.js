@@ -1,18 +1,18 @@
 import { useState, useCallback, useEffect } from 'react'
 
 export const BADGE_DEFS = [
-  { id: 'first_card',   icon: '🃏', name: 'İlk Kart',       desc: 'İlk kelime kartını açtın!',  check: (p) => p.totalCards >= 1 },
-  { id: 'cards_15',     icon: '🎴', name: 'Kart Toplayıcı', desc: '15 kelime kartı gördün',     check: (p) => p.totalCards >= 15 },
-  { id: 'first_quiz',   icon: '🎯', name: 'İlk Quiz',       desc: 'İlk quizi tamamladın',       check: (p) => p.totalQuizzes >= 1 },
-  { id: 'perfect_quiz', icon: '💯', name: 'Mükemmel',       desc: 'Quizde tam puan aldın!',     check: (p) => p.perfectQuizzes >= 1 },
-  { id: 'streak_3',     icon: '🔥', name: '3 Gün Seri',     desc: '3 gün üst üste oynadın',    check: (p) => p.streak >= 3 },
-  { id: 'streak_7',     icon: '⭐', name: '7 Gün Seri',     desc: '7 gün üst üste oynadın',    check: (p) => p.streak >= 7 },
-  { id: 'all_games',    icon: '🎮', name: 'Oyun Ustası',    desc: '5 farklı oyun oynadın',     check: (p) => p.gamesPlayed.length >= 5 },
-  { id: 'explorer',     icon: '🌍', name: 'Dil Kaşifi',     desc: '3 farklı dil denedin',      check: (p) => p.languagesUsed.length >= 3 },
-  { id: 'points_100',      icon: '💎', name: '100 Puan',         desc: 'Toplam 100 puan kazandın',          check: (p) => p.totalPoints >= 100 },
-  { id: 'points_500',      icon: '👑', name: '500 Puan',         desc: 'Toplam 500 puan kazandın',          check: (p) => p.totalPoints >= 500 },
-  { id: 'grammar_starter', icon: '📐', name: 'Gramer Yolcusu',   desc: 'İlk gramer dersini tamamladın!',    check: (p) => p.grammarCompleted >= 1 },
-  { id: 'grammar_master',  icon: '🏛️', name: 'Gramer Ustası',   desc: 'Tüm 6 gramer dersini tamamladın!',  check: (p) => p.grammarCompleted >= 6 },
+  { id: 'first_card',   icon: '🃏', name: 'First Card',       desc: 'You opened your first word card!',  check: (p) => p.totalCards >= 1 },
+  { id: 'cards_15',     icon: '🎴', name: 'Card Collector',   desc: 'You saw 15 word cards',             check: (p) => p.totalCards >= 15 },
+  { id: 'first_quiz',   icon: '🎯', name: 'First Quiz',       desc: 'You completed your first quiz',     check: (p) => p.totalQuizzes >= 1 },
+  { id: 'perfect_quiz', icon: '💯', name: 'Perfect',          desc: 'You scored 100% on a quiz!',        check: (p) => p.perfectQuizzes >= 1 },
+  { id: 'streak_3',     icon: '🔥', name: '3-Day Streak',     desc: 'You played 3 days in a row',        check: (p) => p.streak >= 3 },
+  { id: 'streak_7',     icon: '⭐', name: '7-Day Streak',     desc: 'You played 7 days in a row',        check: (p) => p.streak >= 7 },
+  { id: 'all_games',    icon: '🎮', name: 'Game Master',      desc: 'You played 5 different games',      check: (p) => p.gamesPlayed.length >= 5 },
+  { id: 'explorer',     icon: '🌍', name: 'Explorer',         desc: 'You tried 3 different languages',   check: (p) => p.languagesUsed.length >= 3 },
+  { id: 'points_100',      icon: '💎', name: '100 Points',    desc: 'You earned 100 total points',       check: (p) => p.totalPoints >= 100 },
+  { id: 'points_500',      icon: '👑', name: '500 Points',    desc: 'You earned 500 total points',       check: (p) => p.totalPoints >= 500 },
+  { id: 'grammar_starter', icon: '📐', name: 'Grammar Starter', desc: 'You completed your first grammar lesson!', check: (p) => p.grammarCompleted >= 1 },
+  { id: 'grammar_master',  icon: '🏛️', name: 'Grammar Master', desc: 'You completed all 6 grammar lessons!',    check: (p) => p.grammarCompleted >= 6 },
 ]
 
 const STORAGE_KEY = 'aguilang_progress_v2'

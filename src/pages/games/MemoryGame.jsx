@@ -130,30 +130,30 @@ export default function MemoryGame() {
 
   if (loading) return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Inter, sans-serif', color: '#64748B' }}>
-      Yükleniyor...
+      Loading...
     </div>
   )
 
   if (!cards.length) return (
     <div style={{ minHeight: '100vh', background: '#F8FAFC', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '16px', fontFamily: 'Inter, sans-serif', textAlign: 'center', padding: '24px' }}>
       <div style={{ fontSize: '48px' }}>📭</div>
-      <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '18px', fontWeight: '700', color: '#0F172A' }}>Yeterli kelime yok</div>
-      <div style={{ fontSize: '14px', color: '#64748B' }}>Önce flash kartlarla kelime çalış.</div>
-      <button onClick={() => navigate('/categories')} style={{ padding: '11px 28px', background: '#0891B2', color: 'white', border: 'none', borderRadius: '12px', fontSize: '14px', fontWeight: '700', cursor: 'pointer' }}>Kategori Seç</button>
+      <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '18px', fontWeight: '700', color: '#0F172A' }}>Not enough words</div>
+      <div style={{ fontSize: '14px', color: '#64748B' }}>Study some words with flash cards first.</div>
+      <button onClick={() => navigate('/categories')} style={{ padding: '11px 28px', background: '#0891B2', color: 'white', border: 'none', borderRadius: '12px', fontSize: '14px', fontWeight: '700', cursor: 'pointer' }}>Select Category</button>
     </div>
   )
 
   if (gameOver) return (
     <div style={{ minHeight: '100vh', background: '#F8FAFC', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '20px', fontFamily: 'Inter, sans-serif', textAlign: 'center', padding: '24px' }}>
       <div style={{ fontSize: '64px' }}>🧠</div>
-      <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '28px', fontWeight: '800', color: '#0F172A' }}>Tebrikler!</div>
+      <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '28px', fontWeight: '800', color: '#0F172A' }}>Well Done!</div>
       <div style={{ display: 'flex', gap: '28px', fontSize: '16px', color: '#64748B' }}>
         <span>⏱ {fmt(elapsed)}</span>
-        <span>🃏 {moves} hamle</span>
+        <span>🃏 {moves} moves</span>
       </div>
       <div style={{ display: 'flex', gap: '12px', marginTop: '8px' }}>
-        <button onClick={handleRestart} style={{ padding: '12px 24px', background: 'white', border: '1.5px solid #E2E8F0', borderRadius: '12px', fontSize: '14px', fontWeight: '600', cursor: 'pointer', color: '#64748B' }}>🔄 Tekrar</button>
-        <button onClick={() => navigate('/play')} style={{ padding: '12px 24px', background: '#0891B2', border: 'none', borderRadius: '12px', fontSize: '14px', fontWeight: '700', cursor: 'pointer', color: 'white' }}>← Oyunlar</button>
+        <button onClick={handleRestart} style={{ padding: '12px 24px', background: 'white', border: '1.5px solid #E2E8F0', borderRadius: '12px', fontSize: '14px', fontWeight: '600', cursor: 'pointer', color: '#64748B' }}>🔄 Play Again</button>
+        <button onClick={() => navigate('/play')} style={{ padding: '12px 24px', background: '#0891B2', border: 'none', borderRadius: '12px', fontSize: '14px', fontWeight: '700', cursor: 'pointer', color: 'white' }}>← Games</button>
       </div>
     </div>
   )
@@ -164,8 +164,8 @@ export default function MemoryGame() {
       <div style={{ background: 'white', borderBottom: '1px solid #E2E8F0', padding: '14px 24px' }}>
         <div style={{ maxWidth: '480px', margin: '0 auto', display: 'flex', alignItems: 'center', gap: '12px' }}>
           <button onClick={() => navigate('/play')} style={{ background: '#F1F5F9', border: 'none', borderRadius: '8px', width: '32px', height: '32px', cursor: 'pointer', fontSize: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>←</button>
-          <div style={{ flex: 1, fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '16px', fontWeight: '700', color: '#0F172A' }}>🧠 Hafıza Eşleştir</div>
-          <div style={{ fontSize: '13px', color: '#94A3B8', fontWeight: '600' }}>{fmt(elapsed)} · {moves} hamle</div>
+          <div style={{ flex: 1, fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '16px', fontWeight: '700', color: '#0F172A' }}>🧠 Memory Match</div>
+          <div style={{ fontSize: '13px', color: '#94A3B8', fontWeight: '600' }}>{fmt(elapsed)} · {moves} moves</div>
         </div>
       </div>
 
@@ -213,7 +213,7 @@ export default function MemoryGame() {
         </div>
 
         <div style={{ fontSize: '13px', color: '#94A3B8' }}>
-          {matched.length / 2} / {cards.length / 2} çift bulundu
+          {matched.length / 2} / {cards.length / 2} pairs found
         </div>
       </div>
     </div>

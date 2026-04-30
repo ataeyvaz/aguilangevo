@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getDailyStats } from '../hooks/useDailyStats'
+import { useTranslation } from '../i18n/translations'
 
 const ALL_CAT_IDS = [
   'animals','colors','numbers','fruits','vegetables','body','family',
@@ -9,13 +10,13 @@ const ALL_CAT_IDS = [
 ]
 
 const CAT_LABELS = {
-  animals:'Hayvanlar', colors:'Renkler', numbers:'Sayılar',
-  fruits:'Meyveler', vegetables:'Sebzeler', body:'Vücut',
-  family:'Aile', school:'Okul', food:'Yiyecekler',
-  greetings:'Selamlaşma', questions:'Sorular', clothing:'Giyim',
-  home:'Ev', transport:'Ulaşım', time:'Zaman',
-  jobs:'Meslekler', sports:'Spor', places:'Yerler',
-  adjectives:'Sıfatlar', verbs:'Fiiller',
+  animals:'Animals', colors:'Colors', numbers:'Numbers',
+  fruits:'Fruits', vegetables:'Vegetables', body:'Body',
+  family:'Family', school:'School', food:'Food',
+  greetings:'Greetings', questions:'Questions', clothing:'Clothing',
+  home:'Home', transport:'Transport', time:'Time',
+  jobs:'Jobs', sports:'Sports', places:'Places',
+  adjectives:'Adjectives', verbs:'Verbs',
 }
 
 const CAT_EMOJIS = {
@@ -41,6 +42,7 @@ function getLongestStreak(dailyStatsArr) {
 
 export default function StatsPage() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const [catProgress, setCatProgress] = useState([])
   const [loadingCats, setLoadingCats] = useState(true)
 
@@ -116,25 +118,25 @@ export default function StatsPage() {
             fontFamily: "'Plus Jakarta Sans', sans-serif",
             fontSize: '20px', fontWeight: '800', color: '#0F172A',
           }}>
-            📊 İstatistikler
+            📊 {t('statistics')}
           </div>
         </div>
       </div>
 
       <div style={{ maxWidth: '760px', margin: '0 auto', padding: '20px 24px 40px' }}>
 
-        {/* Toplam istatistikler */}
+        {/* Summary stats grid */}
         <div style={{
           display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
           gap: '10px', marginBottom: '20px',
         }}>
           {[
-            { icon: '📖', label: 'Benzersiz Kelime',  value: totalWords },
-            { icon: '✅', label: 'Toplam Doğru',       value: totalCorrect },
-            { icon: '❌', label: 'Toplam Yanlış',      value: totalWrong },
-            { icon: '🎯', label: 'Başarı Oranı',       value: `%${successRate}` },
-            { icon: '🔥', label: 'En Uzun Seri',       value: `${longestStreak} gün` },
-            { icon: '📅', label: 'Çalışma Günü',       value: `${studyDays} gün` },
+            { icon: '📖', label: t('unique words'),   value: totalWords },
+            { icon: '✅', label: t('total correct'),   value: totalCorrect },
+            { icon: '❌', label: t('total wrong'),     value: totalWrong },
+            { icon: '🎯', label: t('success rate'),    value: `${successRate}%` },
+            { icon: '🔥', label: t('longest streak'),  value: longestStreak },
+            { icon: '📅', label: t('study days'),      value: studyDays },
           ].map((s, i) => (
             <div key={i} style={{
               background: 'white', borderRadius: '14px',
@@ -151,7 +153,7 @@ export default function StatsPage() {
           ))}
         </div>
 
-        {/* 7 günlük bar chart */}
+        {/* 7-day bar chart */}
         <div style={{
           background: 'white', borderRadius: '16px',
           border: '1px solid #E2E8F0', padding: '20px',
@@ -161,7 +163,7 @@ export default function StatsPage() {
             fontFamily: "'Plus Jakarta Sans', sans-serif",
             fontSize: '15px', fontWeight: '700', color: '#0F172A', marginBottom: '16px',
           }}>
-            📈 Son 7 Gün
+            📈 {t('last 7 days')}
           </div>
           <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-end', height: '100px' }}>
             {weekStats.map(day => {
@@ -188,7 +190,7 @@ export default function StatsPage() {
                     color: isToday ? '#0891B2' : '#94A3B8',
                     fontWeight: isToday ? '700' : '400',
                   }}>
-                    {day.dayName}
+                    {t(day.dayName)}
                   </div>
                 </div>
               )
@@ -196,7 +198,7 @@ export default function StatsPage() {
           </div>
         </div>
 
-        {/* Kategori bazlı ilerleme */}
+        {/* Category progress */}
         <div style={{
           background: 'white', borderRadius: '16px',
           border: '1px solid #E2E8F0', padding: '20px',
@@ -205,16 +207,16 @@ export default function StatsPage() {
             fontFamily: "'Plus Jakarta Sans', sans-serif",
             fontSize: '15px', fontWeight: '700', color: '#0F172A', marginBottom: '16px',
           }}>
-            📚 Kategori İlerlemesi
+            📚 {t('category progress')}
           </div>
 
           {loadingCats ? (
             <div style={{ textAlign: 'center', padding: '20px', color: '#94A3B8', fontSize: '14px' }}>
-              Yükleniyor...
+              {t('loading')}...
             </div>
           ) : catProgress.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '20px', color: '#94A3B8', fontSize: '14px' }}>
-              Henüz hiç kategori çalışılmamış.
+              {t('no categories studied yet')}
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -227,7 +229,7 @@ export default function StatsPage() {
                         {CAT_EMOJIS[catId]} {CAT_LABELS[catId] || catId}
                       </div>
                       <div style={{ fontSize: '12px', color: '#64748B' }}>
-                        {seen} / {total} · %{pct}
+                        {seen} / {total} · {pct}%
                       </div>
                     </div>
                     <div style={{ height: '8px', background: '#F1F5F9', borderRadius: '4px', overflow: 'hidden' }}>

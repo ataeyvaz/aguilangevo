@@ -1,22 +1,22 @@
-Yeni proje: aguilang2
+New project: aguilangevo
 React + Vite + TailwindCSS + React Router v6
 
-@docs/master-plan.md dosyasını oku.
+Read @docs/master-plan.md.
 
-Sadece şunu yap — başka hiçbir şey:
-1. tailwind.config.js güncelle (renk sistemi)
-2. src/index.css güncelle (CSS variables + fontlar)
-3. src/router/AppRouter.jsx oluştur (temel rotalar)
-4. src/components/layout/AppLayout.jsx oluştur
-   (Sidebar web, BottomNav mobil)
+Just do this — don't touch anything else:
+1. Update tailwind.config.js (color system)
+2. Update src/index.css (CSS variables + fonts)
+3. Create src/router/AppRouter.jsx (basic routes)
+4. Create src/components/layout/AppLayout.jsx
+   (Sidebar for web, BottomNav for mobile)
 5. src/components/layout/Sidebar.jsx
 6. src/components/layout/BottomNav.jsx
-7. src/App.jsx sadeleştir (sadece AppRouter'ı render etsin)
+7. Simplify src/App.jsx (just render AppRouter)
 
-Renk sistemi:
+Color system:
 Primary: #0891B2
 Accent: #F59E0B  
 Background: #F8FAFC
 Font: Plus Jakarta Sans + Inter (Google Fonts)
 
-Build temiz çıksın. Başka hiçbir şeye dokunma.
+Keep it clean. Don't touch anything else.

@@ -1,41 +1,44 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
-const STORAGE_KEY = 'aguilang_profiles'
 const ACTIVE_KEY = 'aguilang_active_profile'
 
-const DEFAULT_PROFILES = [
-  { id: 'kartal', name: 'Kartal', avatar: '🦅', color: 'amber' },
-  { id: 'emir',   name: 'Emir',   avatar: '⚡', color: 'blue'  },
-]
+const DEFAULT_PROFILE = {
+  name: 'Aguila', type: 'adult', initial: 'A',
+  points: 0, level: 1, streak: 0,
+}
 
 export function useProfile() {
-  const [profiles] = useState(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY)
-      return stored ? JSON.parse(stored) : DEFAULT_PROFILES
-    } catch {
-      return DEFAULT_PROFILES
-    }
-  })
-
-  const [activeProfile, setActiveProfileState] = useState(() => {
+  const [profile, setProfileState] = useState(() => {
     try {
       const stored = localStorage.getItem(ACTIVE_KEY)
-      return stored ? JSON.parse(stored) : null
+      return stored ? JSON.parse(stored) : DEFAULT_PROFILE
     } catch {
-      return null
+      return DEFAULT_PROFILE
     }
   })
 
-  const setActiveProfile = (profile) => {
-    setActiveProfileState(profile)
-    localStorage.setItem(ACTIVE_KEY, JSON.stringify(profile))
+  const save = (updates) => {
+    const updated = { ...profile, ...updates }
+    setProfileState(updated)
+    localStorage.setItem(ACTIVE_KEY, JSON.stringify(updated))
+  }
+
+  const updateName = (name) => {
+    const trimmed = name.trim() || 'Aguila'
+    save({ name: trimmed, initial: trimmed[0].toUpperCase() })
+  }
+
+  const updateType = (type) => save({ type })
+
+  const setActiveProfile = (p) => {
+    setProfileState(p)
+    localStorage.setItem(ACTIVE_KEY, JSON.stringify(p))
   }
 
   const clearActiveProfile = () => {
-    setActiveProfileState(null)
+    setProfileState(DEFAULT_PROFILE)
     localStorage.removeItem(ACTIVE_KEY)
   }
 
-  return { profiles, activeProfile, setActiveProfile, clearActiveProfile }
+  return { profile, updateName, updateType, setActiveProfile, clearActiveProfile }
 }

@@ -1,16 +1,18 @@
 import { NavLink, useLocation } from 'react-router-dom'
-
-const tabs = [
-  { to: '/dashboard',  label: 'Anasayfa', icon: '🏠', match: ['/dashboard'] },
-  { to: '/learn-hub',  label: 'Öğren',    icon: '📚', match: ['/learn-hub', '/categories', '/learn', '/quiz', '/dialogue', '/grammar'] },
-  { to: '/play',       label: 'Oyna',     icon: '🎮', match: ['/play', '/games'] },
-  { to: '/dictionary', label: 'Sözlük',   icon: '📖', match: ['/dictionary'] },
-  { to: '/levels',     label: 'Seviyeler',icon: '🏆', match: ['/levels'] },
-  { to: '/profile',    label: 'Profil',   icon: '👤', match: ['/profile'] },
-]
+import { useTranslation } from '../../i18n/translations'
 
 export default function BottomNav() {
   const { pathname } = useLocation()
+  const { t } = useTranslation()
+
+  const tabs = [
+    { to: '/dashboard',  label: t('dashboard'), icon: '🏠', match: ['/dashboard'] },
+    { to: '/learn-hub',  label: t('learn'),     icon: '📚', match: ['/learn-hub', '/categories', '/learn', '/quiz', '/dialogue', '/grammar'] },
+    { to: '/play',       label: t('games'),     icon: '🎮', match: ['/play', '/games'] },
+    { to: '/dictionary', label: t('dictionary'), icon: '📖', match: ['/dictionary'] },
+    { to: '/levels',     label: t('levels'),    icon: '🏆', match: ['/levels'] },
+    { to: '/profile',    label: t('profile'),   icon: '👤', match: ['/profile'] },
+  ]
 
   const isActive = (match) => match.some(p => pathname === p || pathname.startsWith(p + '/'))
 

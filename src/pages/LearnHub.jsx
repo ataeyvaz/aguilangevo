@@ -1,7 +1,9 @@
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from '../i18n/translations'
 
 export default function LearnHub() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const lang     = JSON.parse(localStorage.getItem('aguilang_active_lang') || '{"id":"en"}')
   const category = JSON.parse(localStorage.getItem('aguilang_active_category') || '{}')
 
@@ -13,9 +15,9 @@ export default function LearnHub() {
           <div style={{
             fontFamily: "'Plus Jakarta Sans', sans-serif",
             fontSize: '20px', fontWeight: '800', color: '#0F172A',
-          }}>📖 Öğren</div>
+          }}>📖 {t('learn')}</div>
           <div style={{ fontSize: '13px', color: '#64748B', marginTop: '2px' }}>
-            Ne çalışmak istersin?
+            {t('what do you want to study')}
           </div>
         </div>
       </div>
@@ -46,9 +48,9 @@ export default function LearnHub() {
             <div style={{
               fontFamily: "'Plus Jakarta Sans', sans-serif",
               fontSize: '18px', fontWeight: '800', color: '#0F172A',
-            }}>Kelimeler</div>
+            }}>{t('words')}</div>
             <div style={{ fontSize: '13px', color: '#64748B', marginTop: '4px', lineHeight: '1.5' }}>
-              Günlük kelime kartları ve quiz
+              {t('daily word cards and quiz')}
             </div>
             {category.name && (
               <div style={{
@@ -86,16 +88,16 @@ export default function LearnHub() {
             <div style={{
               fontFamily: "'Plus Jakarta Sans', sans-serif",
               fontSize: '18px', fontWeight: '800', color: '#0F172A',
-            }}>Gramer</div>
+            }}>{t('grammar')}</div>
             <div style={{ fontSize: '13px', color: '#64748B', marginTop: '4px', lineHeight: '1.5' }}>
-              Gramer dersleri ve alıştırmalar
+              {t('grammar lessons and exercises')}
             </div>
             <div style={{
               marginTop: '8px', display: 'inline-flex', alignItems: 'center', gap: '5px',
               background: '#FFFBEB', borderRadius: '8px', padding: '3px 10px',
               fontSize: '12px', fontWeight: '600', color: '#92400E',
             }}>
-              {lang.name || lang.id.toUpperCase()} · 6 ders
+              {lang.name || lang.id.toUpperCase()} · 6 lessons
             </div>
           </div>
           <div style={{ fontSize: '22px', color: '#F59E0B', flexShrink: 0 }}>›</div>
@@ -112,8 +114,8 @@ export default function LearnHub() {
             }}
           >
             <span style={{ fontSize: '24px' }}>💬</span>
-            <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '13px', fontWeight: '700', color: '#0F172A' }}>Diyaloglar</div>
-            <div style={{ fontSize: '11px', color: '#94A3B8' }}>Konuşma senaryoları</div>
+            <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '13px', fontWeight: '700', color: '#0F172A' }}>{t('dialogues')}</div>
+            <div style={{ fontSize: '11px', color: '#94A3B8' }}>{t('conversation scenarios')}</div>
           </button>
           <button
             onClick={() => navigate('/quiz')}
@@ -124,8 +126,8 @@ export default function LearnHub() {
             }}
           >
             <span style={{ fontSize: '24px' }}>🎯</span>
-            <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '13px', fontWeight: '700', color: '#0F172A' }}>Quiz</div>
-            <div style={{ fontSize: '11px', color: '#94A3B8' }}>Bildiklerini test et</div>
+            <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '13px', fontWeight: '700', color: '#0F172A' }}>{t('quiz')}</div>
+            <div style={{ fontSize: '11px', color: '#94A3B8' }}>{t('test your knowledge')}</div>
           </button>
         </div>
       </div>

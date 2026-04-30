@@ -8,13 +8,12 @@ const shuffle = arr => [...arr].sort(() => Math.random() - 0.5)
 
 const LANG_LOCALE = { en: 'en-US', de: 'de-DE', es: 'es-ES' }
 const STEPS = ['input', 'formula', 'output', 'dialogue']
-const STEP_LABELS = ['Örnekler', 'Formül', 'Egzersiz', 'Diyalog']
+const STEP_LABELS = ['Examples', 'Formula', 'Exercises', 'Dialogue']
 
 export default function GrammarLessonPage() {
   const navigate        = useNavigate()
   const { lessonId }    = useParams()
   const lang            = JSON.parse(localStorage.getItem('aguilang_active_lang') || '{"id":"en"}')
-  const locale          = LANG_LOCALE[lang.id] || 'en-US'
 
   const profile   = JSON.parse(localStorage.getItem('aguilang_active_profile') || '{}')
   const { recordGrammar } = useProgress(profile.id || profile.name || 'default')
@@ -23,7 +22,7 @@ export default function GrammarLessonPage() {
   const [loading,   setLoading]   = useState(true)
   const [step,      setStep]      = useState(0)   // 0-3
 
-  /* ── Output egzersiz durumu ── */
+  /* ── Output exercise state ── */
   const [exIndex,   setExIndex]   = useState(0)
   const [fillInput, setFillInput] = useState('')
   const [buildPlaced, setBuildPlaced] = useState([])
@@ -32,53 +31,64 @@ export default function GrammarLessonPage() {
   const [showHint,  setShowHint]  = useState(false)
   const shakeRef = useRef(null)
 
-  /* ── Input adımı: çeviri toggle ── */
+  /* ── Input step: translation toggle ── */
   const [shownTr, setShownTr] = useState(new Set())
 
   /* ── Load lesson ── */
   useEffect(() => {
     const parts = lessonId?.split('-lesson-')
-    if (!parts || parts.length < 2) { setLoading(false); return }
+    if (!parts || parts.length < 2) { 
+      // Use setTimeout to avoid synchronous state updates
+      setTimeout(() => setLoading(false), 0)
+      return 
+    }
     const [langId, num] = parts
     loadLesson(langId, num)
       .then(data => {
         setLesson(data)
-        // Kaldığı adımdan devam
+        // Resume from where left off
         const prog = getProgress(lessonId)
-        setStep(prog.currentStep || 0)
+        // Use setTimeout to avoid synchronous state updates
+        setTimeout(() => setStep(prog.currentStep || 0), 0)
       })
       .catch(() => {})
-      .finally(() => setLoading(false))
+      .finally(() => setTimeout(() => setLoading(false), 0))
   }, [lessonId])
 
-  /* ── Output egzersiz sıfırla ── */
+  /* ── Reset output exercise state ── */
   useEffect(() => {
     if (!lesson) return
-    setExIndex(0)
-    setFillInput('')
-    setExResult(null)
-    setShowHint(false)
-    setBuildPlaced([])
-    setBuildAvail([])
+    // Use setTimeout to avoid synchronous state updates
+    setTimeout(() => {
+      setExIndex(0)
+      setFillInput('')
+      setExResult(null)
+      setShowHint(false)
+      setBuildPlaced([])
+      setBuildAvail([])
+    }, 0)
   }, [step, lesson])
 
-  /* ── Build egzersizini hazırla ── */
+  /* ── Prepare build exercise ── */
   useEffect(() => {
     if (!lesson || step !== 2) return
     const ex = lesson.outputExercises[exIndex]
     if (!ex) return
-    if (ex.type === 'build') {
-      const tokens = ex.words.map((w, i) => ({ text: w, idx: i }))
-      setBuildAvail(shuffle(tokens))
-      setBuildPlaced([])
-      setFillInput('')
-    } else {
-      setFillInput('')
-      setBuildPlaced([])
-      setBuildAvail([])
-    }
-    setExResult(null)
-    setShowHint(false)
+    // Use setTimeout to avoid synchronous state updates
+    setTimeout(() => {
+      if (ex.type === 'build') {
+        const tokens = ex.words.map((w, i) => ({ text: w, idx: i }))
+        setBuildAvail(shuffle(tokens))
+        setBuildPlaced([])
+        setFillInput('')
+      } else {
+        setFillInput('')
+        setBuildPlaced([])
+        setBuildAvail([])
+      }
+      setExResult(null)
+      setShowHint(false)
+    }, 0)
   }, [exIndex, step, lesson])
 
   const saveStep = (newStep, completed = false) => {
@@ -154,12 +164,12 @@ export default function GrammarLessonPage() {
 
   if (loading) return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Inter, sans-serif', color: '#64748B' }}>
-      Yükleniyor...
+      Loading...
     </div>
   )
   if (!lesson) return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Inter, sans-serif', color: '#64748B' }}>
-      Ders bulunamadı.
+      Lesson not found.
     </div>
   )
 
@@ -192,7 +202,7 @@ export default function GrammarLessonPage() {
           </div>
         </div>
 
-        {/* Adım göstergesi */}
+        {/* Step indicator */}
         <div style={{ maxWidth: '560px', margin: '12px auto 0', display: 'flex', gap: '6px' }}>
           {STEPS.map((s, i) => (
             <div key={s} style={{ flex: 1 }}>
@@ -205,14 +215,14 @@ export default function GrammarLessonPage() {
         </div>
       </div>
 
-      {/* İçerik */}
+      {/* Content */}
       <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px 32px', maxWidth: '560px', width: '100%', margin: '0 auto' }}>
 
-        {/* ADIM 1 — INPUT */}
+        {/* STEP 1 — INPUT */}
         {step === 0 && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <div style={{ fontSize: '14px', fontWeight: '700', color: '#64748B', marginBottom: '4px' }}>
-              Önce şu cümleleri dinle ve incele:
+              First, listen to these sentences and examine them:
             </div>
             {lesson.inputSentences.map((s, i) => (
               <div key={i} style={{
@@ -229,15 +239,15 @@ export default function GrammarLessonPage() {
                     style={{ background: '#EFF8FF', border: '1px solid #BAE6FD', borderRadius: '8px', width: '34px', height: '34px', cursor: 'pointer', fontSize: '16px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                   >🔊</button>
                 </div>
-                {s.tr && (
+                {s.translation && (
                   <div style={{ marginTop: '8px' }}>
                     {shownTr.has(i) ? (
-                      <div style={{ fontSize: '13px', color: '#64748B', fontStyle: 'italic' }}>💡 {s.tr}</div>
+                      <div style={{ fontSize: '13px', color: '#64748B', fontStyle: 'italic' }}>💡 {s.translation}</div>
                     ) : (
                       <button
                         onClick={() => setShownTr(prev => new Set([...prev, i]))}
                         style={{ fontSize: '12px', color: '#94A3B8', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
-                      >Türkçeyi gör →</button>
+                      >Show translation →</button>
                     )}
                   </div>
                 )}
@@ -246,22 +256,22 @@ export default function GrammarLessonPage() {
             <button
               onClick={goNextStep}
               style={{ marginTop: '8px', width: '100%', padding: '14px', background: '#0891B2', color: 'white', border: 'none', borderRadius: '12px', fontSize: '15px', fontWeight: '700', cursor: 'pointer', fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-            >Devam Et →</button>
+            >Continue →</button>
           </div>
         )}
 
-        {/* ADIM 2 — FORMÜL */}
+        {/* STEP 2 — FORMULA */}
         {step === 1 && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            {/* Formül kutusu */}
+            {/* Formula box */}
             <div style={{ background: '#EFF8FF', border: '2px solid #BAE6FD', borderRadius: '16px', padding: '20px 18px', textAlign: 'center' }}>
-              <div style={{ fontSize: '12px', fontWeight: '700', color: '#0891B2', letterSpacing: '1px', marginBottom: '8px' }}>FORMÜL</div>
+              <div style={{ fontSize: '12px', fontWeight: '700', color: '#0891B2', letterSpacing: '1px', marginBottom: '8px' }}>FORMULA</div>
               <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '18px', fontWeight: '800', color: '#0F172A', lineHeight: '1.5' }}>
                 {lesson.formula}
               </div>
             </div>
 
-            {/* Örnekler */}
+            {/* Examples */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {lesson.formulaVisual.map((item, i) => (
                 <div key={i} style={{
@@ -275,8 +285,8 @@ export default function GrammarLessonPage() {
                     <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '15px', fontWeight: '700', color: '#0F172A' }}>
                       {item.sentence}
                     </div>
-                    {item.tr && (
-                      <div style={{ fontSize: '12px', color: '#64748B', marginTop: '2px' }}>{item.tr}</div>
+                    {item.translation && (
+                      <div style={{ fontSize: '12px', color: '#64748B', marginTop: '2px' }}>{item.translation}</div>
                     )}
                     {item.note && (
                       <div style={{ fontSize: '12px', color: '#DC2626', fontWeight: '600', marginTop: '4px' }}>⚠️ {item.note}</div>
@@ -295,16 +305,16 @@ export default function GrammarLessonPage() {
             <button
               onClick={goNextStep}
               style={{ marginTop: '8px', width: '100%', padding: '14px', background: '#0891B2', color: 'white', border: 'none', borderRadius: '12px', fontSize: '15px', fontWeight: '700', cursor: 'pointer', fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-            >Anladım, Dene! →</button>
+            >I Understand, Let's Practice! →</button>
           </div>
         )}
 
-        {/* ADIM 3 — OUTPUT */}
+        {/* STEP 3 — OUTPUT */}
         {step === 2 && ex && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#94A3B8' }}>
-              <span>Egzersiz {exIndex + 1} / {lesson.outputExercises.length}</span>
-              <span style={{ fontWeight: '700', color: '#0891B2' }}>{ex.type === 'fill' ? 'Boşluk Doldur' : 'Cümle Kur'}</span>
+              <span>Exercise {exIndex + 1} / {lesson.outputExercises.length}</span>
+              <span style={{ fontWeight: '700', color: '#0891B2' }}>{ex.type === 'fill' ? 'Fill in the Blank' : 'Build Sentence'}</span>
             </div>
 
             {/* Fill */}
@@ -313,7 +323,7 @@ export default function GrammarLessonPage() {
                 <div
                   ref={shakeRef}
                   style={{
-                    background: 'white', border: '2px solid #E2E8F0', borderRadius: '14px', padding: '18px 16px',
+                    background: 'white', border: `2px solid ${exResult === 'correct' ? '#86EFAC' : exResult === 'wrong' ? '#FCA5A5' : '#E2E8F0'}`, borderRadius: '14px', padding: '18px 16px',
                     fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '16px', fontWeight: '700', color: '#0F172A', lineHeight: '1.8',
                   }}
                 >
@@ -343,22 +353,22 @@ export default function GrammarLessonPage() {
                   ))}
                 </div>
                 {showHint && (
-                  <div style={{ fontSize: '13px', color: '#F59E0B', fontWeight: '600' }}>💡 İpucu: {ex.hint}</div>
+                  <div style={{ fontSize: '13px', color: '#F59E0B', fontWeight: '600' }}>💡 Hint: {ex.hint}</div>
                 )}
                 {exResult === 'wrong' && (
                   <div style={{ fontSize: '13px', color: '#DC2626', fontWeight: '600' }}>
-                    Tekrar dene! Doğru cevap: <strong>{ex.answer}</strong>
+                    Try again! Correct answer: <strong>{ex.answer}</strong>
                   </div>
                 )}
                 {exResult === 'correct' && (
-                  <div style={{ fontSize: '13px', color: '#15803D', fontWeight: '700' }}>✅ Harika!</div>
+                  <div style={{ fontSize: '13px', color: '#15803D', fontWeight: '700' }}>✅ Great!</div>
                 )}
                 <div style={{ display: 'flex', gap: '10px' }}>
                   {!exResult && (
                     <button
                       onClick={() => setShowHint(true)}
                       style={{ flex: 1, padding: '12px', background: '#FFFBEB', border: '1.5px solid #FDE68A', borderRadius: '10px', fontSize: '13px', fontWeight: '600', color: '#92400E', cursor: 'pointer' }}
-                    >💡 İpucu</button>
+                    >💡 Hint</button>
                   )}
                   <button
                     onClick={exResult === 'correct' ? goNextEx : checkFill}
@@ -370,7 +380,7 @@ export default function GrammarLessonPage() {
                       fontSize: '14px', fontWeight: '700', cursor: 'pointer',
                       fontFamily: "'Plus Jakarta Sans', sans-serif",
                     }}
-                  >{exResult === 'correct' ? (exIndex + 1 < lesson.outputExercises.length ? 'Sonraki →' : 'Son Adım →') : 'Kontrol Et'}</button>
+                  >{exResult === 'correct' ? (exIndex + 1 < lesson.outputExercises.length ? 'Next →' : 'Next Step →') : 'Check'}</button>
                 </div>
               </>
             )}
@@ -378,10 +388,10 @@ export default function GrammarLessonPage() {
             {/* Build */}
             {ex.type === 'build' && (
               <>
-                {ex.tr && (
-                  <div style={{ fontSize: '13px', color: '#94A3B8', textAlign: 'center' }}>💡 {ex.tr}</div>
+                {ex.translation && (
+                  <div style={{ fontSize: '13px', color: '#94A3B8', textAlign: 'center' }}>💡 {ex.translation}</div>
                 )}
-                {/* Yerleştirme alanı */}
+                {/* Placement area */}
                 <div
                   ref={shakeRef}
                   style={{
@@ -392,7 +402,7 @@ export default function GrammarLessonPage() {
                   }}
                 >
                   {buildPlaced.length === 0 && (
-                    <span style={{ fontSize: '13px', color: '#CBD5E1', fontStyle: 'italic' }}>Kelimelere dokunarak cümle kur…</span>
+                    <span style={{ color: '#CBD5E1', fontSize: '13px', fontStyle: 'italic' }}>Tap words from below to build the sentence...</span>
                   )}
                   {buildPlaced.map(token => (
                     <button key={token.idx} onClick={() => tapPlaced(token)} disabled={exResult === 'correct'}
@@ -407,26 +417,29 @@ export default function GrammarLessonPage() {
                     >{token.text}</button>
                   ))}
                 </div>
+
                 {exResult === 'wrong' && (
                   <div style={{ fontSize: '13px', color: '#DC2626', fontWeight: '600' }}>
-                    Tekrar dene! Doğru sıra: <strong>{ex.answer.join(' ')}</strong>
+                    Try again! Correct order: <strong>{ex.answer.join(' ')}</strong>
                   </div>
                 )}
                 {exResult === 'correct' && (
-                  <div style={{ fontSize: '13px', color: '#15803D', fontWeight: '700' }}>✅ Harika!</div>
+                  <div style={{ fontSize: '13px', color: '#15803D', fontWeight: '700' }}>✅ Great!</div>
                 )}
-                {/* Mevcut kelimeler */}
+                {/* Available words */}
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', justifyContent: 'center', minHeight: '44px' }}>
                   {buildAvail.map(token => (
                     <button key={token.idx} onClick={() => tapAvail(token)}
                       style={{
-                        padding: '8px 16px', background: 'white', border: '1.5px solid #E2E8F0',
-                        borderRadius: '20px', fontSize: '14px', fontWeight: '600', color: '#0F172A',
-                        cursor: 'pointer', fontFamily: "'Plus Jakarta Sans', sans-serif",
+                        padding: '8px 16px', background: 'white',
+                        border: '1.5px solid #E2E8F0', borderRadius: '20px', fontSize: '14px', fontWeight: '600', color: '#0F172A',
+                        cursor: exResult === 'correct' ? 'default' : 'pointer',
+                        fontFamily: "'Plus Jakarta Sans', sans-serif",
                       }}
                     >{token.text}</button>
                   ))}
                 </div>
+
                 <button
                   onClick={exResult === 'correct' ? goNextEx : checkBuild}
                   disabled={!buildPlaced.length && !exResult}
@@ -434,17 +447,16 @@ export default function GrammarLessonPage() {
                     width: '100%', padding: '14px',
                     background: exResult === 'correct' ? '#10B981' : buildPlaced.length ? '#0891B2' : '#E2E8F0',
                     color: exResult === 'correct' || buildPlaced.length ? 'white' : '#94A3B8',
-                    border: 'none', borderRadius: '12px', fontSize: '15px', fontWeight: '700',
-                    cursor: buildPlaced.length || exResult ? 'pointer' : 'default',
+                    border: 'none', borderRadius: '12px', fontSize: '15px', fontWeight: '700', cursor: 'pointer',
                     fontFamily: "'Plus Jakarta Sans', sans-serif",
                   }}
-                >{exResult === 'correct' ? (exIndex + 1 < lesson.outputExercises.length ? 'Sonraki →' : 'Son Adım →') : 'Kontrol Et'}</button>
+                >{exResult === 'correct' ? (exIndex + 1 < lesson.outputExercises.length ? 'Next →' : 'Next Step →') : 'Check'}</button>
               </>
             )}
           </div>
         )}
 
-        {/* ADIM 4 — BAĞLAM DİYALOG */}
+        {/* STEP 4 — CONTEXT DIALOGUE */}
         {step === 3 && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <div style={{
@@ -458,7 +470,7 @@ export default function GrammarLessonPage() {
               return (
                 <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: isA ? 'flex-start' : 'flex-end', gap: '4px' }}>
                   <div style={{ fontSize: '11px', color: '#94A3B8', fontWeight: '700', marginBottom: '2px' }}>
-                    {line.role === 'A' ? '👤 A' : '🙋 B'}
+                    {line.role === 'A' ? '👤 A' : '🤖 B'}
                   </div>
                   <div style={{
                     maxWidth: '80%', background: isA ? 'white' : '#EFF8FF',
@@ -470,9 +482,9 @@ export default function GrammarLessonPage() {
                         <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '15px', fontWeight: '700', color: '#0F172A' }}>
                           {line.text}
                         </div>
-                        {line.tr && (
+                        {line.translation && (
                           <div style={{ fontSize: '12px', color: '#64748B', marginTop: '4px', fontStyle: 'italic' }}>
-                            {line.tr}
+                            {line.translation}
                           </div>
                         )}
                       </div>
@@ -488,7 +500,7 @@ export default function GrammarLessonPage() {
             <button
               onClick={goNextStep}
               style={{ marginTop: '12px', width: '100%', padding: '15px', background: '#10B981', color: 'white', border: 'none', borderRadius: '12px', fontSize: '15px', fontWeight: '700', cursor: 'pointer', fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-            >🎉 Dersi Tamamla!</button>
+            >🎉 Complete Lesson!</button>
           </div>
         )}
       </div>

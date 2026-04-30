@@ -128,10 +128,10 @@ export default function LearnedWords() {
                 fontFamily: "'Plus Jakarta Sans', sans-serif",
                 fontSize: '20px', fontWeight: '800', color: '#0F172A',
               }}>
-                🎯 Kelimelerim
+                🎯 My Words
               </div>
               <div style={{ fontSize: '12px', color: '#94A3B8', marginTop: '1px' }}>
-                {loading ? 'Yükleniyor...' : `${total} kelime takip ediliyor`}
+                {loading ? 'Loading...' : `${total} words tracked`}
               </div>
             </div>
           </div>
@@ -144,7 +144,7 @@ export default function LearnedWords() {
             }}>🔍</span>
             <input
               type="text"
-              placeholder="Kelime veya anlam ara..."
+              placeholder="Search word or translation..."
               value={search}
               onChange={e => setSearch(e.target.value)}
               style={{
@@ -164,13 +164,13 @@ export default function LearnedWords() {
 
         {loading ? (
           <div style={{ textAlign: 'center', padding: '60px', color: '#94A3B8', fontSize: '15px' }}>
-            Kelimeler yükleniyor...
+            Loading words...
           </div>
         ) : total === 0 ? (
           <div style={{ textAlign: 'center', padding: '60px' }}>
             <div style={{ fontSize: '48px', marginBottom: '16px' }}>📭</div>
             <div style={{ fontSize: '16px', color: '#64748B' }}>
-              Henüz hiç kelime çalışılmamış.
+              No words studied yet.
             </div>
             <button
               onClick={() => navigate('/categories')}
@@ -181,7 +181,7 @@ export default function LearnedWords() {
                 fontSize: '14px', fontWeight: '700', cursor: 'pointer',
               }}
             >
-              Öğrenmeye Başla →
+              Start Learning →
             </button>
           </div>
         ) : (
@@ -192,9 +192,9 @@ export default function LearnedWords() {
               gap: '10px', marginBottom: '24px',
             }}>
               {[
-                { label: '⭐⭐⭐ Pekiştirildi', count: mastered.length, color: '#15803D', bg: '#F0FDF4', border: '#BBF7D0' },
-                { label: '⭐⭐ Öğrenildi',     count: learned.length,  color: '#0891B2', bg: '#EFF8FF', border: '#BAE6FD' },
-                { label: '🔄 Tekrar Gerekli', count: needWork.length,  color: '#EA580C', bg: '#FFF7ED', border: '#FED7AA' },
+                { label: '⭐⭐⭐ Mastered',     count: mastered.length, color: '#15803D', bg: '#F0FDF4', border: '#BBF7D0' },
+                { label: '⭐⭐ Learned',        count: learned.length,  color: '#0891B2', bg: '#EFF8FF', border: '#BAE6FD' },
+                { label: '🔄 Needs Review',   count: needWork.length,  color: '#EA580C', bg: '#FFF7ED', border: '#FED7AA' },
               ].map((s, i) => (
                 <div key={i} style={{
                   background: s.bg, border: `1px solid ${s.border}`,
@@ -214,13 +214,13 @@ export default function LearnedWords() {
 
             {filtered.length === 0 ? (
               <div style={{ textAlign: 'center', padding: '40px', color: '#94A3B8', fontSize: '14px' }}>
-                "{search}" için sonuç bulunamadı.
+                No results for "{search}".
               </div>
             ) : (
               <>
-                <Section label="⭐⭐⭐ Pekiştirildi" color="#15803D" items={mastered} />
-                <Section label="⭐⭐ Öğrenildi"     color="#0891B2" items={learned}  />
-                <Section label="🔄 Tekrar Gerekli" color="#EA580C" items={needWork}  />
+                <Section label="⭐⭐⭐ Mastered"   color="#15803D" items={mastered} />
+                <Section label="⭐⭐ Learned"      color="#0891B2" items={learned}  />
+                <Section label="🔄 Needs Review" color="#EA580C" items={needWork}  />
               </>
             )}
           </>

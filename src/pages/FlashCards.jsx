@@ -14,7 +14,7 @@ const LEVEL_COLORS = {
   B2: { bg: '#FEE2E2', text: '#991B1B', active: '#EF4444' },
 }
 
-// Store formatını (WordEntry) kart formatına dönüştür
+// Convert store format (WordEntry) to card format
 function normalizeWord(w) {
   return {
     id:   w.id,
@@ -36,8 +36,12 @@ export default function FlashCards() {
   const [selectedLevel, setSelectedLevel] = useState('A1')
   const sttTimerRef = useRef(null)
 
-  const category = JSON.parse(localStorage.getItem('aguilang_active_category') || '{}')
-  const lang = JSON.parse(localStorage.getItem('aguilang_active_lang') || '{ "id": "en" }')
+  const [category, setCategory] = useState(() =>
+    JSON.parse(localStorage.getItem('aguilang_active_category') || '{}')
+  )
+  const [lang, setLang] = useState(() =>
+    JSON.parse(localStorage.getItem('aguilang_active_lang') || '{ "id": "en" }')
+  )
 
   const { getByLevel, loading: storeLoading } = useWordStore()
 
@@ -46,7 +50,7 @@ export default function FlashCards() {
     transcript, sttSupported, checkAnswer,
   } = useSpeech(lang.id)
 
-  // STT sonucu gelince kelimeyi kontrol et
+  // Check STT result when it arrives
   useEffect(() => {
     if (!transcript) return
     clearTimeout(sttTimerRef.current)
@@ -62,6 +66,19 @@ export default function FlashCards() {
 
   useEffect(() => () => clearTimeout(sttTimerRef.current), [])
 
+  useEffect(() => {
+    const sync = () => {
+      setCategory(JSON.parse(localStorage.getItem('aguilang_active_category') || '{}'))
+      setLang(JSON.parse(localStorage.getItem('aguilang_active_lang') || '{ "id": "en" }'))
+    }
+    window.addEventListener('storage', sync)
+    window.addEventListener('aguilang_lang_changed', sync)
+    return () => {
+      window.removeEventListener('storage', sync)
+      window.removeEventListener('aguilang_lang_changed', sync)
+    }
+  }, [])
+
   const handleStt = (e) => {
     e.stopPropagation()
     if (isListening) return
@@ -69,7 +86,7 @@ export default function FlashCards() {
     sttTimerRef.current = setTimeout(() => stopListening(), 3000)
   }
 
-  // ── Seviye değişince sıfırla ve kelimeleri yükle ──
+  // ── Reset on level change & load words ──
   useEffect(() => {
     setFlipped(false)
     setIndex(0)
@@ -83,28 +100,34 @@ export default function FlashCards() {
         try {
           const allowed = JSON.parse(saved)
           if (!allowed.includes(category.id)) { navigate('/categories'); return }
-        } catch { /* geçersiz JSON */ }
+        } catch { /* invalid JSON */ }
       }
 
+      let cancelled = false
       ;(async () => {
         try {
           const module = await import(`../data/${category.id}-a1.json`)
+          if (cancelled) return
           const data = module.default
           const langData = data.translations?.[lang.id]
           setWords(langData?.words ?? [])
         } catch {
-          setWords([])
+          if (!cancelled) setWords([])
         }
       })()
+      return () => { cancelled = true }
     } else {
       if (storeLoading) return
-      setWords(getByLevel(selectedLevel, lang.id).map(normalizeWord))
+      const raw = getByLevel(selectedLevel, lang.id)
+      setWords(raw.filter(w => w.language === lang.id).map(normalizeWord))
     }
   }, [selectedLevel, category.id, lang.id, storeLoading]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const current = words[index]
   const catMeta   = CATEGORIES.find(c => c.id === category.id)
   const grammarNote = selectedLevel === 'A1' ? catMeta?.grammarNote : null
+  const grammarSentences = grammarNote?.sentences?.[lang.id] ?? grammarNote?.sentences?.en ?? []
+  const grammarTip = grammarNote?.tip?.[lang.id] ?? grammarNote?.tip?.en ?? grammarNote?.tip ?? null
   const progress  = showGrammar ? 100 : words.length ? Math.round(((index + 1) / words.length) * 100) : 0
 
   const handlePrev = () => {
@@ -125,7 +148,7 @@ export default function FlashCards() {
     }, 200)
   }
 
-  // ── Yükleniyor (store henüz hazır değil) ──
+  // ── Loading (store not ready yet) ──
   if (selectedLevel !== 'A1' && storeLoading) return (
     <div style={{
       minHeight: '100vh', background: '#F8FAFC',
@@ -133,11 +156,11 @@ export default function FlashCards() {
       fontFamily: 'Inter, sans-serif',
     }}>
       <div style={{ fontSize: '40px' }}>⏳</div>
-      <div style={{ fontSize: '15px', color: '#64748B' }}>Kelimeler yükleniyor...</div>
+      <div style={{ fontSize: '15px', color: '#64748B' }}>Loading words...</div>
     </div>
   )
 
-  // ── Kelime yok ──
+  // ── No words ──
   if (!words.length) return (
     <div style={{
       minHeight: '100vh', background: '#F8FAFC',
@@ -146,7 +169,7 @@ export default function FlashCards() {
     }}>
       <div style={{ fontSize: '48px' }}>📭</div>
       <div style={{ fontSize: '16px', color: '#64748B' }}>
-        {selectedLevel} seviyesinde kelime bulunamadı
+        No words found for {selectedLevel}
       </div>
       <button
         onClick={() => navigate('/categories')}
@@ -156,7 +179,7 @@ export default function FlashCards() {
           cursor: 'pointer', fontSize: '14px', fontWeight: '600',
         }}
       >
-        Geri Dön
+        Go Back
       </button>
     </div>
   )
@@ -180,7 +203,7 @@ export default function FlashCards() {
             ? '0 4px 16px rgba(16,185,129,0.35)' : '0 4px 16px rgba(245,158,11,0.35)',
           zIndex: 100, whiteSpace: 'nowrap', pointerEvents: 'none',
         }}>
-          {toastType === 'correct' ? 'Harika! 🌟' : 'Tekrar dene! 🎤'}
+          {toastType === 'correct' ? 'Great! 🌟' : 'Try again! 🎤'}
         </div>
       )}
 
@@ -201,7 +224,7 @@ export default function FlashCards() {
             }}>
               {selectedLevel === 'A1'
                 ? `${category.emoji || '📚'} ${category.name || 'Flashcard'}`
-                : `📚 ${selectedLevel} Kelimeleri`}
+                : `📚 ${selectedLevel} Words`}
             </div>
           </div>
           {!showGrammar && (
@@ -214,12 +237,12 @@ export default function FlashCards() {
                 display: 'flex', alignItems: 'center', gap: '4px',
               }}
             >
-              🔊 Dinle
+              🔊 Listen
             </button>
           )}
         </div>
 
-        {/* Seviye Seçici */}
+        {/* Level Selector */}
         <div style={{ maxWidth: '520px', margin: '10px auto 0', display: 'flex', gap: '6px' }}>
           {LEVELS.map(lvl => {
             const col = LEVEL_COLORS[lvl]
@@ -249,7 +272,7 @@ export default function FlashCards() {
             display: 'flex', justifyContent: 'space-between',
             fontSize: '12px', color: '#94A3B8', marginBottom: '6px',
           }}>
-            <span>{showGrammar ? 'Bitti! 🎉' : 'İlerleme'}</span>
+            <span>{showGrammar ? 'Done! 🎉' : 'Progress'}</span>
             <span>{showGrammar ? `${words.length} / ${words.length}` : `${index + 1} / ${words.length}`}</span>
           </div>
           <div style={{ height: '6px', background: '#E2E8F0', borderRadius: '3px', overflow: 'hidden' }}>
@@ -262,14 +285,14 @@ export default function FlashCards() {
         </div>
       </div>
 
-      {/* Kart Alanı */}
+      {/* Card Area */}
       <div style={{
         flex: 1, display: 'flex', flexDirection: 'column',
         alignItems: 'center', justifyContent: 'center', padding: '24px',
       }}>
         {showGrammar ? (
           grammarNote ? (
-            /* ── Gramer Notu (sadece A1) ── */
+            /* ── Grammar Note (only A1) ── */
             <div style={{
               width: '100%', maxWidth: '420px', background: '#FFFBEB',
               borderRadius: '20px', border: '2px solid #FDE68A',
@@ -282,10 +305,10 @@ export default function FlashCards() {
                 borderRadius: '20px', padding: '6px 16px',
                 fontSize: '13px', fontWeight: '700', color: '#92400E', letterSpacing: '0.5px',
               }}>
-                📝 Gramer Notu
+                📝 Grammar Note
               </div>
               <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                {grammarNote.sentences.map((sentence, i) => (
+                {grammarSentences.map((sentence, i) => (
                   <div key={i} style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                     background: 'white', borderRadius: '12px',
@@ -309,17 +332,17 @@ export default function FlashCards() {
                   </div>
                 ))}
               </div>
-              {grammarNote.tip && (
+              {grammarTip && (
                 <div style={{
                   background: '#FEF9C3', borderRadius: '10px', padding: '12px 16px',
                   fontSize: '13px', color: '#78350F', lineHeight: '1.6', width: '100%', textAlign: 'center',
                 }}>
-                  💡 {grammarNote.tip}
+                  💡 {grammarTip}
                 </div>
               )}
             </div>
           ) : (
-            /* ── Tamamlandı (A2/B1/B2) ── */
+            /* ── Completed (A2/B1/B2) ── */
             <div style={{
               width: '100%', maxWidth: '420px', background: '#F0FDF4',
               borderRadius: '20px', border: '2px solid #BBF7D0',
@@ -332,21 +355,21 @@ export default function FlashCards() {
                 fontFamily: "'Plus Jakarta Sans', sans-serif",
                 fontSize: '24px', fontWeight: '800', color: '#065F46',
               }}>
-                Tebrikler!
+                Congratulations!
               </div>
               <div style={{ fontSize: '15px', color: '#059669', textAlign: 'center' }}>
-                <strong>{words.length}</strong> adet {selectedLevel} kelimesini tamamladın.
+                <strong>{words.length}</strong> {selectedLevel} words completed.
               </div>
               <div style={{
                 background: 'white', borderRadius: '12px', border: '1px solid #BBF7D0',
                 padding: '10px 20px', fontSize: '13px', color: '#64748B',
               }}>
-                🔥 Streak devam ediyor!
+                🔥 Streak continues!
               </div>
             </div>
           )
         ) : (
-          /* ── Normal Flash Kart ── */
+          /* ── Normal Flash Card ── */
           <div
             onClick={() => setFlipped(!flipped)}
             style={{
@@ -385,7 +408,7 @@ export default function FlashCards() {
                   </div>
                 )}
                 <div style={{ fontSize: '13px', color: '#CBD5E1', marginTop: '4px' }}>
-                  👆 Anlamı görmek için dokun
+                  Tap to see meaning
                 </div>
                 {sttSupported && (
                   <button
@@ -400,7 +423,7 @@ export default function FlashCards() {
                       transition: 'all 0.15s',
                     }}
                   >
-                    {isListening ? '🔴 Dinleniyor...' : '🎤 Sen de söyle'}
+                    {isListening ? '🔴 Listening...' : '🎤 Say it'}
                   </button>
                 )}
               </>
@@ -421,7 +444,7 @@ export default function FlashCards() {
                     fontSize: '11px', color: '#86EFAC', fontWeight: '700',
                     letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '4px',
                   }}>
-                    Türkçe
+                    Translation
                   </div>
                   <div style={{
                     fontFamily: "'Plus Jakarta Sans', sans-serif",
@@ -434,127 +457,127 @@ export default function FlashCards() {
             )}
           </div>
         )}
-      </div>
 
-      {/* Gezilen Kelimeler Linki */}
-      {!showGrammar && (
-        <div style={{ textAlign: 'center', marginBottom: '4px' }}>
-          <button
-            onClick={() => setShowWordList(true)}
-            style={{
-              background: 'none', border: 'none', cursor: 'pointer',
-              fontSize: '12px', color: '#94A3B8', fontFamily: 'Inter, sans-serif', padding: '4px 8px',
-            }}
-          >
-            📋 Gezilen kelimeleri gör ({index + 1}/{words.length})
-          </button>
-        </div>
-      )}
+        {/* Visited Words Link */}
+        {!showGrammar && (
+          <div style={{ textAlign: 'center', marginBottom: '4px' }}>
+            <button
+              onClick={() => setShowWordList(true)}
+              style={{
+                background: 'none', border: 'none', cursor: 'pointer',
+                fontSize: '12px', color: '#94A3B8', fontFamily: 'Inter, sans-serif', padding: '4px 8px',
+              }}
+            >
+              📋 View visited words ({index + 1}/{words.length})
+            </button>
+          </div>
+        )}
 
-      {/* Gezilen Kelimeler Modal */}
-      {showWordList && (
-        <div
-          onClick={() => setShowWordList(false)}
-          style={{
-            position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)',
-            zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px',
-          }}
-        >
+        {/* Visited Words Modal */}
+        {showWordList && (
           <div
-            onClick={e => e.stopPropagation()}
+            onClick={() => setShowWordList(false)}
             style={{
-              background: 'white', borderRadius: '20px', width: '100%', maxWidth: '400px',
-              maxHeight: '70vh', display: 'flex', flexDirection: 'column',
-              boxShadow: '0 8px 40px rgba(0,0,0,0.18)',
+              position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)',
+              zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px',
             }}
           >
-            <div style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              padding: '18px 20px', borderBottom: '1px solid #E2E8F0', flexShrink: 0,
-            }}>
+            <div
+              onClick={e => e.stopPropagation()}
+              style={{
+                background: 'white', borderRadius: '20px', width: '100%', maxWidth: '400px',
+                maxHeight: '70vh', display: 'flex', flexDirection: 'column',
+                boxShadow: '0 8px 40px rgba(0,0,0,0.18)',
+              }}
+            >
               <div style={{
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
-                fontSize: '15px', fontWeight: '800', color: '#0F172A',
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                padding: '18px 20px', borderBottom: '1px solid #E2E8F0', flexShrink: 0,
               }}>
-                Bu Oturumda Gezilen Kelimeler
-              </div>
-              <button
-                onClick={() => setShowWordList(false)}
-                style={{
-                  background: '#F1F5F9', border: 'none', borderRadius: '8px',
-                  width: '32px', height: '32px', cursor: 'pointer', fontSize: '16px',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: '#64748B', fontWeight: '700',
-                }}
-              >✕</button>
-            </div>
-            <div style={{ overflowY: 'auto', padding: '10px 14px', flex: 1 }}>
-              {words.slice(0, index + 1).map((w, i) => (
-                <div key={i} style={{
-                  padding: '10px 14px', borderRadius: '10px', marginBottom: '3px',
-                  borderLeft: `3px solid ${i === index ? '#0891B2' : 'transparent'}`,
-                  background: i === index ? '#EFF8FF' : 'transparent',
-                  display: 'flex', gap: '8px', alignItems: 'center', fontSize: '14px',
+                <div style={{
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  fontSize: '15px', fontWeight: '800', color: '#0F172A',
                 }}>
-                  <span style={{
-                    fontFamily: "'Plus Jakarta Sans', sans-serif",
-                    fontWeight: '700', color: '#0F172A',
-                  }}>{w[lang.id] || w.word}</span>
-                  <span style={{ color: '#CBD5E1' }}>—</span>
-                  <span style={{ color: '#64748B' }}>{w.tr}</span>
+                  Words Visited This Session
                 </div>
-              ))}
+                <button
+                  onClick={() => setShowWordList(false)}
+                  style={{
+                    background: '#F1F5F9', border: 'none', borderRadius: '8px',
+                    width: '32px', height: '32px', cursor: 'pointer', fontSize: '16px',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    color: '#64748B', fontWeight: '700',
+                  }}
+                >✕</button>
+              </div>
+              <div style={{ overflowY: 'auto', padding: '10px 14px', flex: 1 }}>
+                {words.slice(0, index + 1).map((w, i) => (
+                  <div key={i} style={{
+                    padding: '10px 14px', borderRadius: '10px', marginBottom: '3px',
+                    borderLeft: `3px solid ${i === index ? '#0891B2' : 'transparent'}`,
+                    background: i === index ? '#EFF8FF' : 'transparent',
+                    display: 'flex', gap: '8px', alignItems: 'center', fontSize: '14px',
+                  }}>
+                    <span style={{
+                      fontFamily: "'Plus Jakarta Sans', sans-serif",
+                      fontWeight: '700', color: '#0F172A',
+                    }}>{w[lang.id] || w.word}</span>
+                    <span style={{ color: '#CBD5E1' }}>—</span>
+                    <span style={{ color: '#64748B' }}>{w.tr}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      )}
-
-      {/* Alt Butonlar */}
-      <div style={{
-        padding: '16px 24px 32px', display: 'flex', gap: '12px',
-        maxWidth: '420px', width: '100%', margin: '0 auto',
-      }}>
-        {showGrammar ? (
-          <button
-            onClick={() => navigate('/quiz')}
-            style={{
-              flex: 1, height: '52px', background: '#0891B2', border: 'none',
-              borderRadius: '12px', fontSize: '15px', fontWeight: '700',
-              color: 'white', cursor: 'pointer',
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
-            }}
-          >
-            Quiz'e Geç →
-          </button>
-        ) : (
-          <>
-            <button
-              onClick={handlePrev}
-              disabled={index === 0}
-              style={{
-                flex: 1, height: '52px', background: 'white',
-                border: '1.5px solid #E2E8F0', borderRadius: '12px',
-                fontSize: '15px', fontWeight: '600',
-                color: index === 0 ? '#CBD5E1' : '#64748B',
-                cursor: index === 0 ? 'default' : 'pointer',
-                fontFamily: 'Inter, sans-serif', opacity: index === 0 ? 0.5 : 1,
-              }}
-            >
-              ← Önceki
-            </button>
-            <button
-              onClick={handleNext}
-              style={{
-                flex: 1, height: '52px',
-                background: LEVEL_COLORS[selectedLevel].active,
-                border: 'none', borderRadius: '12px', fontSize: '15px', fontWeight: '600',
-                color: 'white', cursor: 'pointer', fontFamily: 'Inter, sans-serif',
-              }}
-            >
-              Anladım ✓
-            </button>
-          </>
         )}
+
+        {/* Bottom Buttons */}
+        <div style={{
+          padding: '16px 24px 32px', display: 'flex', gap: '12px',
+          maxWidth: '420px', width: '100%', margin: '0 auto',
+        }}>
+          {showGrammar ? (
+            <button
+              onClick={() => navigate('/quiz')}
+              style={{
+                flex: 1, height: '52px', background: '#0891B2', border: 'none',
+                borderRadius: '12px', fontSize: '15px', fontWeight: '700',
+                color: 'white', cursor: 'pointer',
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+              }}
+            >
+              Go to Quiz →
+            </button>
+          ) : (
+            <>
+              <button
+                onClick={handlePrev}
+                disabled={index === 0}
+                style={{
+                  flex: 1, height: '52px', background: 'white',
+                  border: '1.5px solid #E2E8F0', borderRadius: '12px',
+                  fontSize: '15px', fontWeight: '600',
+                  color: index === 0 ? '#CBD5E1' : '#64748B',
+                  cursor: index === 0 ? 'default' : 'pointer',
+                  fontFamily: 'Inter, sans-serif', opacity: index === 0 ? 0.5 : 1,
+                }}
+              >
+                ← Previous
+              </button>
+              <button
+                onClick={handleNext}
+                style={{
+                  flex: 1, height: '52px',
+                  background: LEVEL_COLORS[selectedLevel].active,
+                  border: 'none', borderRadius: '12px', fontSize: '15px', fontWeight: '600',
+                  color: 'white', cursor: 'pointer', fontFamily: 'Inter, sans-serif',
+                }}
+              >
+                I Got It ✓
+              </button>
+            </>
+          )}
+        </div>
       </div>
     </div>
   )

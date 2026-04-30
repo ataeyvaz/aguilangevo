@@ -1,16 +1,45 @@
-# React + Vite
+# AguiLangEvo
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern language learning platform built with React, Vite, and Capacitor.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- 📚 **Vocabulary Learning** - Interactive flashcards with audio support
+- 🎯 **Quiz Modes** - Recognition, recall, and sentence building exercises
+- 🗣️ **Speech Practice** - Voice recognition for pronunciation training
+- 📝 **Grammar Lessons** - Structured lessons with examples and exercises
+- 🎮 **Games** - Speed quiz and sentence building games
+- 📊 **Progress Tracking** - Daily stats and word-level statistics
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend:** React 19 + Vite
+- **Styling:** Tailwind CSS
+- **Mobile:** Capacitor (Android)
+- **Audio:** Web Speech API + MyMemory Translation API
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm install
+npm run dev
+```
+
+## Build for Production
+
+```bash
+npm run build
+npm run android
+```
+
+## Project Structure
+
+```
+src/
+  components/    # Reusable UI components
+  pages/        # Main application pages
+  hooks/        # Custom React hooks
+  services/     # API and utility services
+  store/        # State management
+  data/         # JSON data files
+  utils/        # Helper functions

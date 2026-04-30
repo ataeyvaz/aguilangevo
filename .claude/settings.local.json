@@ -11,7 +11,11 @@
       "Bash(npx vite:*)",
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(node *)",
+      "Bash(pip install *)",
+      "Bash(python -c \"import edge_tts; print\\('edge-tts OK:', edge_tts.__version__\\)\")",
+      "Bash(python *)"
     ]
   }
 }

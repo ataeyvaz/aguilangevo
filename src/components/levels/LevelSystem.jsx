@@ -10,11 +10,11 @@ import { LEVELS } from '../../schema/dataSchema';
 const LEVEL_CONFIGS = [
   {
     key: 'A1',
-    label: 'Başlangıç',
+    label: 'Beginner',
     range: '0–200 XP',
     wordTarget: 300,
-    description: 'Temel selamlaşma, sayılar, renkler, aile üyeleri',
-    unlocks: ['20 kategori', 'Temel alıştırmalar', 'Flashcard modu'],
+    description: 'Greetings, numbers, colors, family members',
+    unlocks: ['20 categories', 'Basic exercises', 'Flashcard mode'],
     color: 'from-emerald-400 to-green-500',
     textColor: 'text-emerald-600',
     bgColor: 'bg-emerald-50 dark:bg-emerald-900/20',
@@ -22,11 +22,11 @@ const LEVEL_CONFIGS = [
   },
   {
     key: 'A2',
-    label: 'Temel',
+    label: 'Elementary',
     range: '200–500 XP',
     wordTarget: 600,
-    description: 'Günlük diyaloglar, alışveriş, seyahat, zaman ifadeleri',
-    unlocks: ['Cümle tamamlama', 'Dinleme egzersizleri', 'Sözlük özelliği'],
+    description: 'Daily dialogues, shopping, travel, time expressions',
+    unlocks: ['Sentence completion', 'Listening exercises', 'Dictionary'],
     color: 'from-lime-400 to-green-500',
     textColor: 'text-lime-600',
     bgColor: 'bg-lime-50 dark:bg-lime-900/20',
@@ -34,11 +34,11 @@ const LEVEL_CONFIGS = [
   },
   {
     key: 'B1',
-    label: 'Orta-Alt',
+    label: 'Pre-Intermediate',
     range: '500–900 XP',
     wordTarget: 1200,
-    description: 'İş hayatı, teknoloji, haber metinleri, bağlaçlar',
-    unlocks: ['Bağlam egzersizleri', 'Makale okuma', 'Oxford 3000 B1'],
+    description: 'Work, technology, news texts, connectors',
+    unlocks: ['Context exercises', 'Article reading', 'Oxford 3000 B1'],
     color: 'from-yellow-400 to-amber-500',
     textColor: 'text-yellow-600',
     bgColor: 'bg-yellow-50 dark:bg-yellow-900/20',
@@ -46,11 +46,11 @@ const LEVEL_CONFIGS = [
   },
   {
     key: 'B2',
-    label: 'Orta',
+    label: 'Intermediate',
     range: '900–1400 XP',
     wordTarget: 2000,
-    description: 'Akademik metinler, tartışma, soyut kavramlar',
-    unlocks: ['Tartışma simülasyonu', 'Deyimler modülü', 'Oxford 3000 B2'],
+    description: 'Academic texts, debate, abstract concepts',
+    unlocks: ['Discussion simulator', 'Idioms module', 'Oxford 3000 B2'],
     color: 'from-orange-400 to-red-500',
     textColor: 'text-orange-600',
     bgColor: 'bg-orange-50 dark:bg-orange-900/20',
@@ -58,11 +58,11 @@ const LEVEL_CONFIGS = [
   },
   {
     key: 'B3',
-    label: 'Orta-Üst',
+    label: 'Upper-Intermediate',
     range: '1400–2000 XP',
     wordTarget: 3000,
-    description: 'İleri iş dili, akademik yazım, nüanslı ifadeler',
-    unlocks: ['Oxford 5000 B3', 'Akademik kelime listesi', 'Yazma asistanı'],
+    description: 'Advanced business language, academic writing, nuanced expressions',
+    unlocks: ['Oxford 5000 B3', 'Academic word list', 'Writing assistant'],
     color: 'from-rose-400 to-pink-500',
     textColor: 'text-rose-600',
     bgColor: 'bg-rose-50 dark:bg-rose-900/20',
@@ -70,11 +70,11 @@ const LEVEL_CONFIGS = [
   },
   {
     key: 'C1',
-    label: 'İleri',
+    label: 'Advanced',
     range: '2000+ XP',
     wordTarget: 5000,
-    description: 'Akademik ve profesyonel üst seviye kullanım',
-    unlocks: ['C1 içerik paketi', 'Makale üretici', 'Tüm özellikler'],
+    description: 'Academic and professional high-level usage',
+    unlocks: ['C1 content pack', 'Article generator', 'All features'],
     color: 'from-purple-400 to-violet-500',
     textColor: 'text-purple-600',
     bgColor: 'bg-purple-50 dark:bg-purple-900/20',
@@ -115,7 +115,7 @@ export default function LevelSystem({ currentXP = 0, stats, onLevelSelect }) {
 
       {/* Seviye yol haritası */}
       <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide px-1">
-        Öğrenme Yolu
+        Learning Path
       </h3>
       <div className="space-y-3">
         {LEVEL_CONFIGS.map((cfg, i) => (
@@ -151,7 +151,7 @@ function CurrentLevelCard({ currentLevel, nextLevel, currentXP, progress, stats 
         </div>
         <div className="text-right shrink-0">
           <p className="text-2xl font-bold text-gray-800 dark:text-white">{currentXP}</p>
-          <p className="text-xs text-gray-400">toplam XP</p>
+          <p className="text-xs text-gray-400">total XP</p>
         </div>
       </div>
 
@@ -160,7 +160,7 @@ function CurrentLevelCard({ currentLevel, nextLevel, currentXP, progress, stats 
         <div>
           <div className="flex justify-between text-xs text-gray-400 mb-1.5">
             <span>{cfg.key}</span>
-            <span>{nextLevel} için %{progress}</span>
+            <span>{progress}% to {nextLevel}</span>
           </div>
           <div className="h-2.5 bg-white/60 dark:bg-gray-700 rounded-full overflow-hidden">
             <div
@@ -175,9 +175,9 @@ function CurrentLevelCard({ currentLevel, nextLevel, currentXP, progress, stats 
       {stats && (
         <div className="grid grid-cols-3 gap-2 mt-4">
           {[
-            { label: 'Görülen', value: stats.seen || 0 },
-            { label: 'Öğrenilen', value: stats.mastered || 0 },
-            { label: 'Doğruluk', value: `%${stats.accuracy || 0}` },
+            { label: 'Seen',     value: stats.seen || 0 },
+            { label: 'Mastered', value: stats.mastered || 0 },
+            { label: 'Accuracy', value: `${stats.accuracy || 0}%` },
           ].map(s => (
             <div key={s.label}
                  className="bg-white/50 dark:bg-gray-800/50 rounded-xl p-2 text-center">
@@ -222,7 +222,7 @@ function LevelCard({ config, isCurrentLevel, isUnlocked, wordsLearned, onSelect 
             <span className="font-semibold text-gray-800 dark:text-white">{label}</span>
             {isCurrentLevel && (
               <span className="text-xs bg-current/10 px-1.5 py-0.5 rounded-full font-medium">
-                Şu an
+                Current
               </span>
             )}
             {!isUnlocked && <span className="text-gray-400 text-xs">🔒</span>}

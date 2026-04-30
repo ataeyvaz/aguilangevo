@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import { useSpeech } from '../hooks/useSpeech'
 
 const DIALOGUES_META = [
-  { id: 'home',       title: 'Evde Günlük Konuşma',  emoji: '🏠', lines: 10 },
-  { id: 'market',     title: 'Markette Alışveriş',    emoji: '🛒', lines: 10 },
-  { id: 'park',       title: 'Parkta Oyun',           emoji: '🌳', lines: 10 },
-  { id: 'restaurant', title: 'Restoranda Sipariş',    emoji: '🍽️', lines: 10 },
-  { id: 'school',     title: 'Okulda Tanışma',        emoji: '🏫', lines: 10 },
-  { id: 'travel',     title: 'Seyahatte Yön Sorma',   emoji: '🗺️', lines: 10 },
+  { id: 'home',       title: 'Home Conversation',    emoji: '🏠', lines: 10 },
+  { id: 'market',     title: 'Market Shopping',      emoji: '🛒', lines: 10 },
+  { id: 'park',       title: 'Park Games',          emoji: '🌳', lines: 10 },
+  { id: 'restaurant', title: 'Restaurant Order',    emoji: '🍽️', lines: 10 },
+  { id: 'school',     title: 'School Introduction',  emoji: '🏫', lines: 10 },
+  { id: 'travel',     title: 'Travel Questions',   emoji: '🗺️', lines: 10 },
 ]
 
 export default function DialogueScreen() {
@@ -26,7 +26,7 @@ export default function DialogueScreen() {
 
   const { speak, stopSpeaking, isSpeaking } = useSpeech(lang.id)
 
-  // ── Diyalog yükleme ──────────────────────────────────────────
+  // ── Load dialogue ────────────────────────────────
   useEffect(() => {
     if (!selected) return
     setDialogue(null)
@@ -42,7 +42,7 @@ export default function DialogueScreen() {
   const isChildTurn  = currentLine?.speaker === childRole
   const isDone       = !!dialogue && lineIndex >= dialogue.lines.length
 
-  // ── Karşı rol satırında TTS otomatik başlat ───────────────────
+  // ── Auto-start TTS on parent lines ─────────────────
   useEffect(() => {
     if (!dialogue || !currentLine || isChildTurn || isDone) return
     didSpeakRef.current = false
@@ -51,7 +51,7 @@ export default function DialogueScreen() {
     return () => clearTimeout(t)
   }, [lineIndex, dialogue]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // ── TTS bitince otomatik ilerleme ─────────────────────────────
+  // ── Auto-advance when TTS ends ─────────────────
   useEffect(() => {
     if (isSpeaking) {
       didSpeakRef.current = true
@@ -62,7 +62,7 @@ export default function DialogueScreen() {
     }
   }, [isSpeaking])
 
-  // ── En son balona scroll ──────────────────────────────────────
+  // ── Scroll to bottom line ─────────────────
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [lineIndex])
@@ -81,9 +81,9 @@ export default function DialogueScreen() {
     speak(currentLine[lang.id] || currentLine.en)
   }
 
-  // ════════════════════════════════════════════════════════════
-  // LISTE GÖRÜNÜMÜ
-  // ════════════════════════════════════════════════════════════
+  // ════════════════════════════════════════
+  // LİSTELE
+  // ════════════════════════════════════════
   if (!selected) {
     return (
       <div style={{ minHeight: '100vh', background: '#F8FAFC', fontFamily: 'Inter, sans-serif' }}>
@@ -104,14 +104,14 @@ export default function DialogueScreen() {
               fontFamily: "'Plus Jakarta Sans', sans-serif",
               fontSize: '20px', fontWeight: '800', color: '#0F172A',
             }}>
-              🎮 Diyaloglar
+              🎮 Dialogues
             </div>
           </div>
         </div>
 
         <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px 24px 40px' }}>
           <p style={{ fontSize: '14px', color: '#64748B', marginBottom: '20px' }}>
-            Bir diyalog seç ve konuşma pratiği yap!
+            Select a dialogue and practice speaking!
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {DIALOGUES_META.map(d => (
@@ -142,7 +142,7 @@ export default function DialogueScreen() {
                     fontSize: '16px', fontWeight: '700', color: '#0F172A',
                   }}>{d.title}</div>
                   <div style={{ fontSize: '13px', color: '#94A3B8', marginTop: '3px' }}>
-                    {d.lines} satır konuşma
+                    {d.lines} lines
                   </div>
                 </div>
                 <div style={{
@@ -160,9 +160,9 @@ export default function DialogueScreen() {
     )
   }
 
-  // ════════════════════════════════════════════════════════════
+  // ════════════════════════════════════════
   // YÜKLEME
-  // ════════════════════════════════════════════════════════════
+  // ════════════════════════════════════════
   if (!dialogue) {
     return (
       <div style={{
@@ -171,16 +171,16 @@ export default function DialogueScreen() {
         flexDirection: 'column', gap: '12px', fontFamily: 'Inter, sans-serif',
       }}>
         <div style={{ fontSize: '32px' }}>⏳</div>
-        <div style={{ fontSize: '14px', color: '#94A3B8' }}>Yükleniyor...</div>
+        <div style={{ fontSize: '14px', color: '#94A3B8' }}>Loading...</div>
       </div>
     )
   }
 
   const meta = DIALOGUES_META.find(d => d.id === selected)
 
-  // ════════════════════════════════════════════════════════════
+  // ════════════════════════════════════════
   // BİTİŞ EKRANI
-  // ════════════════════════════════════════════════════════════
+  // ════════════════════════════════════════
   if (isDone) {
     return (
       <div style={{
@@ -194,18 +194,18 @@ export default function DialogueScreen() {
           fontFamily: "'Plus Jakarta Sans', sans-serif",
           fontSize: '26px', fontWeight: '800', color: '#0F172A',
         }}>
-          Harika iş çıkardın!
+          Great job!
         </div>
         <div style={{ fontSize: '15px', color: '#64748B', maxWidth: '320px', lineHeight: '1.7' }}>
-          <strong>{meta?.emoji} {meta?.title}</strong> diyaloğunu başarıyla tamamladın.
-          <br />{dialogue.lines.length} satır konuştun! 💬
+          <strong>{meta?.emoji} {meta?.title}</strong> dialogue completed.
+          <br />{dialogue.lines.length} lines spoken! 💬
         </div>
         <div style={{
           background: '#FEF3C7', border: '1px solid #FDE68A',
           borderRadius: '16px', padding: '16px 28px',
           fontSize: '14px', color: '#92400E', fontWeight: '600',
         }}>
-          ⭐ Tebrikler, {childRole}! Dil pratiğin güçleniyor.
+          ⭐ Congratulations, {childRole}! Your language practice is improving.
         </div>
         <button
           onClick={handleBack}
@@ -217,15 +217,15 @@ export default function DialogueScreen() {
             marginTop: '8px',
           }}
         >
-          🔙 Listeye Dön
+          🔙 Back to List
         </button>
       </div>
     )
   }
 
-  // ════════════════════════════════════════════════════════════
+  // ════════════════════════════════════════
   // KONUŞMA GÖRÜNÜMÜ
-  // ════════════════════════════════════════════════════════════
+  // ════════════════════════════════════════
   const visibleLines = dialogue.lines.slice(0, lineIndex + 1)
   const progressPct  = Math.round((lineIndex / dialogue.lines.length) * 100)
 
@@ -234,14 +234,6 @@ export default function DialogueScreen() {
       minHeight: '100vh', background: '#F8FAFC', fontFamily: 'Inter, sans-serif',
       display: 'flex', flexDirection: 'column',
     }}>
-      {/* Bounce animasyonu */}
-      <style>{`
-        @keyframes dlg-bounce {
-          0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
-          40%            { transform: translateY(-6px); opacity: 1; }
-        }
-      `}</style>
-
       {/* Header */}
       <div style={{
         background: 'white', borderBottom: '1px solid #E2E8F0',
@@ -280,7 +272,7 @@ export default function DialogueScreen() {
         </div>
       </div>
 
-      {/* Balonlar */}
+      {/* Lines */}
       <div style={{
         flex: 1, overflowY: 'auto', padding: '16px 20px',
         maxWidth: '600px', width: '100%', margin: '0 auto',
@@ -313,9 +305,9 @@ export default function DialogueScreen() {
                 {isChild ? '🦅' : '🧑'}
               </div>
 
-              {/* Balon + meta */}
+              {/* Balloon + meta */}
               <div style={{ maxWidth: '78%' }}>
-                {/* Konuşan ismi */}
+                {/* Speaker name */}
                 <div style={{
                   fontSize: '11px', color: '#CBD5E1', fontWeight: '600',
                   marginBottom: '4px',
@@ -324,7 +316,7 @@ export default function DialogueScreen() {
                   {line.speaker}
                 </div>
 
-                {/* Balon */}
+                {/* Balloon */}
                 <div style={{
                   background: isChild ? '#FEF3C7' : '#F1F5F9',
                   border: `1px solid ${isChild ? '#FDE68A' : '#E2E8F0'}`,
@@ -336,14 +328,14 @@ export default function DialogueScreen() {
                   {showDots ? (
                     <div style={{ display: 'flex', gap: '5px', alignItems: 'center', padding: '4px 2px' }}>
                       {[0, 1, 2].map(j => (
-                        <div
-                          key={j}
-                          style={{
-                            width: '8px', height: '8px', borderRadius: '50%',
-                            background: '#94A3B8',
-                            animation: `dlg-bounce 1.1s ease-in-out ${j * 0.18}s infinite`,
-                          }}
-                        />
+                            <div
+                              key={j}
+                              style={{
+                                width: '8px', height: '8px', borderRadius: '50%',
+                                background: '#94A3B8',
+                                animation: `dlg-bounce 1.1s ease-in-out ${j * 0.18}s infinite`,
+                              }}
+                            />
                       ))}
                     </div>
                   ) : (
@@ -357,14 +349,14 @@ export default function DialogueScreen() {
                   )}
                 </div>
 
-                {/* Aktif child satırı: Türkçe + hint */}
+                {/* Active child line: translation + hint */}
                 {isActive && isChild && (
                   <div style={{ marginTop: '6px', textAlign: 'right' }}>
                     <div style={{
                       fontSize: '13px', color: '#94A3B8',
                       fontStyle: 'italic', lineHeight: '1.5',
                     }}>
-                      {line.tr}
+                      {line.translation}
                     </div>
                     {line.hint && (
                       <div style={{ fontSize: '11px', color: '#CBD5E1', marginTop: '2px' }}>
@@ -374,14 +366,14 @@ export default function DialogueScreen() {
                   </div>
                 )}
 
-                {/* Aktif opponent satırı: Türkçe çeviri */}
+                {/* Active opponent line: translation */}
                 {isActive && !isChild && !showDots && (
                   <div style={{ marginTop: '6px', textAlign: 'left' }}>
                     <div style={{
                       fontSize: '13px', color: '#94A3B8',
                       fontStyle: 'italic', lineHeight: '1.5',
                     }}>
-                      {line.tr}
+                      {line.translation}
                     </div>
                   </div>
                 )}
@@ -405,37 +397,38 @@ export default function DialogueScreen() {
               <button
                 onClick={handleSpeak}
                 style={{
-                  height: '52px', padding: '0 20px',
-                  background: '#EFF8FF', border: '1px solid #BAE6FD',
-                  borderRadius: '12px', fontSize: '14px', fontWeight: '600',
-                  color: '#0891B2', cursor: 'pointer', flexShrink: 0,
-                  display: 'flex', alignItems: 'center', gap: '6px',
+                  marginTop: '8px', padding: '8px 20px',
+                  background: isSpeaking ? '#FEE2E2' : '#EFF8FF',
+                  border: `1.5px solid ${isSpeaking ? '#FCA5A5' : '#BAE6FD'}`,
+                  borderRadius: '20px', fontSize: '13px', fontWeight: '600',
+                  color: isSpeaking ? '#DC2626' : '#0891B2',
+                  cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px',
+                  transition: 'all 0.15s',
                 }}
               >
-                🔊 Dinle
+                {isSpeaking ? '🔴 Listening...' : '🎤 Say it'}
               </button>
               <button
                 onClick={advanceLine}
                 style={{
                   flex: 1, height: '52px',
                   background: '#0891B2', border: 'none',
-                  borderRadius: '12px',
+                  borderRadius: '12px', fontSize: '15px', fontWeight: '700',
+                  color: 'white', cursor: 'pointer',
                   fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  fontSize: '15px', fontWeight: '700', color: 'white', cursor: 'pointer',
                 }}
               >
-                Söyledim ✓
+                I Said It ✓
               </button>
             </div>
           ) : (
             <div style={{
               height: '52px', background: '#F8FAFC', border: '1px solid #E2E8F0',
-              borderRadius: '12px', display: 'flex', alignItems: 'center',
-              justifyContent: 'center', gap: '8px',
+              borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
               fontSize: '14px', color: '#94A3B8', fontWeight: '600',
             }}>
               <span style={{ fontSize: '18px' }}>🔊</span>
-              {currentLine?.speaker} konuşuyor...
+              {currentLine?.speaker} is speaking...
             </div>
           )}
         </div>

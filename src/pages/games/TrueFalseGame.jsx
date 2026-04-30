@@ -94,26 +94,26 @@ export default function TrueFalseGame() {
 
   if (loading) return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Inter, sans-serif', color: '#64748B' }}>
-      Yükleniyor...
+      Loading...
     </div>
   )
 
   if (!words.length || words.length < 2) return (
     <div style={{ minHeight: '100vh', background: '#F8FAFC', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '16px', fontFamily: 'Inter, sans-serif', textAlign: 'center', padding: '24px' }}>
       <div style={{ fontSize: '48px' }}>📭</div>
-      <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '18px', fontWeight: '700', color: '#0F172A' }}>Yeterli kelime yok</div>
-      <button onClick={() => navigate('/categories')} style={{ padding: '11px 28px', background: '#0891B2', color: 'white', border: 'none', borderRadius: '12px', fontSize: '14px', fontWeight: '700', cursor: 'pointer' }}>Kategori Seç</button>
+      <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '18px', fontWeight: '700', color: '#0F172A' }}>Not enough words</div>
+      <button onClick={() => navigate('/categories')} style={{ padding: '11px 28px', background: '#0891B2', color: 'white', border: 'none', borderRadius: '12px', fontSize: '14px', fontWeight: '700', cursor: 'pointer' }}>Select Category</button>
     </div>
   )
 
   if (gameOver) return (
     <div style={{ minHeight: '100vh', background: '#F8FAFC', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '20px', fontFamily: 'Inter, sans-serif', textAlign: 'center', padding: '24px' }}>
       <div style={{ fontSize: '64px' }}>✅</div>
-      <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '32px', fontWeight: '800', color: '#0F172A' }}>{score} Puan!</div>
-      <div style={{ fontSize: '16px', color: '#64748B' }}>{correct} / {QUESTION_COUNT} doğru</div>
+      <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '32px', fontWeight: '800', color: '#0F172A' }}>{score} Points!</div>
+      <div style={{ fontSize: '16px', color: '#64748B' }}>{correct} / {QUESTION_COUNT} correct</div>
       <div style={{ display: 'flex', gap: '12px', marginTop: '8px' }}>
-        <button onClick={handleRestart} style={{ padding: '12px 24px', background: 'white', border: '1.5px solid #E2E8F0', borderRadius: '12px', fontSize: '14px', fontWeight: '600', cursor: 'pointer', color: '#64748B' }}>🔄 Tekrar</button>
-        <button onClick={() => navigate('/play')} style={{ padding: '12px 24px', background: '#0891B2', border: 'none', borderRadius: '12px', fontSize: '14px', fontWeight: '700', cursor: 'pointer', color: 'white' }}>← Oyunlar</button>
+        <button onClick={handleRestart} style={{ padding: '12px 24px', background: 'white', border: '1.5px solid #E2E8F0', borderRadius: '12px', fontSize: '14px', fontWeight: '600', cursor: 'pointer', color: '#64748B' }}>🔄 Play Again</button>
+        <button onClick={() => navigate('/play')} style={{ padding: '12px 24px', background: '#0891B2', border: 'none', borderRadius: '12px', fontSize: '14px', fontWeight: '700', cursor: 'pointer', color: 'white' }}>← Games</button>
       </div>
     </div>
   )
@@ -127,10 +127,10 @@ export default function TrueFalseGame() {
 
   const feedbackText = () => {
     if (!isAnswered) return ''
-    if (userCorrect) return `Evet! ${q.word.emoji} = ${wordText}`
-    if (q.isTrue)    return `Aslında doğruydu! ${q.word.emoji} = ${wordText}`
+    if (userCorrect) return `Yes! ${q.word.emoji} = ${wordText}`
+    if (q.isTrue)    return `Actually it was correct! ${q.word.emoji} = ${wordText}`
     const dis = q.distractor
-    return `Hayır, bu bir ${dis?.[lang.id] || dis?.word || '?'} ${dis?.emoji || ''}`
+    return `No, that's a ${dis?.[lang.id] || dis?.word || '?'} ${dis?.emoji || ''}`
   }
 
   return (
@@ -139,12 +139,12 @@ export default function TrueFalseGame() {
       <div style={{ background: 'white', borderBottom: '1px solid #E2E8F0', padding: '14px 24px' }}>
         <div style={{ maxWidth: '480px', margin: '0 auto', display: 'flex', alignItems: 'center', gap: '12px' }}>
           <button onClick={() => navigate('/play')} style={{ background: '#F1F5F9', border: 'none', borderRadius: '8px', width: '32px', height: '32px', cursor: 'pointer', fontSize: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>←</button>
-          <div style={{ flex: 1, fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '16px', fontWeight: '700', color: '#0F172A' }}>✅ Doğru / Yanlış</div>
-          <div style={{ fontSize: '14px', fontWeight: '800', color: '#0891B2' }}>{score} puan</div>
+          <div style={{ flex: 1, fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '16px', fontWeight: '700', color: '#0F172A' }}>✅ True / False</div>
+          <div style={{ fontSize: '14px', fontWeight: '800', color: '#0891B2' }}>{score} pts</div>
         </div>
         <div style={{ maxWidth: '480px', margin: '10px auto 0' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#94A3B8', marginBottom: '6px' }}>
-            <span>Soru {qIndex + 1} / {QUESTION_COUNT}</span>
+            <span>Question {qIndex + 1} / {QUESTION_COUNT}</span>
           </div>
           <div style={{ height: '6px', background: '#E2E8F0', borderRadius: '3px', overflow: 'hidden' }}>
             <div style={{ height: '100%', width: `${((qIndex + 1) / QUESTION_COUNT) * 100}%`, background: '#0891B2', borderRadius: '3px', transition: 'width 0.4s' }} />
@@ -195,7 +195,7 @@ export default function TrueFalseGame() {
               color: '#DC2626', transition: 'all 0.2s',
               fontFamily: "'Plus Jakarta Sans', sans-serif",
             }}
-          >❌ Yanlış</button>
+          >❌ False</button>
           <button
             onClick={() => handleAnswer(true)}
             disabled={isAnswered}
@@ -210,7 +210,7 @@ export default function TrueFalseGame() {
               color: '#15803D', transition: 'all 0.2s',
               fontFamily: "'Plus Jakarta Sans', sans-serif",
             }}
-          >✅ Doğru</button>
+          >✅ True</button>
         </div>
       </div>
     </div>

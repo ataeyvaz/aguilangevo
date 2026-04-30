@@ -1,9 +1,9 @@
 /**
- * AguiLang2 - Unified Data Store
- * Tüm kelime kaynaklarını birleştiren merkezi veri yöneticisi
- *
- * Yerleştirme: src/store/useWordStore.js
- * Kullanım:    const { words, addWords, getByLevel } = useWordStore()
+  * AguiLangEvo - Unified Data Store
+  * Tüm kelime kaynaklarını birleştiren merkezi veri yöneticisi
+  *
+  * Yerleştirme: src/store/useWordStore.js
+  * Kullanım:    const { words, addWords, getByLevel } = useWordStore()
  */
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
@@ -47,9 +47,9 @@ function convertCategoryJson(rawData) {
   return entries;
 }
 
-const STORE_KEY    = 'aguilang2_words';
-const PROGRESS_KEY = 'aguilang2_progress';
-const VERSION_KEY  = 'aguilang2_db_version';
+const STORE_KEY    = 'aguilangevo_words';
+const PROGRESS_KEY = 'aguilangevo_progress';
+const VERSION_KEY  = 'aguilangevo_db_version';
 const DB_VERSION   = '2.1.0';
 
 // ─── STORAGE HELPERS ──────────────────────────────────────────────────────────
@@ -100,36 +100,7 @@ export function useWordStore() {
   const [loading,  setLoading]  = useState(true);
   const [initialized, setInitialized] = useState(false);
 
-  // ── İlk yükleme ──
-  useEffect(() => {
-    initializeStore();
-  }, []);
-
-  async function initializeStore() {
-    setLoading(true);
-
-    const storedVersion = localStorage.getItem(VERSION_KEY);
-    let storedWords = loadFromStorage(STORE_KEY, []);
-
-    // Veritabanı sürümü değiştiyse veya boşsa yeniden kur
-    if (storedVersion !== DB_VERSION || storedWords.length === 0) {
-      console.log('🔄 AguiLang2 veritabanı başlatılıyor...');
-      storedWords = await buildInitialDatabase();
-      saveToStorage(STORE_KEY, storedWords);
-      localStorage.setItem(VERSION_KEY, DB_VERSION);
-    }
-
-    const storedProgress = loadFromStorage(PROGRESS_KEY, null) || createUserProgress('en');
-    saveToStorage(PROGRESS_KEY, storedProgress);
-
-    setWords(storedWords);
-    setProgress(storedProgress);
-    setLoading(false);
-    setInitialized(true);
-    console.log(`✅ ${storedWords.length} kelime yüklendi`);
-  }
-
-  async function buildInitialDatabase() {
+  const buildInitialDatabase = useCallback(async () => {
     const allWords = [];
 
     // 1. Temel Oxford NGSL kelimeleri
@@ -160,11 +131,40 @@ export function useWordStore() {
     }
 
     // 4. Kullanıcı eklediği kelimeler
-    const userWords = loadFromStorage('aguilang2_user_words', []);
+    const userWords = loadFromStorage('aguilangevo_user_words', []);
     allWords.push(...userWords);
 
     return allWords;
-  }
+  }, []);
+
+  const initializeStore = useCallback(async () => {
+    setLoading(true);
+
+    const storedVersion = localStorage.getItem(VERSION_KEY);
+    let storedWords = loadFromStorage(STORE_KEY, []);
+
+    // Veritabanı sürümü değiştiyse veya boşsa yeniden kur
+    if (storedVersion !== DB_VERSION || storedWords.length === 0) {
+      console.log('🔄 AguiLangEvo veritabanı başlatılıyor...');
+      storedWords = await buildInitialDatabase();
+      saveToStorage(STORE_KEY, storedWords);
+      localStorage.setItem(VERSION_KEY, DB_VERSION);
+    }
+
+    const storedProgress = loadFromStorage(PROGRESS_KEY, null) || createUserProgress('en');
+    saveToStorage(PROGRESS_KEY, storedProgress);
+
+    setWords(storedWords);
+    setProgress(storedProgress);
+    setLoading(false);
+    setInitialized(true);
+    console.log(`✅ ${storedWords.length} kelime yüklendi`);
+  }, [buildInitialDatabase]);
+
+  // ── İlk yükleme ──
+  useEffect(() => {
+    initializeStore();
+  }, [initializeStore]);
 
   // ── İndeks (memo) ──
   const index = useMemo(() => buildIndex(words), [words]);
@@ -210,7 +210,7 @@ export function useWordStore() {
       saveToStorage(STORE_KEY, updated);
 
       // Kullanıcı eklenenler ayrı da sakla
-      const userKey = 'aguilang2_user_words';
+      const userKey = 'aguilangevo_user_words';
       const userWords = loadFromStorage(userKey, []);
       const toAddUser = toAdd.filter(w => w.source === 'user');
       if (toAddUser.length > 0) {
@@ -224,7 +224,7 @@ export function useWordStore() {
   // ── AguiLang1 Migration ──
   const importAguiLang1Files = useCallback((files) => {
     const { entries, stats } = batchMigrate(files);
-    saveToStorage('aguilang2_migrated_words', entries);
+      saveToStorage('aguilangevo_migrated_words', entries);
     addWords(entries);
     return stats;
   }, [addWords]);
