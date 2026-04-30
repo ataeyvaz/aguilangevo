@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useProgress, BADGE_DEFS } from '../hooks/useProgress'
 import { useSettings } from '../hooks/useSettings'
+import { useApp } from '../context/AppContext'
+import { useTranslation } from '../i18n/translations'
 
 const TTS_RATES = [
   { label: 'Slow',   value: 0.6 },
@@ -13,6 +15,12 @@ const Divider = () => (
   <div style={{ height: '1px', background: '#E2E8F0', margin: '8px 0' }} />
 )
 
+const UI_LANG_OPTIONS = [
+  { code: 'en', flag: '🇺🇸', label: 'EN' },
+  { code: 'es', flag: '🇪🇸', label: 'ES' },
+  { code: 'pt', flag: '🇧🇷', label: 'PT' },
+]
+
 export default function ProfilePage() {
   const navigate = useNavigate()
   const profile   = JSON.parse(localStorage.getItem('aguilang_active_profile') || '{}')
@@ -20,12 +28,21 @@ export default function ProfilePage() {
 
   const { earnedBadges } = useProgress(profileId)
   const { settings, save } = useSettings()
+  const { uiLanguage, setUiLanguage } = useApp()
+  const { t } = useTranslation()
 
   const earnedIds = new Set(earnedBadges.map(b => b.id))
 
   const [resetMsg,     setResetMsg]     = useState('')
   const [profileName,  setProfileName]  = useState(profile.name || 'Aguila')
   const [profileType,  setProfileType]  = useState(profile.type || 'adult')
+  const [langToast,    setLangToast]    = useState('')
+
+  const handleLangChange = (code) => {
+    setUiLanguage(code)
+    setLangToast(t('language changed successfully'))
+    setTimeout(() => setLangToast(''), 2500)
+  }
 
   const isChild = profileType === 'child'
 
@@ -256,8 +273,57 @@ export default function ProfilePage() {
         <div style={card}>
           <div style={sectionTitle}>⚙️ Settings</div>
 
+          {/* Interface Language */}
+          <div style={{ marginBottom: '18px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+              <div>
+                <div style={{ fontWeight: '600', color: '#0F172A', fontSize: '14px' }}>
+                  {t('interface language')}
+                </div>
+                <div style={{ fontSize: '12px', color: '#94A3B8', marginTop: '2px' }}>
+                  {t('change interface language')}
+                </div>
+              </div>
+            </div>
+            {langToast && (
+              <div style={{
+                background: '#F0FDF4', border: '1px solid #BBF7D0',
+                borderRadius: '8px', padding: '8px 14px',
+                fontSize: '13px', color: '#15803D', fontWeight: '600',
+                marginBottom: '10px',
+              }}>
+                ✅ {langToast}
+              </div>
+            )}
+            <div style={{ display: 'flex', gap: '8px' }}>
+              {UI_LANG_OPTIONS.map(({ code, flag, label }) => {
+                const active = uiLanguage === code
+                return (
+                  <button
+                    key={code}
+                    onClick={() => handleLangChange(code)}
+                    style={{
+                      flex: 1, padding: '10px 0',
+                      background: active ? '#0891B2' : 'white',
+                      border: `1.5px solid ${active ? '#0891B2' : '#E2E8F0'}`,
+                      borderRadius: '10px', cursor: 'pointer',
+                      fontFamily: "'Plus Jakarta Sans', sans-serif",
+                      fontSize: '13px', fontWeight: '700',
+                      color: active ? 'white' : '#64748B',
+                      transition: 'all 0.15s',
+                    }}
+                  >
+                    {flag} {label}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          <Divider />
+
           {/* TTS Toggle */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px', marginTop: '16px' }}>
             <div>
               <div style={{ fontWeight: '600', color: '#0F172A', fontSize: '14px' }}>Text to Speech (TTS)</div>
               <div style={{ fontSize: '12px', color: '#94A3B8', marginTop: '2px' }}>Words are automatically read aloud</div>

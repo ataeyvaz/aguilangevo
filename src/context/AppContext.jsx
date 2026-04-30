@@ -51,6 +51,11 @@ export function AppProvider({ children }) {
     setProfile(prev => {
       const next = { ...(prev ?? {}), ...updates }
       localStorage.setItem(PROFILE_KEY, JSON.stringify(next))
+      // Profilde ui_language varsa AppContext state'ini de güncelle
+      if (updates.ui_language) {
+        localStorage.setItem(UI_LANG_KEY, JSON.stringify(updates.ui_language))
+        setUiLanguageState(updates.ui_language)
+      }
       return next
     })
   }, [])
