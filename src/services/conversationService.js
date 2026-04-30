@@ -5,11 +5,12 @@
  * Native/Capacitor build'da bu servis src/db/conversationQueries.js ile swap edilir.
  */
 
-import packs1 from '../../conversation_pack_test.json'
-import packs2 from '../../conversation_pack_batch2.json'
-import packs3 from '../../conversation_pack_batch3.json'
-import packs4 from '../../conversation_pack_batch4.json'
-import packs5 from '../../conversation_pack_batch5.json'
+import packs1    from '../../conversation_pack_test.json'
+import packs2    from '../../conversation_pack_batch2.json'
+import packs3    from '../../conversation_pack_batch3.json'
+import packs4    from '../../conversation_pack_batch4.json'
+import packs5    from '../../conversation_pack_batch5.json'
+import packsMissing from '../../conversation_pack_missing.json'
 
 const PROGRESS_KEY = 'aguilang_conv_progress'
 
@@ -20,7 +21,14 @@ const ALL_PACKS = [
   ...packs3,
   ...packs4,
   ...(Array.isArray(packs5) ? packs5 : []),
+  ...packsMissing,
 ]
+
+// ── Debug ─────────────────────────────────────────────────────
+if (import.meta.env.DEV) {
+  console.info('[conversationService] ALL_PACKS yüklendi:', ALL_PACKS.length, 'pack')
+  console.info('[conversationService] Unique kelimeler:', new Set(ALL_PACKS.map(p => p.word)).size)
+}
 
 // ── Pack sorgulama ────────────────────────────────────────────
 
@@ -31,9 +39,33 @@ const ALL_PACKS = [
  * @returns {object|null}
  */
 export function getPackForWord(word, difficulty = 'easy') {
-  return ALL_PACKS.find(
-    p => p.word.toLowerCase() === word.toLowerCase() && p.difficulty === difficulty
+  const wordLower = word.trim().toLowerCase()
+  const pack = ALL_PACKS.find(
+    p => p.word.trim().toLowerCase() === wordLower && p.difficulty === difficulty
   ) ?? null
+  if (import.meta.env.DEV && !pack) {
+    console.warn(`[conversationService] Pack bulunamadı: word="${word}" difficulty="${difficulty}"`)
+  }
+  return pack
+}
+
+/**
+ * Bir kelime için pack mevcut mu?
+ * Study.jsx gibi bileşenler Practice butonunu buna göre gösterir.
+ * @param {string} word
+ * @returns {boolean}
+ */
+export function hasPackForWord(word) {
+  const wordLower = word.trim().toLowerCase()
+  return ALL_PACKS.some(p => p.word.trim().toLowerCase() === wordLower)
+}
+
+/**
+ * Pack'i olan tüm kelimelerin listesi.
+ * @returns {string[]}
+ */
+export function getAllPackWords() {
+  return [...new Set(ALL_PACKS.map(p => p.word))].sort()
 }
 
 /**
@@ -42,9 +74,10 @@ export function getPackForWord(word, difficulty = 'easy') {
  * @returns {string[]}
  */
 export function getAvailableDifficulties(word) {
+  const wordLower = word.trim().toLowerCase()
   const found = new Set(
     ALL_PACKS
-      .filter(p => p.word.toLowerCase() === word.toLowerCase())
+      .filter(p => p.word.trim().toLowerCase() === wordLower)
       .map(p => p.difficulty)
   )
   return ['easy', 'medium', 'hard'].filter(d => found.has(d))

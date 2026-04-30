@@ -14,6 +14,7 @@ import {
   saveConvProgress,
   getConvProgress,
   getAvailableDifficulties,
+  getAllPackWords,
 } from '../services/conversationService'
 
 // ── Sabitler ─────────────────────────────────────────────────
@@ -80,35 +81,55 @@ export default function Practice() {
 
   // ── PACK BULUNAMADI ───────────────────────────────────────
   if (!pack) {
+    const allWords    = getAllPackWords()
+    const suggestions = allWords.slice(0, 12)
+
     return (
-      <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center px-6"
+      <div className="min-h-screen bg-slate-50 flex flex-col px-6 pt-12 pb-8"
            style={{ fontFamily: 'Inter, sans-serif' }}>
-        <div className="text-5xl mb-4">😅</div>
-        <h2 className="text-xl font-bold text-slate-800 mb-2">No practice available</h2>
-        <p className="text-slate-500 text-sm text-center mb-1">
-          No conversation pack found for
-        </p>
-        <p className="text-cyan-700 font-bold mb-6">"{word}" · {difficulty}</p>
-        {available.length > 0 && (
-          <div className="flex gap-2 mb-6">
-            {available.map(d => (
-              <button
-                key={d}
-                onClick={() => navigate(`/practice?word=${encodeURIComponent(word)}&difficulty=${d}`)}
-                className={`px-4 py-2 rounded-xl border-2 text-sm font-bold
-                  ${DIFF_META[d].bg} ${DIFF_META[d].text} ${DIFF_META[d].border}`}
-              >
-                {DIFF_META[d].emoji} {DIFF_META[d].label}
-              </button>
-            ))}
+        <div className="w-full max-w-sm mx-auto">
+
+          <div className="text-center mb-6">
+            <div className="text-5xl mb-3">😅</div>
+            <h2 className="text-xl font-bold text-slate-800 mb-1">No pack found</h2>
+            <p className="text-slate-400 text-sm">
+              No conversation pack for{' '}
+              <span className="font-bold text-slate-700">"{word}"</span>
+              {' '}({difficulty})
+            </p>
           </div>
-        )}
-        <button
-          onClick={() => navigate(-1)}
-          className="px-8 py-3 bg-cyan-600 text-white font-bold rounded-xl"
-        >
-          ← Go Back
-        </button>
+
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 mb-5">
+            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">
+              Available words ({allWords.length} total)
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {suggestions.map(w => (
+                <button
+                  key={w}
+                  onClick={() => navigate(`/practice?word=${encodeURIComponent(w)}&difficulty=easy`)}
+                  className="px-3 py-1.5 bg-cyan-50 border border-cyan-200 text-cyan-700
+                             text-sm font-medium rounded-lg hover:bg-cyan-100 transition-colors"
+                >
+                  {w}
+                </button>
+              ))}
+              {allWords.length > 12 && (
+                <span className="text-xs text-slate-400 self-center">
+                  +{allWords.length - 12} more
+                </span>
+              )}
+            </div>
+          </div>
+
+          <button
+            onClick={() => navigate(-1)}
+            className="w-full py-4 bg-cyan-600 hover:bg-cyan-700 text-white
+                       font-black rounded-2xl transition-colors"
+          >
+            ← Go Back
+          </button>
+        </div>
       </div>
     )
   }

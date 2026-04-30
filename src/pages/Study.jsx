@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 import { useTranslation } from '../i18n/translations'
 import verbsData from '../data/verbs-a1.json'
+import { hasPackForWord } from '../services/conversationService'
 
 // pairId → hedef dil kodu
 const PAIR_LANG = { 1: 'es', 2: 'pt', 3: 'en', 4: 'en' }
@@ -220,10 +221,14 @@ export default function Study() {
             </div>
           )}
 
-          {/* Practice butonu — en son yanlış yapılan kelimeyi öner */}
+          {/* Practice butonu — pack mevcut olan en uygun kelimeyi öner */}
           {(() => {
-            const wrongWord  = answers.find(a => !a.isCorrect)?.word
-            const practiceW  = wrongWord ?? answers[0]?.word
+            // Önce yanlış cevaplananları, sonra tüm cevapları dene
+            const candidates = [
+              ...answers.filter(a => !a.isCorrect),
+              ...answers.filter(a =>  a.isCorrect),
+            ]
+            const practiceW = candidates.find(a => hasPackForWord(a.word))?.word
             if (!practiceW) return null
             return (
               <button

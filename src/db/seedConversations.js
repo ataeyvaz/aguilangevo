@@ -19,6 +19,7 @@ const BATCH_FILES = [
   'conversation_pack_batch3.json',
   'conversation_pack_batch4.json',
   'conversation_pack_batch5.json',
+  'conversation_pack_missing.json',
 ]
 
 // ── JSON dosyalarını yükle ve birleştir ───────────────────────
