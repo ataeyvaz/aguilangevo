@@ -125,13 +125,17 @@ export default function Sidebar() {
         })}
       </nav>
 
-      {/* Settings link */}
-      <div style={{ padding: '12px', borderTop: '1px solid #E2E8F0' }}>
-        {(() => {
-          const active = pathname === '/settings'
+      {/* Bottom links: Language + Settings */}
+      <div style={{ padding: '12px', borderTop: '1px solid #E2E8F0', display: 'flex', flexDirection: 'column', gap: '2px' }}>
+        {[
+          { to: '/setup',     icon: '🌐', label: t('change language') },
+          { to: '/settings',  icon: '🔒', label: t('settings') },
+        ].map(({ to, icon, label }) => {
+          const active = pathname === to
           return (
             <NavLink
-              to="/settings"
+              key={to}
+              to={to}
               style={{
                 display: 'flex', alignItems: 'center', gap: '10px',
                 padding: '9px 12px', borderRadius: '10px',
@@ -142,11 +146,11 @@ export default function Sidebar() {
                 transition: 'all 0.15s',
               }}
             >
-              <span style={{ fontSize: '18px' }}>🔒</span>
-              <span>{t('settings')}</span>
+              <span style={{ fontSize: '18px' }}>{icon}</span>
+              <span>{label}</span>
             </NavLink>
           )
-        })()}
+        })}
       </div>
     </aside>
   )

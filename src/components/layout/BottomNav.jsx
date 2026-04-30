@@ -12,6 +12,7 @@ export default function BottomNav() {
     { to: '/dictionary', label: t('dictionary'), icon: '📖', match: ['/dictionary'] },
     { to: '/levels',     label: t('levels'),    icon: '🏆', match: ['/levels'] },
     { to: '/profile',    label: t('profile'),   icon: '👤', match: ['/profile'] },
+    { to: '/setup',      label: t('change language'), icon: '🌐', match: ['/setup'] },
   ]
 
   const isActive = (match) => match.some(p => pathname === p || pathname.startsWith(p + '/'))

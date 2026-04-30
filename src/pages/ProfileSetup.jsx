@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 import { useTranslation } from '../i18n/translations'
 
-// Kullanıcının anadili → uiLanguage kodu
 const SPEAK_LANGS = [
   { code: 'es', flag: '🇪🇸', name: 'Español' },
   { code: 'pt', flag: '🇧🇷', name: 'Português' },
@@ -15,31 +14,31 @@ const AGE_MODES = [
   { value: 'child', icon: '👦' },
 ]
 
+const PROFILE_KEY = 'aguilang_active_profile'
+
 export default function ProfileSetup() {
   const navigate = useNavigate()
   const { saveProfile, uiLanguage, setUiLanguage } = useApp()
   const { t } = useTranslation()
 
-  const [ageMode, setAgeMode] = useState('adult')
+  const existingProfile = (() => {
+    try { const s = localStorage.getItem(PROFILE_KEY); return s ? JSON.parse(s) : null }
+    catch { return null }
+  })()
+  const isReturning = !!(existingProfile?.placement_done)
 
-  // Dil seçilince → AppContext güncellenir → tüm t() anında çevrilir
+  const [ageMode, setAgeMode] = useState(existingProfile?.type || 'adult')
+
   const handleLangSelect = (code) => {
     setUiLanguage(code)
   }
 
   const handleStart = () => {
-    saveProfile({
-      name:           'Aguila',
-      initial:        'A',
-      type:           ageMode,
-      ui_language:    uiLanguage,
-      points:         0,
-      level:          1,
-      streak:         0,
-      placement_done: false,
-      current_level:  null,
-    })
-    navigate('/placement-test')
+    const base = isReturning
+      ? existingProfile
+      : { name: 'Aguila', initial: 'A', points: 0, level: 1, streak: 0, placement_done: false, current_level: null }
+    saveProfile({ ...base, type: ageMode, ui_language: uiLanguage })
+    navigate(isReturning ? '/dashboard' : '/placement-test')
   }
 
   return (
@@ -92,10 +91,10 @@ export default function ProfileSetup() {
               {t('i want to learn')}
             </p>
             <div className="flex items-center gap-3 bg-slate-50 rounded-xl border border-slate-200 px-4 py-3">
-              <span className="text-2xl">🇬🇧</span>
+              <span className="text-2xl">🇺🇸</span>
               <span className="font-bold text-slate-800 text-sm"
                     style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-                {t('english')}
+                English (US)
               </span>
               <span className="ml-auto text-cyan-600 text-sm font-bold">✓</span>
             </div>
@@ -145,6 +144,15 @@ export default function ProfileSetup() {
         <p className="text-center text-xs text-slate-400 mt-4">
           {t('change language')} → {t('profile')}
         </p>
+
+        {isReturning && (
+          <button
+            onClick={() => navigate('/dashboard')}
+            className="w-full py-2 text-slate-400 hover:text-slate-600 text-sm transition-colors mt-1"
+          >
+            ← {t('dashboard')}
+          </button>
+        )}
       </div>
     </div>
   )
