@@ -30,6 +30,7 @@ import DictionaryPage from '../pages/DictionaryPage'
 import LevelsPage     from '../pages/LevelsPage'
 import PlacementTest  from '../components/PlacementTest'
 import Study          from '../pages/Study'
+import Practice       from '../pages/Practice'
 
 // ── Akıllı yönlendirme (root "/") ────────────────────────
 function SmartRoot() {
@@ -51,6 +52,7 @@ export default function AppRouter() {
         <Route path="/setup"           element={<ProfileSetup />} />
         <Route path="/placement-test"  element={<PlacementTest />} />
         <Route path="/study"           element={<Study />} />
+        <Route path="/practice"        element={<Practice />} />
         <Route path="/language"        element={<LanguageSelect />} />
         <Route path="/settings"          element={<ParentGate />} />
         <Route path="/settings/panel"  element={<ParentPanel />} />

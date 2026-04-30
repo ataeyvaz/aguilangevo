@@ -220,6 +220,24 @@ export default function Study() {
             </div>
           )}
 
+          {/* Practice butonu — en son yanlış yapılan kelimeyi öner */}
+          {(() => {
+            const wrongWord  = answers.find(a => !a.isCorrect)?.word
+            const practiceW  = wrongWord ?? answers[0]?.word
+            if (!practiceW) return null
+            return (
+              <button
+                onClick={() => navigate(`/practice?word=${encodeURIComponent(practiceW)}&difficulty=easy`)}
+                className="w-full py-4 bg-amber-500 hover:bg-amber-600 active:bg-amber-700
+                           text-white font-black text-base rounded-2xl transition-colors
+                           shadow-lg shadow-amber-500/25 mb-3"
+                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+              >
+                💬 Practice "{practiceW}"
+              </button>
+            )
+          })()}
+
           <button
             onClick={() => navigate('/dashboard')}
             className="w-full py-4 bg-cyan-600 hover:bg-cyan-700 active:bg-cyan-800
