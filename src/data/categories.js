@@ -88,11 +88,11 @@ export const CATEGORIES = [
         de: ['Ich mag Karotten.', 'Wir essen jeden Tag Gemüse.'],
         es: ['Me gustan las zanahorias.', 'Comemos verduras todos los días.'],
       },
-      tip: {
-        en: '"I like + çoğul isim" ile sevdiklerini ifade edersin.',
-        de: '"Ich mag + çoğul isim" ile sevdiklerini ifade edersin.',
-        es: '"Me gustan + çoğul isim" ile sevdiklerini ifade edersin.',
-      },
+        tip: {
+          en: 'Use "I like + plural noun" to express what you like.',
+          de: 'Use "Ich mag + plural noun" to express what you like.',
+          es: 'Use "Me gustan + plural noun" to express what you like.',
+        },
     },
   },
   {
@@ -156,7 +156,7 @@ export const CATEGORIES = [
     },
   },
   {
-    id: 'greetings', icon: '👋', label: 'Selamlaşma', color: 'bg-teal-100 border-teal-400', data: greetingsData,
+    id: 'greetings', icon: '👋', label: 'Greetings', color: 'bg-teal-100 border-teal-400', data: greetingsData,
     grammarNote: {
       sentences: {
         en: ['Hello! How are you?', 'I am fine, thank you.'],

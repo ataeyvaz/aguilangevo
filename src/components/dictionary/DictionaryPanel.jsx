@@ -280,7 +280,7 @@ function ResultCard({ result, onSave, initialSaved = false }) {
       {/* Çeviri */}
       {result.translation && (
         <div className="mb-3">
-          <span className="text-sm text-gray-500 dark:text-gray-400">Türkçe: </span>
+          <span className="text-sm text-gray-500 dark:text-gray-400">Turkish: </span>
           <span className="text-lg font-semibold text-indigo-600 dark:text-indigo-400">
             {result.translation}
           </span>
