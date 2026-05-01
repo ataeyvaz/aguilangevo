@@ -15,6 +15,11 @@ import { createUserProgress, createWordProgress } from '../schema/dataSchema';
 const categoryJsonModules = import.meta.glob('../data/*-a1.json');
 const aguiLang1Modules    = import.meta.glob('../data/aguilang1/*.json');
 
+// ─── SINGLETON CACHE ──────────────────────────────────────────────
+let _cachedWords    = null
+let _cachedProgress = null
+let _initPromise    = null
+
 function convertCategoryJson(rawData) {
   const entries = [];
   const category = rawData.category || 'general';
@@ -138,28 +143,53 @@ export function useWordStore() {
   }, []);
 
   const initializeStore = useCallback(async () => {
-    setLoading(true);
-
-    const storedVersion = localStorage.getItem(VERSION_KEY);
-    let storedWords = loadFromStorage(STORE_KEY, []);
-
-    // Veritabanı sürümü değiştiyse veya boşsa yeniden kur
-    if (storedVersion !== DB_VERSION || storedWords.length === 0) {
-      console.log('🔄 AguiLangEvo veritabanı başlatılıyor...');
-      storedWords = await buildInitialDatabase();
-      saveToStorage(STORE_KEY, storedWords);
-      localStorage.setItem(VERSION_KEY, DB_VERSION);
+    // Zaten başlatıldıysa cache'den al
+    if (_cachedWords !== null) {
+      setWords(_cachedWords)
+      setProgress(_cachedProgress)
+      setLoading(false)
+      setInitialized(true)
+      return
     }
 
-    const storedProgress = loadFromStorage(PROGRESS_KEY, null) || createUserProgress('en');
-    saveToStorage(PROGRESS_KEY, storedProgress);
+    // Başka bir instance zaten yüklüyorsa bekle
+    if (_initPromise) {
+      await _initPromise
+      setWords(_cachedWords)
+      setProgress(_cachedProgress)
+      setLoading(false)
+      setInitialized(true)
+      return
+    }
 
-    setWords(storedWords);
-    setProgress(storedProgress);
-    setLoading(false);
-    setInitialized(true);
-    console.log(`✅ ${storedWords.length} kelime yüklendi`);
-  }, [buildInitialDatabase]);
+    setLoading(true)
+
+    _initPromise = (async () => {
+      const storedVersion = localStorage.getItem(VERSION_KEY)
+      let storedWords = loadFromStorage(STORE_KEY, [])
+
+      if (storedVersion !== DB_VERSION || storedWords.length === 0) {
+        console.log('🔄 AguiLangEvo veritabanı başlatılıyor...')
+        storedWords = await buildInitialDatabase()
+        saveToStorage(STORE_KEY, storedWords)
+        localStorage.setItem(VERSION_KEY, DB_VERSION)
+      }
+
+      const storedProgress = loadFromStorage(PROGRESS_KEY, null) || createUserProgress('en')
+      saveToStorage(PROGRESS_KEY, storedProgress)
+
+      _cachedWords    = storedWords
+      _cachedProgress = storedProgress
+      console.log(`✅ ${storedWords.length} kelime yüklendi (singleton)`)
+    })()
+
+    await _initPromise
+
+    setWords(_cachedWords)
+    setProgress(_cachedProgress)
+    setLoading(false)
+    setInitialized(true)
+  }, [buildInitialDatabase])
 
   // ── İlk yükleme ──
   useEffect(() => {
