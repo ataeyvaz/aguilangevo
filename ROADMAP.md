@@ -23,9 +23,14 @@
 
 ### Ses Sistemi
 - [x] edge-tts entegrasyonu
-- [x] 1412 MP3 üretildi (EN/ES/PT)
+- [x] 1412 MP3 kelime sesleri (EN/ES/PT)
+- [x] 1321 ES bot MP3
+- [x] 279 PT bot MP3
+- [x] Toplam bot ses: 1601 dosya
 - [x] Audio player (Study.jsx)
-- [x] safeFilename() uyumu
+- [x] Practice.jsx otomatik ses
+- [x] 🔊 Listen again butonu
+- [x] safeFilename() + MD5 hash uyumu
 
 ### Öğrenme Sistemi
 - [x] PlacementTest (15 soru, A1/A2)
@@ -35,11 +40,15 @@
 - [x] Oturum özeti
 
 ### Conversation (Practice)
-- [x] 444 conversation pack
-- [x] 1332 exchange
-- [x] easy/medium/hard (148/148/148)
+- [x] 537 conversation pack
+- [x] 1611 exchange
+- [x] easy/medium/hard (179/179/179)
+- [x] ES conversation packs (444)
+- [x] PT conversation packs (93)
 - [x] Practice UI (Intro→Exchange→Özet)
 - [x] Study'den Practice'e bağlantı
+- [x] Bot otomatik ses çalma
+- [x] 🔊 Listen again butonu
 
 ### Dil Sistemi
 - [x] 4 dil çifti: EN↔ES, EN↔PT, ES→EN, PT→EN
@@ -60,26 +69,20 @@
 - [x] GitHub repo (aguilangevo)
 - [x] .gitignore (audio, db, node_modules)
 - [x] Build sistemi (Vite)
+- [x] ROADMAP.md
 
 ---
 
 ## 🔄 DEVAM EDEN
 
-### Conversation Pack Eksikleri
-- [ ] word_id NULL olan 60 kelime eşleştir
-- [ ] PT conversation pack üret (Tencent)
+### Küçük Eksikler
+- [ ] 1 hata veren ES bot MP3 tekrar üret
+- [ ] "talk" kelimesi words tablosuna ekle
+- [ ] word_id NULL olan 63 kelime eşleştir
 
 ---
 
 ## 📋 SIRALANMIŞ GÖREVLER
-
-### HAFTA 1 — Bot Sesleri
-**Araç:** Python (edge-tts) + Cline  
-**Görev:**
-- [ ] conversation_exchanges'teki bot mesajlarını çek
-- [ ] edge-tts ile ses üret → /public/audio/bot/es/
-- [ ] Practice.jsx'te bot konuşunca ses çalsın
-- [ ] 🔊 Tekrar dinle butonu ekle
 
 ### HAFTA 2 — Yazma Modu
 **Araç:** Cline + Llama 3.3  
@@ -189,21 +192,22 @@
 
 ## 📊 PROJE METRİKLERİ
 
-### Mevcut Durum
-Kelimeler        : 130 (EN/ES/PT tam)
-Conversation Pack: 444
-Exchange         : 1332
-Audio MP3        : 1412
-i18n Anahtar     : 202
-Dil Çifti        : 4 (EN↔ES, EN↔PT)
-Migration        : 005
+### Mevcut Durum (Mayıs 2026)
+Kelimeler           : 130 (EN/ES/PT tam)
+Conversation Pack   : 537
+Exchange            : 1611
+Kelime Sesi MP3     : 1412
+Bot Sesi MP3        : 1601
+i18n Anahtar        : 202
+Dil Çifti           : 4 (EN↔ES, EN↔PT)
+Migration           : 005
 
 ### Hedef (v1.0)
-Kelimeler        : 130 (sabit)
-Conversation Pack: 444+
-Bot Ses MP3      : 1332+
-STT              : Web Speech API
-Platformlar      : Gumroad + Hotmart
+Conversation Pack   : 537+
+Bot Ses MP3         : 1601+
+STT                 : Web Speech API
+Yazma Modu          : Fuse.js
+Platformlar         : Gumroad + Hotmart
 
 ---
 
@@ -220,17 +224,17 @@ Audio     : HTML5 Audio API
 
 ---
 
-## 📁 KLASÖRLERİ ÖNEMLİ DOSYALAR
+## 📁 ÖNEMLİ DOSYALAR
 src/
 db/
-schema.sql          → 15 tablo
-db.js               → Migration runner
-seed.js             → 130 kelime
-srsEngine.js        → SM-2
+schema.sql
+db.js
+seed.js
+srsEngine.js
 conversationQueries.js
 seedConversations.js
 i18n/
-translations.js     → 202 anahtar
+translations.js
 pages/
 ProfileSetup.jsx
 PlacementTest.jsx
@@ -239,15 +243,23 @@ Practice.jsx
 Dashboard.jsx
 context/
 AppContext.jsx
+utils/
+audioUtils.js
 public/
 audio/
-en/ → 583 MP3
-es/ → 706 MP3
-pt/ → 123 MP3
+en/  → 583 kelime MP3
+es/  → 706 kelime MP3
+pt/  → 123 kelime MP3
+bot/
+es/ → 1321 bot MP3
+pt/ → 279 bot MP3
 data/
-aguilangevo.db        → SQLite (gitignore)
+aguilangevo.db (gitignore)
+generate_audio.py
+generate_bot_audio.py
+ROADMAP.md
 
 ---
 
-*Bu dosya proje ilerledikçe güncellenecektir.*
-*Sorumluluk: Ata + Claude (Anthropic)*
+*Sorumluluk: Ata + Claude (Anthropic)*  
+*Repo: https://github.com/ataeyvaz/aguilangevo*
