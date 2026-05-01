@@ -105,6 +105,49 @@
 - [ ] useWordStore çoklu render fix
 - [ ] Practice_original.jsx temizliği
 
+## HAFTA 6 — ChatBot (Sesli + Yazılı + Seçmeli)
+**Araç:** Ling-2.6-1T (JSON üretim) + Cline + Claude Code  
+**Mimari:** Lokal, offline, ücretsiz — API yok  
+**Görev:**
+
+### Altyapı
+- [ ] ChatBot UI (baloncuk/mesajlaşma arayüzü)
+- [ ] Her turda mod seçimi: 🎤 Sesli / ⌨️ Yazı / 👆 Seçmeli
+- [ ] Bot sesi otomatik çalar (mevcut MP3 sistemi)
+- [ ] Sohbet geçmişi (baloncuk akışı)
+- [ ] Yanlış cevaplar → SRS'ye beslenir
+
+### İçerik — Kelime Bazlı
+- [ ] Öğrenilen kelime → ilgili pack otomatik eşleme
+- [ ] Study bittikten sonra "Chat Practice!" CTA butonu
+- [ ] Quiz içinde chat baloncuğu formatı
+
+### İçerik — Senaryo Paketleri (Ling ile üret)
+- [ ] 👋 Tanışma & Selamlama (8 exchange)
+- [ ] ☕ Kafe & Restoran (8 exchange)
+- [ ] 🛒 Alışveriş (8 exchange)
+- [ ] ✈️ Seyahat & Havalimanı (8 exchange)
+- [ ] 🏙️ Turistik & Yol Sorma (8 exchange)
+- [ ] 🏫 Okul & İş Tanışma (8 exchange)
+- [ ] 📱 Günlük Rutin (8 exchange)
+- [ ] 🏥 Acil & Sağlık (8 exchange)
+- [ ] Her senaryo: ES + PT versiyonu
+- [ ] Toplam: ~128 yeni exchange
+
+### Kullanım Modları
+- [ ] MOD 1: Study sonu → otomatik teklif
+- [ ] MOD 2: Quiz → chat baloncuğu formatı  
+- [ ] MOD 3: Serbest egzersiz → menüden senaryo seç
+
+## HAFTA 7 — Dinamik ChatBot (v2.0, İleride)
+**Araç:** OpenRouter API  
+**Görev:**
+- [ ] OpenRouter entegrasyonu (Ling-2.6-1T)
+- [ ] Öğrenilen kelimeler context'e eklenir
+- [ ] Serbest konuşma modu (sınırsız)
+- [ ] Internet gerektirir
+- [ ] Premium özellik olarak konumlandır
+
 ---
 
 ## 📱 MOBİL (Capacitor)
