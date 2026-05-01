@@ -11,7 +11,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useTranslation } from '../i18n/translations'
-import { checkAnswer, findBestOption, getPronunciationScore } from '../utils/fuzzyMatch'
+import { checkAnswer, findBestOption } from '../utils/fuzzyMatch'
 import {
   getPackForWord,
   getExchanges,
@@ -269,10 +269,6 @@ export default function Practice() {
       setIsListening(false)
 
       const result = findBestOption(transcript, exchange.options)
-      
-      // Telaffuz skorunu hesapla
-      const expectedAnswer = exchange.options[exchange.correct]
-      const pronunciationResult = getPronunciationScore(transcript, expectedAnswer)
 
       if (result.found) {
         const correct = result.index === exchange.correct
@@ -282,7 +278,6 @@ export default function Practice() {
           score: result.score,
           transcript,
           suggestion: !correct ? exchange.options[exchange.correct] : null,
-          pronunciation: pronunciationResult,
         })
         setAnswers(prev => [...prev, { correct, points: pts, mode: 'speak' }])
         setTotalPoints(p => p + pts)
@@ -292,7 +287,6 @@ export default function Practice() {
           score: 0,
           transcript,
           suggestion: exchange.options[exchange.correct],
-          pronunciation: pronunciationResult,
         })
         setAnswers(prev => [...prev, { correct: false, points: 0, mode: 'speak' }])
       }
@@ -746,106 +740,26 @@ export default function Practice() {
                 </div>
               )}
 
-              {/* Speak sonucu - Telaffuz Skoru */}
+              {/* Speak sonucu */}
               {speechResult && (
                 <div className="w-full mt-4">
-                  {/* Telaffuz Skoru Kartı */}
-                  {speechResult.pronunciation && (
-                    <div className="rounded-2xl p-5 shadow-sm border-2 mb-3"
-                         style={{
-                           backgroundColor: speechResult.pronunciation.score >= 80 ? '#f0fdf4' :
-                                          speechResult.pronunciation.score >= 60 ? '#fefce8' :
-                                          speechResult.pronunciation.score >= 40 ? '#fff7ed' :
-                                          '#fef2f2',
-                           borderColor: speechResult.pronunciation.score >= 80 ? '#86efac' :
-                                        speechResult.pronunciation.score >= 60 ? '#fde047' :
-                                        speechResult.pronunciation.score >= 40 ? '#fed7aa' :
-                                        '#fca5a5',
-                         }}>
-                      {/* Başlık */}
-                      <div className="text-center mb-3">
-                        <div className="text-2xl mb-1">🎯</div>
-                        <div className="text-sm font-bold" style={{
-                          color: speechResult.pronunciation.score >= 80 ? '#166534' :
-                                 speechResult.pronunciation.score >= 60 ? '#854d0e' :
-                                 speechResult.pronunciation.score >= 40 ? '#9a3412' :
-                                 '#991b1b',
-                        }}>
-                          {t('pronunciation score') || 'Pronunciation Score'}
-                        </div>
-                      </div>
-
-                      {/* Skor */}
-                      <div className="text-center mb-3">
-                        <span className="text-5xl font-black" style={{
-                          color: speechResult.pronunciation.score >= 80 ? '#16a34a' :
-                                 speechResult.pronunciation.score >= 60 ? '#ca8a04' :
-                                 speechResult.pronunciation.score >= 40 ? '#ea580c' :
-                                 '#dc2626',
-                        }}>
-                          {speechResult.pronunciation.score}
-                        </span>
-                        <span className="text-lg text-slate-400 ml-1">
-                          {t('out of 100') || '/ 100'}
-                        </span>
-                      </div>
-
-                      {/* Progress Bar */}
-                      <div className="h-3 bg-slate-200 rounded-full overflow-hidden mb-3">
-                        <div className="h-full rounded-full transition-all duration-500" style={{
-                          width: `${speechResult.pronunciation.score}%`,
-                          backgroundColor: speechResult.pronunciation.score >= 80 ? '#22c55e' :
-                                         speechResult.pronunciation.score >= 60 ? '#eab308' :
-                                         speechResult.pronunciation.score >= 40 ? '#f97316' :
-                                         '#ef4444',
-                        }} />
-                      </div>
-
-                      {/* Seviye Mesajı */}
-                      <div className="text-center mb-2">
-                        <span className="text-sm font-bold" style={{
-                          color: speechResult.pronunciation.score >= 80 ? '#15803d' :
-                                 speechResult.pronunciation.score >= 60 ? '#a16207' :
-                                 speechResult.pronunciation.score >= 40 ? '#c2410c' :
-                                 '#b91c1c',
-                        }}>
-                          {speechResult.pronunciation.level === 'excellent' && '✅ ' + (t('excellent accent') || 'Excellent Accent! Great job!')}
-                          {speechResult.pronunciation.level === 'good' && '👍 ' + (t('sounds good') || 'Sounds Good! Keep going!')}
-                          {speechResult.pronunciation.level === 'almost' && '💪 ' + (t('almost perfect') || 'Almost Perfect! Try again!')}
-                          {speechResult.pronunciation.level === 'tryagain' && '🔄 ' + (t('try again slowly') || 'Try Again Slowly')}
-                        </span>
-                      </div>
-
-                      {/* Puan Bilgisi */}
-                      {speechResult.match && (
-                        <div className="text-center text-xs font-bold text-emerald-600 mb-2">
-                          +{MODE_POINTS.speak} pts
+                  {speechResult.match ? (
+                    <div className="rounded-xl px-4 py-3 bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm text-center">
+                      ✅ <strong>+{MODE_POINTS.speak} pts</strong>
+                      {exchange.feedback_correct && ` · ${exchange.feedback_correct}`}
+                      <br />
+                      <span className="text-xs text-slate-500">"{speechResult.transcript}"</span>
+                    </div>
+                  ) : (
+                    <div className="rounded-xl px-4 py-3 bg-red-50 border border-red-200 text-red-800 text-sm text-center">
+                      ❌ {exchange.feedback_wrong}
+                      <br />
+                      <span className="text-xs text-slate-500">{t('your answer') || 'Your answer'}: "{speechResult.transcript}"</span>
+                      {speechResult.suggestion && (
+                        <div className="mt-2 text-xs">
+                          <strong>{t('did you mean') || 'Did you mean'}:</strong> {speechResult.suggestion}
                         </div>
                       )}
-
-                      {/* Transcript */}
-                      <div className="text-center">
-                        <div className="text-xs text-slate-500 mb-1">
-                          {t('your pronunciation') || 'Your pronunciation'}:
-                        </div>
-                        <div className="text-sm font-medium text-slate-700">
-                          "{speechResult.transcript}"
-                        </div>
-                      </div>
-
-                      {/* Expected Answer */}
-                      <div className="text-center mt-2">
-                        <div className="text-xs text-slate-400">
-                          {t('listen carefully first') || 'Expected'}: "{exchange.options[exchange.correct]}"
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Eşleşme yoksa öneri göster */}
-                  {!speechResult.match && speechResult.suggestion && (
-                    <div className="rounded-xl px-4 py-3 bg-amber-50 border border-amber-200 text-amber-800 text-sm text-center">
-                      <strong>{t('did you mean') || 'Did you mean'}:</strong> {speechResult.suggestion}
                     </div>
                   )}
                 </div>
