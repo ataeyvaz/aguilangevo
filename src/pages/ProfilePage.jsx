@@ -5,6 +5,38 @@ import { useSettings } from '../hooks/useSettings'
 import { useApp } from '../context/AppContext'
 import { useTranslation } from '../i18n/translations'
 
+function getConvSummary() {
+  try {
+    const sessions = JSON.parse(localStorage.getItem('aguilang_conv_sessions') || '[]')
+    if (!sessions.length) return null
+    const wordMap = {}
+    sessions.forEach(s => {
+      if (!s.word) return
+      if (!wordMap[s.word]) wordMap[s.word] = { sessions: 0, totalScore: 0, correct: 0, total: 0 }
+      wordMap[s.word].sessions++
+      wordMap[s.word].totalScore += s.totalScore || 0
+      wordMap[s.word].correct += s.completedExchanges || 0
+      wordMap[s.word].total += s.totalExchanges || 0
+    })
+    const topWords = Object.entries(wordMap)
+      .sort((a, b) => b[1].sessions - a[1].sessions)
+      .slice(0, 5)
+      .map(([word, stats]) => ({
+        word,
+        sessions: stats.sessions,
+        accuracy: stats.total > 0 
+          ? Math.round((stats.correct / stats.total) * 100) 
+          : 0,
+        totalScore: stats.totalScore,
+      }))
+    return {
+      totalSessions: sessions.length,
+      totalScore: sessions.reduce((s, x) => s + (x.totalScore || 0), 0),
+      topWords,
+    }
+  } catch { return null }
+}
+
 const TTS_RATES = [
   { label: 'Slow',   value: 0.6 },
   { label: 'Normal', value: 0.9 },
@@ -33,6 +65,7 @@ export default function ProfilePage() {
 
   const earnedIds = new Set(earnedBadges.map(b => b.id))
 
+  const [convSummary] = useState(getConvSummary)
   const [resetMsg,     setResetMsg]     = useState('')
   const [profileName,  setProfileName]  = useState(profile.name || 'Aguila')
   const [profileType,  setProfileType]  = useState(profile.type || 'adult')
@@ -266,10 +299,82 @@ export default function ProfilePage() {
                 </div>
               )
             })}
+        </div>
+      </div>
+
+      {/* ── 3. My Stats ─────────────────────────────────── */}
+      {convSummary && (
+        <div style={{
+          background: 'white', borderRadius: '16px',
+          border: '1px solid #E2E8F0', padding: '20px',
+          marginBottom: '12px',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+        }}>
+          <div style={{
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            fontSize: '15px', fontWeight: '700', 
+            color: '#0F172A', marginBottom: '16px',
+          }}>
+            💬 Conversation Stats
+          </div>
+
+          {/* Genel özet */}
+          <div style={{ display: 'flex', gap: '10px', marginBottom: '16px' }}>
+            {[
+              { icon: '🎯', label: 'Sessions', value: convSummary.totalSessions },
+              { icon: '⭐', label: 'Total pts', value: convSummary.totalScore },
+            ].map((s, i) => (
+              <div key={i} style={{
+                flex: 1, background: '#F8FAFC', borderRadius: '12px',
+                border: '1px solid #E2E8F0', padding: '12px', textAlign: 'center',
+              }}>
+                <div style={{ fontSize: '20px', marginBottom: '4px' }}>{s.icon}</div>
+                <div style={{
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  fontSize: '18px', fontWeight: '800', color: '#0F172A',
+                }}>{s.value}</div>
+                <div style={{ fontSize: '11px', color: '#94A3B8' }}>{s.label}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Top words */}
+          <div style={{
+            fontSize: '12px', fontWeight: '700', 
+            color: '#64748B', marginBottom: '8px',
+            textTransform: 'uppercase', letterSpacing: '0.05em',
+          }}>
+            🏆 Most Practiced Words
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            {convSummary.topWords.map((w, i) => (
+              <div key={w.word} style={{
+                display: 'flex', alignItems: 'center', 
+                gap: '8px', fontSize: '13px',
+              }}>
+                <span style={{ 
+                  color: '#94A3B8', fontWeight: '700', 
+                  width: '16px', textAlign: 'right',
+                }}>{i + 1}</span>
+                <span style={{ fontWeight: '700', color: '#0F172A', flex: 1 }}>
+                  {w.word}
+                </span>
+                <span style={{ color: '#64748B' }}>
+                  {w.sessions}x
+                </span>
+                <span style={{ 
+                  color: w.accuracy >= 70 ? '#16A34A' : '#F59E0B',
+                  fontWeight: '700',
+                }}>
+                  {w.accuracy}%
+                </span>
+              </div>
+            ))}
           </div>
         </div>
+      )}
 
-        {/* ── 3. Settings ─────────────────────────────────── */}
+      {/* ── 4. Settings ─────────────────────────────────── */}
         <div style={card}>
           <div style={sectionTitle}>⚙️ Settings</div>
 
