@@ -28,6 +28,19 @@ function getHardWords() {
   } catch { return [] }
 }
 
+function getTodayConvStats() {
+  try {
+    const sessions = JSON.parse(localStorage.getItem('aguilang_conv_sessions') || '[]')
+    const todayKey = new Date().toISOString().split('T')[0]
+    const todaySessions = sessions.filter(s => s.startedAt?.startsWith(todayKey))
+    return {
+      count: todaySessions.length,
+      totalScore: todaySessions.reduce((s, x) => s + (x.totalScore || 0), 0),
+      exchanges: todaySessions.reduce((s, x) => s + (x.completedExchanges || 0), 0),
+    }
+  } catch { return { count: 0, totalScore: 0, exchanges: 0 } }
+}
+
 const QUICK_CATS = [
   { id: 'verbs',   name: 'Verbs',   emoji: '⚡', bg: '#EFF6FF' },
   { id: 'food',    name: 'Food',    emoji: '🍎', bg: '#FFF7ED' },
@@ -55,6 +68,7 @@ export default function Dashboard() {
 
   const [hardWords, setHardWords] = useState(getHardWords)
   const [srsStats]                = useState(getSRSStats)
+  const [convToday]               = useState(getTodayConvStats)
 
   useEffect(() => {
     const refresh = () => setHardWords(getHardWords())
@@ -386,6 +400,44 @@ export default function Dashboard() {
             >
               🔄 Review These Words
             </button>
+          </div>
+        )}
+
+        {/* Today's Conversation Practice widget */}
+        {convToday.count > 0 && (
+          <div style={{
+            margin: '0 16px 16px',
+            background: 'white',
+            borderRadius: '16px',
+            border: '1px solid #E2E8F0',
+            padding: '16px',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+          }}>
+            <div style={{
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontSize: '14px', fontWeight: '700', color: '#0F172A', marginBottom: '12px',
+            }}>
+              💬 Today's Conversation
+            </div>
+            <div style={{ display: 'flex', gap: '12px' }}>
+              {[
+                { icon: '🎯', label: 'Sessions', value: convToday.count },
+                { icon: '💬', label: 'Exchanges', value: convToday.exchanges },
+                { icon: '⭐', label: 'Points', value: convToday.totalScore },
+              ].map((s, i) => (
+                <div key={i} style={{
+                  flex: 1, background: '#F8FAFC', borderRadius: '12px',
+                  border: '1px solid #E2E8F0', padding: '10px', textAlign: 'center',
+                }}>
+                  <div style={{ fontSize: '16px', marginBottom: '2px' }}>{s.icon}</div>
+                  <div style={{
+                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    fontSize: '16px', fontWeight: '800', color: '#0F172A',
+                  }}>{s.value}</div>
+                  <div style={{ fontSize: '10px', color: '#94A3B8' }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
