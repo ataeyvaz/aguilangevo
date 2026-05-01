@@ -91,6 +91,8 @@ export default function ProfilePage() {
   const handleTypeChange = (type) => {
     setProfileType(type)
     saveProfile({ type })
+    // Çocuk modunda TTS yavaşlar
+    save({ ttsRate: type === 'child' ? 0.6 : 0.9 })
   }
 
   const confirmReset = (msg, fn) => {
