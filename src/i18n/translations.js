@@ -3,8 +3,9 @@ import base from '../../ui_translations.json'
 import statsKeys from '../../ui_translations_stats.json'
 import gamesKeys from '../../ui_translations_games.json'
 import profileKeys from '../../ui_translations_profile.json'
+import practiceKeys from '../../ui_translations_practice.json'
 
-export const translations = { ...base, ...statsKeys, ...gamesKeys, ...profileKeys }
+export const translations = { ...base, ...statsKeys, ...gamesKeys, ...profileKeys, ...practiceKeys }
 
 // Toplam anahtar sayısı: ~202 unique key (65 base + 39 stats + 58 games + 40 profile)
 if (import.meta.env.DEV) {
