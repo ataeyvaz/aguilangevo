@@ -85,14 +85,14 @@
 - [x] StatsPage → 💬 Conversation Practice kartı
 - [x] getConvStats() → sessions/exchanges/totalScore/avgPron/byMode
 
-## HAFTA 4 — Konuşma Geçmişi + Progress 🔄
+## ~~HAFTA 4 — Konuşma Geçmişi + Progress~~ ✅ TAMAMLANDI
 **Araç:** Cline + Claude Code  
 **Görev:**
-- [ ] StatsPage → son 5 session listesi (tarih, skor, kelime)
-- [ ] Dashboard → haftalık conversation aktivite
-- [ ] Word bazlı başarı takibi (hangi kelimede kaç session)
-- [ ] Streak sistemi (günlük practice)
-- [ ] Profile sayfası → toplam istatistik özeti
+- [x] StatsPage → son 5 session listesi (tarih, skor, kelime)
+- [x] Dashboard → Today's Conversation widget
+- [x] Dashboard → Streak doğru kaynaktan (aguilang_progress_v2)
+- [x] Word bazlı başarı takibi (topWords, accuracy)
+- [x] Profile sayfası → Conversation Stats + Most Practiced Words
 
 ## HAFTA 5 — Polish & Test
 **Araç:** Manuel test + Cline  

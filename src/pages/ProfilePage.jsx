@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useProgress, BADGE_DEFS } from '../hooks/useProgress'
 import { useSettings } from '../hooks/useSettings'
 import { useApp } from '../context/AppContext'
@@ -54,7 +53,6 @@ const UI_LANG_OPTIONS = [
 ]
 
 export default function ProfilePage() {
-  const navigate = useNavigate()
   const profile   = JSON.parse(localStorage.getItem('aguilang_active_profile') || '{}')
   const profileId = profile.id || profile.name || 'default'
 
