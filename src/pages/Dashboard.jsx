@@ -28,6 +28,17 @@ function getHardWords() {
   } catch { return [] }
 }
 
+function getLiveStreak() {
+  try {
+    const p = JSON.parse(localStorage.getItem('aguilang_progress_v2') || '{}')
+    const today = new Date().toISOString().split('T')[0]
+    if (!p.lastPlayed) return 0
+    const diff = Math.round((new Date(today) - new Date(p.lastPlayed)) / 86400000)
+    if (diff > 1) return 0
+    return p.streak || 0
+  } catch { return 0 }
+}
+
 function getTodayConvStats() {
   try {
     const sessions = JSON.parse(localStorage.getItem('aguilang_conv_sessions') || '[]')
@@ -69,6 +80,7 @@ export default function Dashboard() {
   const [hardWords, setHardWords] = useState(getHardWords)
   const [srsStats]                = useState(getSRSStats)
   const [convToday]               = useState(getTodayConvStats)
+  const [liveStreak]              = useState(getLiveStreak)
 
   useEffect(() => {
     const refresh = () => setHardWords(getHardWords())
@@ -156,11 +168,11 @@ export default function Dashboard() {
 
           {/* Stats row */}
           <div style={{ display: 'flex', gap: '12px', marginTop: '20px', flexWrap: 'wrap' }}>
-            {[
-              { icon: '🔥', value: profile?.streak || 0, label: 'Streak' },
-              { icon: '⭐', value: profile?.points  || 0, label: 'Points' },
-              { icon: '🏆', value: profile?.level   || 1, label: 'Level'  },
-            ].map((s, i) => (
+              {[
+                { icon: '🔥', value: liveStreak, label: 'Streak' },
+                { icon: '⭐', value: profile?.points  || 0, label: 'Points' },
+                { icon: '🏆', value: profile?.level   || 1, label: 'Level'  },
+              ].map((s, i) => (
               <div key={i} style={{
                 display: 'flex', alignItems: 'center', gap: '8px',
                 background: 'rgba(255,255,255,0.15)',
