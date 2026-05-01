@@ -16,7 +16,6 @@ import {
   getPackForWord,
   getExchanges,
   saveConvProgress,
-  saveSession,
   getConvProgress,
   getAvailableDifficulties,
   getAllPackWords,
@@ -227,7 +226,7 @@ export default function Practice() {
     const correct = idx === exchange.correct
     const pts     = correct ? MODE_POINTS.pick : 0
     setSelected(idx)
-    setAnswers(prev => [...prev, { correct, points: pts, mode: 'pick', pronunciationScore: null }])
+    setAnswers(prev => [...prev, { correct, points: pts, mode: 'pick' }])
     setTotalPoints(p => p + pts)
   }
 
@@ -240,7 +239,7 @@ export default function Practice() {
     setTypeResult(result)
 
     const pts = result.match ? MODE_POINTS.type : 0
-    setAnswers(prev => [...prev, { correct: result.match, points: pts, mode: 'type', pronunciationScore: null }])
+    setAnswers(prev => [...prev, { correct: result.match, points: pts, mode: 'type' }])
     setTotalPoints(p => p + pts)
   }
 
@@ -285,7 +284,7 @@ export default function Practice() {
           suggestion: !correct ? exchange.options[exchange.correct] : null,
           pronunciation: pronunciationResult,
         })
-        setAnswers(prev => [...prev, { correct, points: pts, mode: 'speak', pronunciationScore: pronunciationResult?.score ?? null }])
+        setAnswers(prev => [...prev, { correct, points: pts, mode: 'speak' }])
         setTotalPoints(p => p + pts)
       } else {
         setSpeechResult({
@@ -295,7 +294,7 @@ export default function Practice() {
           suggestion: exchange.options[exchange.correct],
           pronunciation: pronunciationResult,
         })
-        setAnswers(prev => [...prev, { correct: false, points: 0, mode: 'speak', pronunciationScore: pronunciationResult?.score ?? null }])
+        setAnswers(prev => [...prev, { correct: false, points: 0, mode: 'speak' }])
       }
     }
 
@@ -326,41 +325,6 @@ export default function Practice() {
       setPhase('summary')
     }
   }
-
-  // ── Summary phase: kaydet ────────────────────────────────
-  useEffect(() => {
-    if (phase !== 'summary') return
-
-    const _correct = answers.filter(a => a.correct).length
-    const _total   = exchanges.length
-
-    saveConvProgress(word, difficulty, totalPoints, _correct, _total)
-
-    const pronScores = answers
-      .filter(a => a.pronunciationScore != null)
-      .map(a => a.pronunciationScore)
-    const avgPron = pronScores.length
-      ? Math.round(pronScores.reduce((a, b) => a + b, 0) / pronScores.length)
-      : 0
-
-    saveSession({
-      word,
-      difficulty,
-      packId: pack?.id ?? null,
-      totalExchanges: _total,
-      completedExchanges: answers.length,
-      pickScore:  answers.filter(a => a.mode === 'pick').reduce((s, a) => s + a.points, 0),
-      typeScore:  answers.filter(a => a.mode === 'type').reduce((s, a) => s + a.points, 0),
-      speakScore: answers.filter(a => a.mode === 'speak').reduce((s, a) => s + a.points, 0),
-      avgPronunciation: avgPron,
-      answers: answers.map(a => ({
-        mode: a.mode,
-        correct: a.correct,
-        score: a.points,
-        pronunciationScore: a.pronunciationScore ?? null,
-      })),
-    })
-  }, [phase]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── PACK BULUNAMADI ───────────────────────────────────────
   if (!pack) {
@@ -918,6 +882,9 @@ export default function Practice() {
   const correct = answers.filter(a => a.correct).length
   const total   = exchanges.length
   const pct     = total > 0 ? Math.round((correct / total) * 100) : 0
+
+  // Progress kaydı
+  saveConvProgress(word, difficulty, totalPoints, correct, total)
 
   const nextDiffAvailable = nextD && available.includes(nextD)
 

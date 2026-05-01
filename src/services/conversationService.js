@@ -133,3 +133,79 @@ export function getConvProgress(word, difficulty) {
   const prog = loadProgress()
   return prog[`${word}__${difficulty}`] ?? null
 }
+
+// ── Session Tracking (localStorage) ──────────────────────────
+
+const SESSION_KEY = 'aguilang_conv_sessions'
+
+export function saveSession({ profileId, packId, word, difficulty,
+  totalExchanges, completedExchanges, pickScore, typeScore, speakScore,
+  avgPronunciation, answers }) {
+
+  const sessions = getSessionHistory()
+  const totalScore = pickScore + typeScore + speakScore
+  const session = {
+    id: Date.now(),
+    profileId,
+    packId,
+    word,
+    difficulty,
+    startedAt: new Date().toISOString(),
+    totalExchanges,
+    completedExchanges,
+    pickScore,
+    typeScore,
+    speakScore,
+    totalScore,
+    avgPronunciation,
+    isCompleted: completedExchanges >= totalExchanges,
+    answers,
+  }
+  sessions.unshift(session)
+  if (sessions.length > 200) sessions.splice(200)
+  localStorage.setItem(SESSION_KEY, JSON.stringify(sessions))
+  return session
+}
+
+export function getSessionHistory() {
+  try {
+    return JSON.parse(localStorage.getItem(SESSION_KEY) || '[]')
+  } catch { return [] }
+}
+
+export function getConvStats(profileId) {
+  const sessions = getSessionHistory()
+  const filtered = profileId
+    ? sessions.filter(s => s.profileId === profileId)
+    : sessions
+
+  if (!filtered.length) return null
+
+  const totalSessions = filtered.length
+  const completedSessions = filtered.filter(s => s.isCompleted).length
+  const totalScore = filtered.reduce((s, x) => s + x.totalScore, 0)
+  const totalExchanges = filtered.reduce((s, x) => s + x.completedExchanges, 0)
+
+  const allPron = filtered.map(s => s.avgPronunciation).filter(p => p > 0)
+  const avgPronunciation = allPron.length
+    ? Math.round(allPron.reduce((a, b) => a + b, 0) / allPron.length)
+    : 0
+
+  const allAnswers = filtered.flatMap(s => s.answers || [])
+  const byMode = ['pick', 'type', 'speak'].map(mode => {
+    const modeAnswers = allAnswers.filter(a => a.mode === mode)
+    const correct = modeAnswers.filter(a => a.correct).length
+    return {
+      mode,
+      attempts: modeAnswers.length,
+      correct,
+      accuracy: modeAnswers.length > 0
+        ? Math.round((correct / modeAnswers.length) * 100)
+        : 0,
+    }
+  }).filter(m => m.attempts > 0)
+
+  const recentSessions = filtered.slice(0, 5)
+
+  return { totalSessions, completedSessions, totalScore, totalExchanges, avgPronunciation, byMode, recentSessions }
+}

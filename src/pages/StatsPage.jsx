@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getDailyStats } from '../hooks/useDailyStats'
 import { useTranslation } from '../i18n/translations'
+import { getConvStats } from '../services/conversationService'
 
 const ALL_CAT_IDS = [
   'animals','colors','numbers','fruits','vegetables','body','family',
@@ -72,6 +73,12 @@ export default function StatsPage() {
   const successRate   = totalInteract > 0 ? Math.round((totalCorrect / totalInteract) * 100) : 0
   const longestStreak = getLongestStreak(allDailyArr)
   const studyDays     = allDailyArr.length
+
+  const [convStats, setConvStats] = useState(null)
+
+  useEffect(() => {
+    setConvStats(getConvStats())
+  }, [])
 
   useEffect(() => {
     const lang = (() => {
@@ -197,6 +204,89 @@ export default function StatsPage() {
             })}
           </div>
         </div>
+
+        {/* Conversation Stats */}
+        {convStats && (
+          <div style={{
+            background: 'white', borderRadius: '16px',
+            border: '1px solid #E2E8F0', padding: '20px',
+            marginBottom: '20px',
+          }}>
+            <div style={{
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontSize: '15px', fontWeight: '700', color: '#0F172A', marginBottom: '16px',
+            }}>
+              💬 Conversation Practice
+            </div>
+
+            {/* Genel istatistikler */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '16px' }}>
+              {[
+                { icon: '🎯', label: 'Sessions', value: convStats.totalSessions },
+                { icon: '💬', label: 'Exchanges', value: convStats.totalExchanges },
+                { icon: '⭐', label: 'Total pts', value: convStats.totalScore },
+              ].map((s, i) => (
+                <div key={i} style={{
+                  background: '#F8FAFC', borderRadius: '12px',
+                  border: '1px solid #E2E8F0', padding: '12px', textAlign: 'center',
+                }}>
+                  <div style={{ fontSize: '18px', marginBottom: '4px' }}>{s.icon}</div>
+                  <div style={{
+                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    fontSize: '18px', fontWeight: '800', color: '#0F172A',
+                  }}>{s.value}</div>
+                  <div style={{ fontSize: '11px', color: '#94A3B8', marginTop: '2px' }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Mod doğruluk */}
+            {convStats.byMode.length > 0 && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '16px' }}>
+                {convStats.byMode.map(m => {
+                  const modeEmoji = m.mode === 'pick' ? '👆' : m.mode === 'type' ? '⌨️' : '🎤'
+                  return (
+                    <div key={m.mode}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                        <span style={{ fontSize: '13px', fontWeight: '600', color: '#0F172A' }}>
+                          {modeEmoji} {m.mode.charAt(0).toUpperCase() + m.mode.slice(1)}
+                        </span>
+                        <span style={{ fontSize: '12px', color: '#64748B' }}>
+                          {m.correct}/{m.attempts} · {m.accuracy}%
+                        </span>
+                      </div>
+                      <div style={{ height: '6px', background: '#F1F5F9', borderRadius: '3px', overflow: 'hidden' }}>
+                        <div style={{
+                          height: '100%', width: `${m.accuracy}%`,
+                          background: m.accuracy >= 70 ? '#10B981' : m.accuracy >= 40 ? '#0891B2' : '#F59E0B',
+                          borderRadius: '3px', transition: 'width 0.4s',
+                        }} />
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+
+            {/* Telaffuz skoru */}
+            {convStats.avgPronunciation > 0 && (
+              <div style={{
+                background: '#F0FDF4', borderRadius: '10px', border: '1px solid #86EFAC',
+                padding: '10px 14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+              }}>
+                <span style={{ fontSize: '13px', fontWeight: '600', color: '#166534' }}>
+                  🎯 Avg Pronunciation
+                </span>
+                <span style={{
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  fontSize: '16px', fontWeight: '800', color: '#16A34A',
+                }}>
+                  {convStats.avgPronunciation}/100
+                </span>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Category progress */}
         <div style={{

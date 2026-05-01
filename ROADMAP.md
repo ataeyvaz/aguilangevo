@@ -84,43 +84,41 @@
 
 ## 📋 SIRALANMIŞ GÖREVLER
 
-### HAFTA 2 — Yazma Modu
+### ~~HAFTA 1 — Bot Sesleri~~ ✅ TAMAMLANDI
+- [x] 1321 ES bot MP3 üretildi
+- [x] 279 PT bot MP3 üretildi
+- [x] Toplam: 1601 bot ses dosyası
+
+### ~~HAFTA 2 — Yazma Modu~~ ✅ TAMAMLANDI
 **Araç:** Cline + Llama 3.3  
 **Görev:**
-- [ ] Fuse.js kur (npm install fuse.js)
-- [ ] Practice'e "Type" seçeneği ekle
-- [ ] Input field + fuzzy match
-- [ ] Puan: Speak=15, Type=12, Pick=10
-- [ ] "runing" → "run" eşleştirme
+- [x] Fuse.js kur (npm install fuse.js)
+- [x] Practice'e "Type" seçeneği ekle
+- [x] Input field + fuzzy match
+- [x] Puan: Speak=15, Type=12, Pick=10
+- [x] "runing" → "run" eşleştirme
 
-### HAFTA 3 — Konuşma Modu (STT)
+### HAFTA 3 — Konuşma Modu (STT) 🔄
 **Araç:** Web Speech API + Cline  
 **Görev:**
-- [ ] Web Speech API entegre et
+- [x] Web Speech API entegre et
+- [x] Speak modu aktif
 - [ ] Chrome/Edge desteği
 - [ ] Desteklenmiyorsa → Pick moduna düş
 - [ ] Mikrofon izin yönetimi
 - [ ] Hata toleransı (aksanlı konuşma)
+- [ ] Telaffuz skoru (getPronunciationScore)
+- [ ] Threshold iyileştirme (0.4→0.5)
+- [ ] Puan: 80+=15pts, 60-79=8pts, <60=0pts
 
-### HAFTA 4 — Telaffuz Skoru
-**Araç:** Cline + Fuse.js  
-**Görev:**
-- [ ] Söylenen kelime → transcript al
-- [ ] Beklenenle karakter bazlı karşılaştır
-- [ ] %80+ → ✅ geçer
-- [ ] %60-80 → ⚠️ "Almost! Try again"
-- [ ] %60- → ❌ tekrar dene
-- [ ] Çocuk modu: daha toleranslı eşik
-
-### HAFTA 5 — Konuşma Geçmişi
+### HAFTA 4 — Konuşma Geçmişi
 **Araç:** SQLite + Cline  
 **Görev:**
-- [ ] conversation_sessions tablosu ekle
+- [ ] conversation_sessions tablosu
 - [ ] Her session kayıt
-- [ ] "Geçen hafta 'run'da zorlandın" bildirimi
-- [ ] Progress sayfasına istatistik ekle
+- [ ] Progress sayfası istatistik
 
-### HAFTA 6 — Polish & Test
+### HAFTA 5 — Polish & Test
 **Araç:** Manuel test + Cline  
 **Görev:**
 - [ ] Çocuk modu TTS yavaşlatma
@@ -179,7 +177,7 @@
 | Tencent HY3 | İçerik + çeviri | Ücretsiz | Sık |
 | edge-tts | TTS/ses üretimi | Ücretsiz | Gerektiğinde |
 | Web Speech API | STT (v2) | Ücretsiz | Hafta 3'te |
-| Fuse.js | Fuzzy match | Ücretsiz | Hafta 2'de |
+| Fuse.js | Fuzzy match | Ücretsiz | kurulu ✅ |
 
 ### Kota Tasarrufu Kuralları
 - Claude → Kısa ve odaklı sorular
@@ -198,7 +196,9 @@ Conversation Pack   : 537
 Exchange            : 1611
 Kelime Sesi MP3     : 1412
 Bot Sesi MP3        : 1601
-i18n Anahtar        : 202
+i18n Anahtar        : 222
+Fuse.js             : kurulu ✅
+Speak Modu          : aktif ✅
 Dil Çifti           : 4 (EN↔ES, EN↔PT)
 Migration           : 005
 

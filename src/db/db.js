@@ -73,6 +73,10 @@ const MIGRATIONS = [
     name: '005_conversation_packs',
     up: () => readFileSync(join(__dirname, 'migrations', '005_conversation_packs.sql'), 'utf8'),
   },
+  {
+    name: '006_conversation_sessions',
+    up: () => readFileSync(join(__dirname, 'migrations', '006_conversation_sessions.sql'), 'utf8'),
+  },
 ]
 
 function runMigrations(db) {
