@@ -11,7 +11,7 @@
 - [x] 210 MB temizlik
 - [x] Tüm TR izleri temizlendi
 - [x] SQLite şema (15 tablo)
-- [x] Migration sistemi (005 migration)
+- [x] Migration sistemi (006 migration)
 - [x] better-sqlite3 bağlantısı
 
 ### Kelime Sistemi
@@ -52,73 +52,49 @@
 
 ### Dil Sistemi
 - [x] 4 dil çifti: EN↔ES, EN↔PT, ES→EN, PT→EN
-- [x] i18n sistemi (202 anahtar)
+- [x] i18n sistemi (222 anahtar)
 - [x] Otomatik arayüz dili
 - [x] ProfileSetup mantık düzeltmesi
-- [x] 🇺🇸 US bayrağı fix
-- [x] 🌐 Dil değiştirme butonu
-
-### Profil & Akış
-- [x] Tek profil "Aguila"
-- [x] Adult/Child modu
-- [x] App akışı: /setup→/test→/dashboard→/study
-- [x] AppContext (uiLanguage, currentPair)
-- [x] Returning user desteği
-
-### Altyapı
-- [x] GitHub repo (aguilangevo)
-- [x] .gitignore (audio, db, node_modules)
-- [x] Build sistemi (Vite)
-- [x] ROADMAP.md
 
 ---
 
-## 🔄 DEVAM EDEN
-
-### Küçük Eksikler
-- [ ] 1 hata veren ES bot MP3 tekrar üret
-- [ ] "talk" kelimesi words tablosuna ekle
-- [ ] word_id NULL olan 63 kelime eşleştir
-
----
-
-## 📋 SIRALANMIŞ GÖREVLER
-
-### ~~HAFTA 1 — Bot Sesleri~~ ✅ TAMAMLANDI
+## ~~HAFTA 1 — Bot Sesleri~~ ✅ TAMAMLANDI
 - [x] 1321 ES bot MP3 üretildi
 - [x] 279 PT bot MP3 üretildi
 - [x] Toplam: 1601 bot ses dosyası
 
-### ~~HAFTA 2 — Yazma Modu~~ ✅ TAMAMLANDI
-**Araç:** Cline + Llama 3.3  
-**Görev:**
-- [x] Fuse.js kur (npm install fuse.js)
-- [x] Practice'e "Type" seçeneği ekle
+## ~~HAFTA 2 — Yazma Modu~~ ✅ TAMAMLANDI
+- [x] Fuse.js kuruldu
+- [x] Practice'e "Type" seçeneği eklendi
 - [x] Input field + fuzzy match
 - [x] Puan: Speak=15, Type=12, Pick=10
 - [x] "runing" → "run" eşleştirme
 
-### HAFTA 3 — Konuşma Modu (STT) 🔄
-**Araç:** Web Speech API + Cline  
-**Görev:**
-- [x] Web Speech API entegre et
+## ~~HAFTA 3 — Konuşma Modu + Session Takip~~ ✅ TAMAMLANDI
+- [x] Web Speech API entegrasyonu
 - [x] Speak modu aktif
-- [ ] Chrome/Edge desteği
-- [ ] Desteklenmiyorsa → Pick moduna düş
-- [ ] Mikrofon izin yönetimi
-- [ ] Hata toleransı (aksanlı konuşma)
-- [ ] Telaffuz skoru (getPronunciationScore)
-- [ ] Threshold iyileştirme (0.4→0.5)
-- [ ] Puan: 80+=15pts, 60-79=8pts, <60=0pts
+- [x] Desteklenmiyorsa → Pick moduna düş
+- [x] Mikrofon izin yönetimi
+- [x] Telaffuz skoru (getPronunciationScore, 0-100)
+- [x] Threshold: Fuse.js 0.5
+- [x] Migration 006 → conversation_sessions + session_exchanges tabloları
+- [x] saveSession() → localStorage (aguilang_conv_sessions)
+- [x] Her practice session otomatik kayıt
+- [x] Pick/Type/Speak ayrı skor kaydı
+- [x] Pronunciation skoru kaydı
+- [x] StatsPage → 💬 Conversation Practice kartı
+- [x] getConvStats() → sessions/exchanges/totalScore/avgPron/byMode
 
-### HAFTA 4 — Konuşma Geçmişi
-**Araç:** SQLite + Cline  
+## HAFTA 4 — Konuşma Geçmişi + Progress 🔄
+**Araç:** Cline + Claude Code  
 **Görev:**
-- [ ] conversation_sessions tablosu
-- [ ] Her session kayıt
-- [ ] Progress sayfası istatistik
+- [ ] StatsPage → son 5 session listesi (tarih, skor, kelime)
+- [ ] Dashboard → haftalık conversation aktivite
+- [ ] Word bazlı başarı takibi (hangi kelimede kaç session)
+- [ ] Streak sistemi (günlük practice)
+- [ ] Profile sayfası → toplam istatistik özeti
 
-### HAFTA 5 — Polish & Test
+## HAFTA 5 — Polish & Test
 **Araç:** Manuel test + Cline  
 **Görev:**
 - [ ] Çocuk modu TTS yavaşlatma
@@ -126,6 +102,8 @@
 - [ ] Tüm 4 dil çifti test
 - [ ] Türkçe kalıntı son tarama
 - [ ] UI/UX iyileştirmeleri
+- [ ] useWordStore çoklu render fix
+- [ ] Practice_original.jsx temizliği
 
 ---
 
@@ -148,9 +126,9 @@
 
 ---
 
-## 🛒 SATIŞ & DAĞITIM
+## 🛒 SATIŞ
 
-### Platformlar (Öncelik Sırası)
+### Platform (Öncelik Sırasına)
 - [ ] Gumroad → APK direkt satış
 - [ ] Hotmart → Latam pazarı (ES/PT)
 - [ ] Kendi domain (aguilangevo.com)
@@ -168,16 +146,15 @@
 
 ## 🤖 AI ARAÇ STRATEJİSİ
 
-### Araç Dağılımı
-| Araç | Görev | Maliyet | Kullanım |
-|------|-------|---------|----------|
-| Claude (bu sohbet) | Strateji + mimari | Pro plan | Az, odaklı |
-| Claude Code | Kritik geliştirme | Pro plan | Haftada 2-3 |
-| Cline + Llama 3.3 | Rutin kod | Ücretsiz | Sık |
-| Tencent HY3 | İçerik + çeviri | Ücretsiz | Sık |
-| edge-tts | TTS/ses üretimi | Ücretsiz | Gerektiğinde |
-| Web Speech API | STT (v2) | Ücretsiz | Hafta 3'te |
-| Fuse.js | Fuzzy match | Ücretsiz | kurulu ✅ |
+| Araç | Görev | Maliyet |
+|------|-------|---------|
+| Claude (bu sohbet) | Strateji + mimari | Pro plan |
+| Claude Code | Kritik geliştirme | Pro plan |
+| Cline + Llama 3.3 | Rutin kod | Ücretsiz |
+| Tencent HY3 | İçerik + çeviri | Ücretsiz |
+| edge-tts | TTS/ses üretimi | Ücretsiz |
+| Web Speech API | STT | Ücretsiz |
+| Fuse.js | Fuzzy match | Ücretsiz |
 
 ### Kota Tasarrufu Kuralları
 - Claude → Kısa ve odaklı sorular
@@ -197,16 +174,18 @@ Exchange            : 1611
 Kelime Sesi MP3     : 1412
 Bot Sesi MP3        : 1601
 i18n Anahtar        : 222
+Migration           : 006
 Fuse.js             : kurulu ✅
 Speak Modu          : aktif ✅
+Session Takip       : aktif ✅ (localStorage)
 Dil Çifti           : 4 (EN↔ES, EN↔PT)
-Migration           : 005
 
 ### Hedef (v1.0)
 Conversation Pack   : 537+
 Bot Ses MP3         : 1601+
-STT                 : Web Speech API
-Yazma Modu          : Fuse.js
+STT                 : Web Speech API ✅
+Yazma Modu          : Fuse.js ✅
+Session Takip       : localStorage ✅
 Platformlar         : Gumroad + Hotmart
 
 ---
@@ -215,49 +194,12 @@ Platformlar         : Gumroad + Hotmart
 Frontend  : React + Vite + Tailwind
 Mobile    : Capacitor
 Backend   : Python (scripts)
-DB        : SQLite (better-sqlite3)
+DB        : SQLite (better-sqlite3) + localStorage
 TTS       : edge-tts (offline)
-STT       : Web Speech API (v2)
-Fuzzy     : Fuse.js (v2)
+STT       : Web Speech API
+Fuzzy     : Fuse.js
 i18n      : Custom hook (translations.js)
 Audio     : HTML5 Audio API
-
----
-
-## 📁 ÖNEMLİ DOSYALAR
-src/
-db/
-schema.sql
-db.js
-seed.js
-srsEngine.js
-conversationQueries.js
-seedConversations.js
-i18n/
-translations.js
-pages/
-ProfileSetup.jsx
-PlacementTest.jsx
-Study.jsx
-Practice.jsx
-Dashboard.jsx
-context/
-AppContext.jsx
-utils/
-audioUtils.js
-public/
-audio/
-en/  → 583 kelime MP3
-es/  → 706 kelime MP3
-pt/  → 123 kelime MP3
-bot/
-es/ → 1321 bot MP3
-pt/ → 279 bot MP3
-data/
-aguilangevo.db (gitignore)
-generate_audio.py
-generate_bot_audio.py
-ROADMAP.md
 
 ---
 
