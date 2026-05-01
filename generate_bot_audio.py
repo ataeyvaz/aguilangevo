@@ -11,6 +11,7 @@ DB_PATH = 'data/aguilangevo.db'
 # Dil -> Ses eşleştirmeleri
 VOICES = {
     'es': 'es-MX-DaliaNeural',
+    'pt': 'pt-BR-FranciscaNeural',
 }
 
 # Çıktı dizini

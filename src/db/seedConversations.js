@@ -20,6 +20,7 @@ const BATCH_FILES = [
   'conversation_pack_batch4.json',
   'conversation_pack_batch5.json',
   'conversation_pack_missing.json',
+  'conversation_pack_pt_batch1.json',
 ]
 
 // ── JSON dosyalarını yükle ve birleştir ───────────────────────
@@ -66,7 +67,7 @@ function seed() {
     `SELECT id FROM words WHERE LOWER(word) = LOWER(?) AND language_id = 'en' LIMIT 1`
   )
   const checkDuplicate = db.prepare(
-    `SELECT id FROM conversation_packs WHERE word = ? AND difficulty = ? LIMIT 1`
+    `SELECT id FROM conversation_packs WHERE word = ? AND difficulty = ? AND bot_language = ? LIMIT 1`
   )
   const insertPack = db.prepare(`
     INSERT INTO conversation_packs
@@ -100,7 +101,8 @@ function seed() {
 
       try {
         // Duplicate kontrol
-        const dup = checkDuplicate.get(pack.word, pack.difficulty)
+        const botLang = pack.bot_language || 'es'
+        const dup = checkDuplicate.get(pack.word, pack.difficulty, botLang)
         if (dup) {
           countDuplicate++
           continue
