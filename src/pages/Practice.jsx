@@ -6,7 +6,7 @@
  * Akış: Intro → Exchange(0..N-1) → Özet
  */
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import {
   getPackForWord,
@@ -26,6 +26,34 @@ const DIFF_META = {
 }
 
 const NEXT_DIFF = { easy: 'medium', medium: 'hard' }
+
+// ── MD5 Hash Fonksiyonu (basit implementasyon) ───────────────
+
+function simpleHash(str) {
+  // Basit bir hash fonksiyonu - crypto-js gerektirmez
+  let hash = 0
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i)
+    hash = ((hash << 5) - hash) + char
+    hash = hash & hash // 32bit integer'a dönüştür
+  }
+  // Pozitif hexadecimal string
+  return Math.abs(hash).toString(16).padStart(8, '0')
+}
+
+// Daha güvenilir MD5 benzeri hash için (gerekiyorsa)
+function getMessageHash(message) {
+  // Basit hash kullan, ancak daha güvenli istenirse crypto-js eklenebilir
+  return simpleHash(message)
+}
+
+// ── Ses dosyası path'ini hesapla ──────────────────────────────
+
+function getAudioPath(botMessage, botLanguage) {
+  if (!botMessage || !botLanguage) return null
+  const hash = getMessageHash(botMessage)
+  return `/audio/bot/${botLanguage}/${hash}.mp3`
+}
 
 // ── Bileşen ───────────────────────────────────────────────────
 
@@ -54,6 +82,69 @@ export default function Practice() {
   const exchange   = exchanges[exchIdx] ?? null
   const isAnswered = selected !== null
   const isCorrect  = isAnswered && selected === exchange?.correct
+
+  // Audio referansı
+  const audioRef = useRef(null)
+  const [isPlaying, setIsPlaying] = useState(false)
+
+  // Bot mesajının ses dosyası yolunu hesapla
+  const audioPath = useMemo(() => {
+    if (phase !== 'exchange' || !exchange?.bot) return null
+    // Pack'tan bot_language bilgisini al
+    const botLang = pack?.bot_language || 'es'
+    return getAudioPath(exchange.bot, botLang)
+  }, [phase, exchange, pack])
+
+  // ── Ses çalma fonksiyonu ──────────────────────────────────
+  const playAudio = () => {
+    if (!audioPath) return
+
+    // Eğer audio elementi yoksa oluştur
+    if (!audioRef.current) {
+      audioRef.current = new Audio()
+      audioRef.current.addEventListener('ended', () => setIsPlaying(false))
+      audioRef.current.addEventListener('error', () => {
+        // Dosya yoksa sessizce skip
+        setIsPlaying(false)
+      })
+    }
+
+    const audio = audioRef.current
+
+    // Aynı dosyaysa baştan başlat
+    if (audio.src !== window.location.origin + audioPath) {
+      audio.src = audioPath
+    }
+
+    audio.play().then(() => {
+      setIsPlaying(true)
+    }).catch(() => {
+      // Ses çalınamazsa sessizce geç (dosya yok vb.)
+      setIsPlaying(false)
+    })
+  }
+
+  // ── Exchange değiştiğinde otomatik ses çal ────────────────
+  useEffect(() => {
+    if (phase === 'exchange' && exchange?.bot && audioPath) {
+      // Kısa bir gecikme ile çal (UI render olduktan sonra)
+      const timer = setTimeout(() => {
+        playAudio()
+      }, 300)
+      return () => clearTimeout(timer)
+    }
+  }, [phase, exchIdx, exchange, audioPath])
+
+  // ── Component unmount olduğunda audio'yu temizle ──────────
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause()
+        audioRef.current.src = ''
+        audioRef.current = null
+      }
+    }
+  }, [])
 
   // ── Seçenek seç ───────────────────────────────────────────
   const handleSelect = (idx) => {
@@ -256,10 +347,30 @@ export default function Practice() {
               🤖
             </div>
             <div className="bg-white border border-slate-200 rounded-2xl rounded-tl-sm
-                            px-4 py-3 shadow-sm flex-1">
+                            px-4 py-3 shadow-sm flex-1 relative">
               <p className="text-slate-800 text-sm leading-relaxed">
                 {exchange?.bot}
               </p>
+
+              {/* Dinleme butonu */}
+              {audioPath && (
+                <button
+                  onClick={playAudio}
+                  disabled={isPlaying}
+                  className="absolute -bottom-3 -right-3 w-8 h-8 rounded-full
+                             bg-cyan-600 hover:bg-cyan-700 text-white
+                             flex items-center justify-center shadow-lg
+                             transition-all duration-200 hover:scale-110
+                             disabled:opacity-50 disabled:cursor-not-allowed"
+                  title="Listen again 🔊"
+                >
+                  {isPlaying ? (
+                    <span className="text-xs">🔊</span>
+                  ) : (
+                    <span className="text-xs">🔊</span>
+                  )}
+                </button>
+              )}
             </div>
           </div>
 

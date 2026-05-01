@@ -8,7 +8,7 @@
       "level": "a1",
       "en": "be",
       "es": "ser / estar",
-      "pt": "",
+      "pt": "ser",
       "pron": "biː"
     },
     {
@@ -17,7 +17,7 @@
       "level": "a1",
       "en": "have",
       "es": "tener",
-      "pt": "",
+      "pt": "ter",
       "pron": "hæv"
     },
     {
@@ -26,7 +26,7 @@
       "level": "a1",
       "en": "do",
       "es": "hacer",
-      "pt": "",
+      "pt": "fazer",
       "pron": "duː"
     },
     {
@@ -35,7 +35,7 @@
       "level": "a1",
       "en": "go",
       "es": "ir",
-      "pt": "",
+      "pt": "ir",
       "pron": "ɡəʊ"
     },
     {
@@ -44,7 +44,7 @@
       "level": "a1",
       "en": "come",
       "es": "venir",
-      "pt": "",
+      "pt": "vir",
       "pron": "kʌm"
     },
     {
@@ -53,7 +53,7 @@
       "level": "a1",
       "en": "see",
       "es": "ver",
-      "pt": "",
+      "pt": "ver",
       "pron": "siː"
     },
     {
@@ -62,7 +62,7 @@
       "level": "a1",
       "en": "know",
       "es": "saber",
-      "pt": "",
+      "pt": "saber",
       "pron": "nəʊ"
     },
     {
@@ -71,7 +71,7 @@
       "level": "a1",
       "en": "get",
       "es": "obtener",
-      "pt": "",
+      "pt": "conseguir",
       "pron": "ɡɛt"
     },
     {
@@ -80,7 +80,7 @@
       "level": "a1",
       "en": "give",
       "es": "dar",
-      "pt": "",
+      "pt": "dar",
       "pron": "ɡɪv"
     },
     {
@@ -89,7 +89,7 @@
       "level": "a1",
       "en": "take",
       "es": "tomar",
-      "pt": "",
+      "pt": "tomar",
       "pron": "teɪk"
     },
     {
@@ -98,7 +98,7 @@
       "level": "a1",
       "en": "make",
       "es": "hacer",
-      "pt": "",
+      "pt": "fazer",
       "pron": "meɪk"
     },
     {
@@ -107,7 +107,7 @@
       "level": "a1",
       "en": "say",
       "es": "decir",
-      "pt": "",
+      "pt": "dizer",
       "pron": "seɪ"
     },
     {
@@ -116,7 +116,7 @@
       "level": "a1",
       "en": "think",
       "es": "pensar",
-      "pt": "",
+      "pt": "pensar",
       "pron": "θɪŋk"
     },
     {
@@ -125,7 +125,7 @@
       "level": "a1",
       "en": "look",
       "es": "mirar",
-      "pt": "",
+      "pt": "olhar",
       "pron": "lʊk"
     },
     {
@@ -134,7 +134,7 @@
       "level": "a1",
       "en": "want",
       "es": "querer",
-      "pt": "",
+      "pt": "querer",
       "pron": "wɒnt"
     },
     {
@@ -143,7 +143,7 @@
       "level": "a1",
       "en": "use",
       "es": "usar",
-      "pt": "",
+      "pt": "usar",
       "pron": "juːz"
     },
     {
@@ -152,7 +152,7 @@
       "level": "a1",
       "en": "find",
       "es": "encontrar",
-      "pt": "",
+      "pt": "encontrar",
       "pron": "faɪnd"
     },
     {
@@ -161,7 +161,7 @@
       "level": "a1",
       "en": "tell",
       "es": "contar",
-      "pt": "",
+      "pt": "dizer",
       "pron": "tɛl"
     },
     {
@@ -170,7 +170,7 @@
       "level": "a1",
       "en": "ask",
       "es": "preguntar",
-      "pt": "",
+      "pt": "perguntar",
       "pron": "ɑːsk"
     },
     {
@@ -179,7 +179,7 @@
       "level": "a1",
       "en": "work",
       "es": "trabajar",
-      "pt": "",
+      "pt": "trabalhar",
       "pron": "wɜːk"
     },
     {
@@ -188,7 +188,7 @@
       "level": "a1",
       "en": "feel",
       "es": "sentir",
-      "pt": "",
+      "pt": "sentir",
       "pron": "fiːl"
     },
     {
@@ -197,7 +197,7 @@
       "level": "a1",
       "en": "try",
       "es": "intentar",
-      "pt": "",
+      "pt": "tentar",
       "pron": "traɪ"
     },
     {
@@ -206,7 +206,7 @@
       "level": "a1",
       "en": "leave",
       "es": "dejar",
-      "pt": "",
+      "pt": "sair",
       "pron": "liːv"
     },
     {
@@ -215,7 +215,7 @@
       "level": "a1",
       "en": "call",
       "es": "llamar",
-      "pt": "",
+      "pt": "ligar",
       "pron": "kɔːl"
     },
     {
@@ -224,7 +224,7 @@
       "level": "a1",
       "en": "keep",
       "es": "guardar",
-      "pt": "",
+      "pt": "manter",
       "pron": "kiːp"
     },
     {
@@ -233,7 +233,7 @@
       "level": "a1",
       "en": "let",
       "es": "dejar",
-      "pt": "",
+      "pt": "deixar",
       "pron": "lɛt"
     },
     {
@@ -242,7 +242,7 @@
       "level": "a1",
       "en": "run",
       "es": "correr",
-      "pt": "",
+      "pt": "correr",
       "pron": "rʌn"
     },
     {
@@ -251,7 +251,7 @@
       "level": "a1",
       "en": "put",
       "es": "poner",
-      "pt": "",
+      "pt": "colocar",
       "pron": "pʊt"
     },
     {
@@ -260,7 +260,7 @@
       "level": "a1",
       "en": "mean",
       "es": "significar",
-      "pt": "",
+      "pt": "significar",
       "pron": "miːn"
     },
     {
@@ -269,7 +269,7 @@
       "level": "a1",
       "en": "become",
       "es": "convertirse",
-      "pt": "",
+      "pt": "tornar-se",
       "pron": "bɪˈkʌm"
     },
     {
@@ -278,7 +278,7 @@
       "level": "a1",
       "en": "show",
       "es": "mostrar",
-      "pt": "",
+      "pt": "mostrar",
       "pron": "ʃəʊ"
     },
     {
@@ -287,7 +287,7 @@
       "level": "a1",
       "en": "play",
       "es": "jugar",
-      "pt": "",
+      "pt": "jogar",
       "pron": "pleɪ"
     },
     {
@@ -296,7 +296,7 @@
       "level": "a1",
       "en": "move",
       "es": "mover",
-      "pt": "",
+      "pt": "mover",
       "pron": "muːv"
     },
     {
@@ -305,7 +305,7 @@
       "level": "a1",
       "en": "live",
       "es": "vivir",
-      "pt": "",
+      "pt": "viver",
       "pron": "lɪv"
     },
     {
@@ -314,7 +314,7 @@
       "level": "a1",
       "en": "pay",
       "es": "pagar",
-      "pt": "",
+      "pt": "pagar",
       "pron": "peɪ"
     },
     {
@@ -323,7 +323,7 @@
       "level": "a1",
       "en": "hear",
       "es": "escuchar",
-      "pt": "",
+      "pt": "ouvir",
       "pron": "hɪər"
     },
     {
@@ -332,7 +332,7 @@
       "level": "a1",
       "en": "sit",
       "es": "sentarse",
-      "pt": "",
+      "pt": "sentar-se",
       "pron": "sɪt"
     },
     {
@@ -341,7 +341,7 @@
       "level": "a1",
       "en": "stand",
       "es": "estar de pie",
-      "pt": "",
+      "pt": "ficar de pé",
       "pron": "stænd"
     },
     {
@@ -350,7 +350,7 @@
       "level": "a1",
       "en": "lose",
       "es": "perder",
-      "pt": "",
+      "pt": "perder",
       "pron": "luːz"
     },
     {
@@ -359,7 +359,7 @@
       "level": "a1",
       "en": "bring",
       "es": "traer",
-      "pt": "",
+      "pt": "trazer",
       "pron": "brɪŋ"
     },
     {
@@ -368,7 +368,7 @@
       "level": "a1",
       "en": "begin",
       "es": "empezar",
-      "pt": "",
+      "pt": "começar",
       "pron": "bɪˈɡɪn"
     },
     {
@@ -377,7 +377,7 @@
       "level": "a1",
       "en": "walk",
       "es": "caminar",
-      "pt": "",
+      "pt": "caminhar",
       "pron": "wɔːk"
     },
     {
@@ -386,7 +386,7 @@
       "level": "a1",
       "en": "write",
       "es": "escribir",
-      "pt": "",
+      "pt": "escrever",
       "pron": "raɪt"
     },
     {
@@ -395,7 +395,7 @@
       "level": "a1",
       "en": "read",
       "es": "leer",
-      "pt": "",
+      "pt": "ler",
       "pron": "riːd"
     },
     {
@@ -404,7 +404,7 @@
       "level": "a1",
       "en": "eat",
       "es": "comer",
-      "pt": "",
+      "pt": "comer",
       "pron": "iːt"
     },
     {
@@ -413,7 +413,7 @@
       "level": "a1",
       "en": "drink",
       "es": "beber",
-      "pt": "",
+      "pt": "beber",
       "pron": "drɪŋk"
     },
     {
@@ -422,7 +422,7 @@
       "level": "a1",
       "en": "sleep",
       "es": "dormir",
-      "pt": "",
+      "pt": "dormir",
       "pron": "sliːp"
     },
     {
@@ -431,7 +431,7 @@
       "level": "a1",
       "en": "swim",
       "es": "nadar",
-      "pt": "",
+      "pt": "nadar",
       "pron": "swɪm"
     },
     {
@@ -440,7 +440,7 @@
       "level": "a1",
       "en": "jump",
       "es": "saltar",
-      "pt": "",
+      "pt": "pular",
       "pron": "dʒʌmp"
     },
     {
@@ -449,7 +449,7 @@
       "level": "a1",
       "en": "fly",
       "es": "volar",
-      "pt": "",
+      "pt": "voar",
       "pron": "flaɪ"
     },
     {
@@ -458,7 +458,7 @@
       "level": "a1",
       "en": "sing",
       "es": "cantar",
-      "pt": "",
+      "pt": "cantar",
       "pron": "sɪŋ"
     },
     {
@@ -467,7 +467,7 @@
       "level": "a1",
       "en": "dance",
       "es": "bailar",
-      "pt": "",
+      "pt": "dançar",
       "pron": "dɑːns"
     },
     {
@@ -476,7 +476,7 @@
       "level": "a1",
       "en": "buy",
       "es": "comprar",
-      "pt": "",
+      "pt": "comprar",
       "pron": "baɪ"
     },
     {
@@ -485,7 +485,7 @@
       "level": "a1",
       "en": "sell",
       "es": "vender",
-      "pt": "",
+      "pt": "vender",
       "pron": "sɛl"
     },
     {
@@ -494,7 +494,7 @@
       "level": "a1",
       "en": "open",
       "es": "abrir",
-      "pt": "",
+      "pt": "abrir",
       "pron": "ˈəʊpən"
     },
     {
@@ -503,7 +503,7 @@
       "level": "a1",
       "en": "close",
       "es": "cerrar",
-      "pt": "",
+      "pt": "fechar",
       "pron": "kləʊz"
     },
     {
@@ -512,7 +512,7 @@
       "level": "a1",
       "en": "help",
       "es": "ayudar",
-      "pt": "",
+      "pt": "ajudar",
       "pron": "hɛlp"
     },
     {
@@ -521,7 +521,7 @@
       "level": "a1",
       "en": "learn",
       "es": "aprender",
-      "pt": "",
+      "pt": "aprender",
       "pron": "lɜːn"
     },
     {
@@ -530,7 +530,7 @@
       "level": "a1",
       "en": "teach",
       "es": "enseñar",
-      "pt": "",
+      "pt": "ensinar",
       "pron": "tiːtʃ"
     },
     {
@@ -539,7 +539,7 @@
       "level": "a1",
       "en": "turn",
       "es": "girar",
-      "pt": "",
+      "pt": "girar",
       "pron": "tɜːn"
     },
     {
@@ -548,7 +548,7 @@
       "level": "a1",
       "en": "start",
       "es": "empezar",
-      "pt": "",
+      "pt": "começar",
       "pron": "stɑːt"
     },
     {
@@ -557,7 +557,7 @@
       "level": "a1",
       "en": "stop",
       "es": "parar",
-      "pt": "",
+      "pt": "parar",
       "pron": "stɒp"
     },
     {
@@ -566,7 +566,7 @@
       "level": "a1",
       "en": "finish",
       "es": "terminar",
-      "pt": "",
+      "pt": "terminar",
       "pron": "ˈfɪnɪʃ"
     },
     {
@@ -575,7 +575,7 @@
       "level": "a1",
       "en": "love",
       "es": "amar",
-      "pt": "",
+      "pt": "amar",
       "pron": "lʌv"
     },
     {
@@ -584,7 +584,7 @@
       "level": "a1",
       "en": "like",
       "es": "gustar",
-      "pt": "",
+      "pt": "gostar",
       "pron": "laɪk"
     },
     {
@@ -593,7 +593,7 @@
       "level": "a1",
       "en": "hate",
       "es": "odiar",
-      "pt": "",
+      "pt": "odiar",
       "pron": "heɪt"
     },
     {
@@ -602,7 +602,7 @@
       "level": "a2",
       "en": "achieve",
       "es": "lograr",
-      "pt": "",
+      "pt": "alcançar",
       "pron": "əˈtʃiːv"
     },
     {
@@ -611,7 +611,7 @@
       "level": "a2",
       "en": "agree",
       "es": "estar de acuerdo",
-      "pt": "",
+      "pt": "concordar",
       "pron": "əˈɡriː"
     },
     {
@@ -620,7 +620,7 @@
       "level": "a2",
       "en": "allow",
       "es": "permitir",
-      "pt": "",
+      "pt": "permitir",
       "pron": "əˈlaʊ"
     },
     {
@@ -629,7 +629,7 @@
       "level": "a2",
       "en": "appear",
       "es": "aparecer",
-      "pt": "",
+      "pt": "aparecer",
       "pron": "əˈpɪər"
     },
     {
@@ -638,7 +638,7 @@
       "level": "a2",
       "en": "arrange",
       "es": "organizar",
-      "pt": "",
+      "pt": "organizar",
       "pron": "əˈreɪndʒ"
     },
     {
@@ -647,7 +647,7 @@
       "level": "a2",
       "en": "arrive",
       "es": "llegar",
-      "pt": "",
+      "pt": "chegar",
       "pron": "əˈraɪv"
     },
     {
@@ -656,7 +656,7 @@
       "level": "a2",
       "en": "borrow",
       "es": "pedir prestado",
-      "pt": "",
+      "pt": "pedir emprestado",
       "pron": "ˈbɒrəʊ"
     },
     {
@@ -665,7 +665,7 @@
       "level": "a2",
       "en": "break",
       "es": "romper",
-      "pt": "",
+      "pt": "quebrar",
       "pron": "breɪk"
     },
     {
@@ -674,7 +674,7 @@
       "level": "a2",
       "en": "build",
       "es": "construir",
-      "pt": "",
+      "pt": "construir",
       "pron": "bɪld"
     },
     {
@@ -683,7 +683,7 @@
       "level": "a2",
       "en": "carry",
       "es": "llevar",
-      "pt": "",
+      "pt": "carregar",
       "pron": "ˈkæri"
     },
     {
@@ -692,7 +692,7 @@
       "level": "a2",
       "en": "catch",
       "es": "atrapar",
-      "pt": "",
+      "pt": "pegar",
       "pron": "kætʃ"
     },
     {
@@ -701,7 +701,7 @@
       "level": "a2",
       "en": "change",
       "es": "cambiar",
-      "pt": "",
+      "pt": "mudar",
       "pron": "tʃeɪndʒ"
     },
     {
@@ -710,7 +710,7 @@
       "level": "a2",
       "en": "check",
       "es": "revisar",
-      "pt": "",
+      "pt": "verificar",
       "pron": "tʃɛk"
     },
     {
@@ -719,7 +719,7 @@
       "level": "a2",
       "en": "choose",
       "es": "elegir",
-      "pt": "",
+      "pt": "escolher",
       "pron": "tʃuːz"
     },
     {
@@ -728,7 +728,7 @@
       "level": "a2",
       "en": "collect",
       "es": "coleccionar",
-      "pt": "",
+      "pt": "coletar",
       "pron": "kəˈlɛkt"
     },
     {
@@ -737,7 +737,7 @@
       "level": "a2",
       "en": "contain",
       "es": "contener",
-      "pt": "",
+      "pt": "conter",
       "pron": "kənˈteɪn"
     },
     {
@@ -746,7 +746,7 @@
       "level": "a2",
       "en": "continue",
       "es": "continuar",
-      "pt": "",
+      "pt": "continuar",
       "pron": "kənˈtɪnjuː"
     },
     {
@@ -755,7 +755,7 @@
       "level": "a2",
       "en": "cook",
       "es": "cocinar",
-      "pt": "",
+      "pt": "cozinhar",
       "pron": "kʊk"
     },
     {
@@ -764,7 +764,7 @@
       "level": "a2",
       "en": "count",
       "es": "contar",
-      "pt": "",
+      "pt": "contar",
       "pron": "kaʊnt"
     },
     {
@@ -773,7 +773,7 @@
       "level": "a2",
       "en": "decide",
       "es": "decidir",
-      "pt": "",
+      "pt": "decidir",
       "pron": "dɪˈsaɪd"
     },
     {
@@ -782,7 +782,7 @@
       "level": "a2",
       "en": "describe",
       "es": "describir",
-      "pt": "",
+      "pt": "descrever",
       "pron": "dɪˈskraɪb"
     },
     {
@@ -791,7 +791,7 @@
       "level": "a2",
       "en": "discover",
       "es": "descubrir",
-      "pt": "",
+      "pt": "descobrir",
       "pron": "dɪˈskʌvər"
     },
     {
@@ -800,7 +800,7 @@
       "level": "a2",
       "en": "draw",
       "es": "dibujar",
-      "pt": "",
+      "pt": "desenhar",
       "pron": "drɔː"
     },
     {
@@ -809,7 +809,7 @@
       "level": "a2",
       "en": "dream",
       "es": "soñar",
-      "pt": "",
+      "pt": "sonhar",
       "pron": "driːm"
     },
     {
@@ -818,7 +818,7 @@
       "level": "a2",
       "en": "drive",
       "es": "conducir",
-      "pt": "",
+      "pt": "dirigir",
       "pron": "draɪv"
     },
     {
@@ -827,7 +827,7 @@
       "level": "a2",
       "en": "drop",
       "es": "dejar caer",
-      "pt": "",
+      "pt": "soltar",
       "pron": "drɒp"
     },
     {
@@ -836,7 +836,7 @@
       "level": "a2",
       "en": "enjoy",
       "es": "disfrutar",
-      "pt": "",
+      "pt": "desfrutar",
       "pron": "ɪnˈdʒɔɪ"
     },
     {
@@ -845,7 +845,7 @@
       "level": "a2",
       "en": "exist",
       "es": "existir",
-      "pt": "",
+      "pt": "existir",
       "pron": "ɪɡˈzɪst"
     },
     {
@@ -854,7 +854,7 @@
       "level": "a2",
       "en": "explain",
       "es": "explicar",
-      "pt": "",
+      "pt": "explicar",
       "pron": "ɪkˈspleɪn"
     },
     {
@@ -863,7 +863,7 @@
       "level": "a2",
       "en": "fall",
       "es": "caer",
-      "pt": "",
+      "pt": "cair",
       "pron": "fɔːl"
     },
     {
@@ -872,7 +872,7 @@
       "level": "a2",
       "en": "follow",
       "es": "seguir",
-      "pt": "",
+      "pt": "seguir",
       "pron": "ˈfɒləʊ"
     },
     {
@@ -881,7 +881,7 @@
       "level": "a2",
       "en": "forget",
       "es": "olvidar",
-      "pt": "",
+      "pt": "esquecer",
       "pron": "fəˈɡɛt"
     },
     {
@@ -890,7 +890,7 @@
       "level": "a2",
       "en": "grow",
       "es": "crecer",
-      "pt": "",
+      "pt": "crescer",
       "pron": "ɡrəʊ"
     },
     {
@@ -899,7 +899,7 @@
       "level": "a2",
       "en": "happen",
       "es": "suceder",
-      "pt": "",
+      "pt": "acontecer",
       "pron": "ˈhæpən"
     },
     {
@@ -908,7 +908,7 @@
       "level": "a2",
       "en": "hope",
       "es": "esperar",
-      "pt": "",
+      "pt": "esperar",
       "pron": "həʊp"
     },
     {
@@ -917,7 +917,7 @@
       "level": "a2",
       "en": "join",
       "es": "unirse",
-      "pt": "",
+      "pt": "juntar-se",
       "pron": "dʒɔɪn"
     },
     {
@@ -926,7 +926,7 @@
       "level": "a2",
       "en": "laugh",
       "es": "reír",
-      "pt": "",
+      "pt": "rir",
       "pron": "lɑːf"
     },
     {
@@ -935,7 +935,7 @@
       "level": "a2",
       "en": "listen",
       "es": "escuchar",
-      "pt": "",
+      "pt": "ouvir",
       "pron": "ˈlɪsən"
     },
     {
@@ -944,7 +944,7 @@
       "level": "a2",
       "en": "mention",
       "es": "mencionar",
-      "pt": "",
+      "pt": "mencionar",
       "pron": "ˈmɛnʃən"
     },
     {
@@ -953,7 +953,7 @@
       "level": "a2",
       "en": "miss",
       "es": "extrañar",
-      "pt": "",
+      "pt": "sentir saudades",
       "pron": "mɪs"
     },
     {
@@ -962,7 +962,7 @@
       "level": "a2",
       "en": "need",
       "es": "necesitar",
-      "pt": "",
+      "pt": "precisar",
       "pron": "niːd"
     },
     {
@@ -971,7 +971,7 @@
       "level": "a2",
       "en": "offer",
       "es": "ofrecer",
-      "pt": "",
+      "pt": "oferecer",
       "pron": "ˈɒfər"
     },
     {
@@ -980,7 +980,7 @@
       "level": "a2",
       "en": "order",
       "es": "ordenar",
-      "pt": "",
+      "pt": "pedir",
       "pron": "ˈɔːdər"
     },
     {
@@ -989,7 +989,7 @@
       "level": "a2",
       "en": "prefer",
       "es": "preferir",
-      "pt": "",
+      "pt": "preferir",
       "pron": "prɪˈfɜː"
     },
     {
@@ -998,7 +998,7 @@
       "level": "a2",
       "en": "prepare",
       "es": "preparar",
-      "pt": "",
+      "pt": "preparar",
       "pron": "prɪˈpɛər"
     },
     {
@@ -1007,7 +1007,7 @@
       "level": "a2",
       "en": "produce",
       "es": "producir",
-      "pt": "",
+      "pt": "produzir",
       "pron": "prəˈdjuːs"
     },
     {
@@ -1016,7 +1016,7 @@
       "level": "a2",
       "en": "promise",
       "es": "prometer",
-      "pt": "",
+      "pt": "prometer",
       "pron": "ˈprɒmɪs"
     },
     {
@@ -1025,7 +1025,7 @@
       "level": "a2",
       "en": "prove",
       "es": "probar",
-      "pt": "",
+      "pt": "provar",
       "pron": "pruːv"
     },
     {
@@ -1034,7 +1034,7 @@
       "level": "a2",
       "en": "receive",
       "es": "recibir",
-      "pt": "",
+      "pt": "receber",
       "pron": "rɪˈsiːv"
     },
     {
@@ -1043,7 +1043,7 @@
       "level": "a2",
       "en": "remember",
       "es": "recordar",
-      "pt": "",
+      "pt": "lembrar",
       "pron": "rɪˈmɛmbər"
     },
     {
@@ -1052,7 +1052,7 @@
       "level": "a2",
       "en": "repeat",
       "es": "repetir",
-      "pt": "",
+      "pt": "repetir",
       "pron": "rɪˈpiːt"
     },
     {
@@ -1061,7 +1061,7 @@
       "level": "a2",
       "en": "return",
       "es": "regresar",
-      "pt": "",
+      "pt": "voltar",
       "pron": "rɪˈtɜːn"
     },
     {
@@ -1070,7 +1070,7 @@
       "level": "a2",
       "en": "send",
       "es": "enviar",
-      "pt": "",
+      "pt": "enviar",
       "pron": "sɛnd"
     },
     {
@@ -1079,7 +1079,7 @@
       "level": "a2",
       "en": "share",
       "es": "compartir",
-      "pt": "",
+      "pt": "compartilhar",
       "pron": "ʃɛər"
     },
     {
@@ -1088,7 +1088,7 @@
       "level": "a2",
       "en": "smell",
       "es": "oler",
-      "pt": "",
+      "pt": "cheirar",
       "pron": "smɛl"
     },
     {
@@ -1097,7 +1097,7 @@
       "level": "a2",
       "en": "spend",
       "es": "gastar",
-      "pt": "",
+      "pt": "gastar",
       "pron": "spɛnd"
     },
     {
@@ -1106,7 +1106,7 @@
       "level": "a2",
       "en": "suggest",
       "es": "sugerir",
-      "pt": "",
+      "pt": "sugerir",
       "pron": "səˈdʒɛst"
     },
     {
@@ -1115,7 +1115,7 @@
       "level": "a2",
       "en": "taste",
       "es": "probar",
-      "pt": "",
+      "pt": "provar",
       "pron": "teɪst"
     },
     {
@@ -1124,7 +1124,7 @@
       "level": "a2",
       "en": "throw",
       "es": "lanzar",
-      "pt": "",
+      "pt": "jogar",
       "pron": "θrəʊ"
     },
     {
@@ -1133,7 +1133,7 @@
       "level": "a2",
       "en": "travel",
       "es": "viajar",
-      "pt": "",
+      "pt": "viajar",
       "pron": "ˈtrævəl"
     },
     {
@@ -1142,7 +1142,7 @@
       "level": "a2",
       "en": "understand",
       "es": "entender",
-      "pt": "",
+      "pt": "entender",
       "pron": "ˌʌndəˈstænd"
     },
     {
@@ -1151,7 +1151,7 @@
       "level": "a2",
       "en": "visit",
       "es": "visitar",
-      "pt": "",
+      "pt": "visitar",
       "pron": "ˈvɪzɪt"
     },
     {
@@ -1160,7 +1160,7 @@
       "level": "a2",
       "en": "wait",
       "es": "esperar",
-      "pt": "",
+      "pt": "esperar",
       "pron": "weɪt"
     },
     {
@@ -1169,7 +1169,7 @@
       "level": "a2",
       "en": "win",
       "es": "ganar",
-      "pt": "",
+      "pt": "ganhar",
       "pron": "wɪn"
     }
   ]

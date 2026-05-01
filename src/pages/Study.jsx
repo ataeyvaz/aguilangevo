@@ -5,8 +5,9 @@ import { useTranslation } from '../i18n/translations'
 import verbsData from '../data/verbs-a1.json'
 import { hasPackForWord } from '../services/conversationService'
 
-// pairId → hedef dil kodu
-const PAIR_LANG = { 1: 'es', 2: 'pt', 3: 'en', 4: 'en' }
+// pairId → çeviri dili (her zaman İngilizce dışı taraf)
+// Pair 1: en→es | Pair 2: en→pt | Pair 3: es→en | Pair 4: pt→en
+const PAIR_LANG = { 1: 'es', 2: 'pt', 3: 'es', 4: 'pt' }
 
 // "ser / estar" → { main: 'ser', alts: ['estar'] }
 function splitTranslation(raw) {

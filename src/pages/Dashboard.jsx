@@ -40,9 +40,17 @@ const LEVEL_COLORS = {
   A2: { bg: 'rgba(139,92,246,0.3)',  text: 'white' },
 }
 
+// pairId → { from, to, label }
+const PAIR_INFO = {
+  1: { label: '🇺🇸 → 🇪🇸', desc: 'EN → ES' },
+  2: { label: '🇺🇸 → 🇧🇷', desc: 'EN → PT' },
+  3: { label: '🇪🇸 → 🇺🇸', desc: 'ES → EN' },
+  4: { label: '🇧🇷 → 🇺🇸', desc: 'PT → EN' },
+}
+
 export default function Dashboard() {
-  const navigate    = useNavigate()
-  const { profile } = useApp()
+  const navigate                    = useNavigate()
+  const { profile, currentPair }    = useApp()
   const { t } = useTranslation()
 
   const [hardWords, setHardWords] = useState(getHardWords)
@@ -111,6 +119,22 @@ export default function Dashboard() {
                   border: '1px solid rgba(255,255,255,0.3)',
                 }}>
                   {level}
+                </div>
+              )}
+              {/* Pair badge */}
+              {PAIR_INFO[currentPair] && (
+                <div
+                  onClick={() => navigate('/setup')}
+                  style={{
+                    background: 'rgba(255,255,255,0.15)',
+                    borderRadius: '20px', padding: '3px 10px',
+                    fontSize: '13px', fontWeight: '700', color: 'white',
+                    border: '1px solid rgba(255,255,255,0.25)',
+                    cursor: 'pointer', letterSpacing: '0.01em',
+                  }}
+                  title={PAIR_INFO[currentPair].desc}
+                >
+                  {PAIR_INFO[currentPair].label}
                 </div>
               )}
             </div>
