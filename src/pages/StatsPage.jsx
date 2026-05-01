@@ -269,24 +269,53 @@ export default function StatsPage() {
             )}
 
             {/* Telaffuz skoru */}
-            {convStats.avgPronunciation > 0 && (
-              <div style={{
-                background: '#F0FDF4', borderRadius: '10px', border: '1px solid #86EFAC',
-                padding: '10px 14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-              }}>
-                <span style={{ fontSize: '13px', fontWeight: '600', color: '#166534' }}>
-                  🎯 Avg Pronunciation
-                </span>
-                <span style={{
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  fontSize: '16px', fontWeight: '800', color: '#16A34A',
+              {convStats.avgPronunciation > 0 && (
+                <div style={{
+                  background: '#F0FDF4', borderRadius: '10px', border: '1px solid #86EFAC',
+                  padding: '10px 14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                 }}>
-                  {convStats.avgPronunciation}/100
-                </span>
-              </div>
-            )}
-          </div>
-        )}
+                  <span style={{ fontSize: '13px', fontWeight: '600', color: '#166534' }}>
+                    🎯 Avg Pronunciation
+                  </span>
+                  <span style={{
+                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    fontSize: '16px', fontWeight: '800', color: '#16A34A',
+                  }}>
+                    {convStats.avgPronunciation}/100
+                  </span>
+                </div>
+              )}
+
+              {/* Recent Sessions */}
+              {convStats.recentSessions && convStats.recentSessions.length > 0 && (
+                <div style={{ marginTop: '12px' }}>
+                  <div style={{
+                    fontSize: '13px', fontWeight: '700', color: '#0F172A', marginBottom: '8px',
+                  }}>
+                    🕐 Recent Sessions
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                    {convStats.recentSessions.map((s) => {
+                      const date = new Date(s.startedAt);
+                      const formattedDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                      const diffEmoji = s.difficulty === 'easy' ? '🟢' : s.difficulty === 'medium' ? '🟡' : '🔴';
+                      return (
+                        <div key={s.id} style={{
+                          display: 'flex', alignItems: 'center', gap: '8px',
+                          fontSize: '12px', color: '#0F172A',
+                        }}>
+                          <span style={{ fontWeight: '700' }}>{s.word}</span>
+                          <span>{diffEmoji} {s.difficulty}</span>
+                          <span style={{ color: '#64748B' }}>+{s.totalScore}</span>
+                          <span style={{ color: '#94A3B8' }}>{formattedDate}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
 
         {/* Category progress */}
         <div style={{
