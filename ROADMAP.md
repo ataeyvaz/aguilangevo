@@ -111,10 +111,10 @@
 **Görev:**
 
 ### Altyapı
-- [ ] ChatBot UI (baloncuk/mesajlaşma arayüzü)
-- [ ] Her turda mod seçimi: 🎤 Sesli / ⌨️ Yazı / 👆 Seçmeli
-- [ ] Bot sesi otomatik çalar (mevcut MP3 sistemi)
-- [ ] Sohbet geçmişi (baloncuk akışı)
+- [x] ChatBot UI (baloncuk/mesajlaşma arayüzü)
+- [x] Her turda mod seçimi: 🎤 Sesli / ⌨️ Yazı / 👆 Seçmeli
+- [x] Bot sesi otomatik çalar (mevcut MP3 sistemi)
+- [x] Sohbet geçmişi (baloncuk akışı)
 - [ ] Yanlış cevaplar → SRS'ye beslenir
 
 ### İçerik — Kelime Bazlı
@@ -123,16 +123,16 @@
 - [ ] Quiz içinde chat baloncuğu formatı
 
 ### İçerik — Senaryo Paketleri (Ling ile üret)
-- [ ] 👋 Tanışma & Selamlama (8 exchange)
-- [ ] ☕ Kafe & Restoran (8 exchange)
-- [ ] 🛒 Alışveriş (8 exchange)
-- [ ] ✈️ Seyahat & Havalimanı (8 exchange)
-- [ ] 🏙️ Turistik & Yol Sorma (8 exchange)
-- [ ] 🏫 Okul & İş Tanışma (8 exchange)
-- [ ] 📱 Günlük Rutin (8 exchange)
-- [ ] 🏥 Acil & Sağlık (8 exchange)
-- [ ] Her senaryo: ES + PT versiyonu
-- [ ] Toplam: ~128 yeni exchange
+- [x] 👋 Tanışma & Selamlama (8 exchange)
+- [x] ☕ Kafe & Restoran (8 exchange)
+- [x] 🛒 Alışveriş (8 exchange)
+- [x] ✈️ Seyahat & Havalimanı (8 exchange)
+- [x] 🏙️ Turistik & Yol Sorma (8 exchange)
+- [x] 🏫 Okul & İş Tanışma (8 exchange)
+- [x] 📱 Günlük Rutin (8 exchange)
+- [x] 🏥 Acil & Sağlık (8 exchange)
+- [x] Her senaryo: ES versiyonu
+- [x] Toplam: 64 yeni exchange
 
 ### Kullanım Modları
 - [ ] MOD 1: Study sonu → otomatik teklif
@@ -199,6 +199,11 @@
 | Web Speech API | STT | Ücretsiz |
 | Fuse.js | Fuzzy match | Ücretsiz |
 
+### İçerik vs Script Kuralı
+- Tencent → JSON/metin/çeviri üretimi (içerik)
+- Claude Code → Script yazma + DB işlemleri + çalıştırma (kritik)
+- Cline → Rutin dosya ekleme/güncelleme
+
 ### Kota Tasarrufu Kuralları
 - Claude → Kısa ve odaklı sorular
 - Claude Code → Max 3 adımlık görevler
@@ -212,7 +217,7 @@
 
 ### Mevcut Durum (Mayıs 2026)
 Kelimeler           : 130 (EN/ES/PT tam)
-Conversation Pack   : 537
+Conversation Pack   : 497 (+ 8 senaryo pack)
 Exchange            : 1611
 Kelime Sesi MP3     : 1412
 Bot Sesi MP3        : 1601
