@@ -233,7 +233,7 @@ export default function Study() {
             if (!practiceW) return null
             return (
               <button
-                onClick={() => navigate(`/practice?word=${encodeURIComponent(practiceW)}&difficulty=easy`)}
+                onClick={() => navigate(`/chatbot?word=${encodeURIComponent(practiceW)}&difficulty=easy`)}
                 className="w-full py-4 bg-amber-500 hover:bg-amber-600 active:bg-amber-700
                            text-white font-black text-base rounded-2xl transition-colors
                            shadow-lg shadow-amber-500/25 mb-3"
