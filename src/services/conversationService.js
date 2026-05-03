@@ -11,6 +11,7 @@ import packs3    from '../../conversation_pack_batch3.json'
 import packs4    from '../../conversation_pack_batch4.json'
 import packs5    from '../../conversation_pack_batch5.json'
 import packsMissing from '../../conversation_pack_missing.json'
+import packsScenarios from '../../conversation_pack_scenarios_es.json'
 
 const PROGRESS_KEY = 'aguilang_conv_progress'
 
@@ -22,6 +23,7 @@ const ALL_PACKS = [
   ...packs4,
   ...(Array.isArray(packs5) ? packs5 : []),
   ...packsMissing,
+  ...(Array.isArray(packsScenarios) ? packsScenarios : []),
 ]
 
 // ── Debug ─────────────────────────────────────────────────────
