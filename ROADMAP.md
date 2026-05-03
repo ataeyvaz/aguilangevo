@@ -94,16 +94,16 @@
 - [x] Word bazlı başarı takibi (topWords, accuracy)
 - [x] Profile sayfası → Conversation Stats + Most Practiced Words
 
-## HAFTA 5 — Polish & Test
+## ~~HAFTA 5 — Polish & Test~~ ✅ TAMAMLANDI
 **Araç:** Manuel test + Cline  
 **Görev:**
-- [ ] Çocuk modu TTS yavaşlatma
-- [ ] Emoji/animasyon feedback (child)
-- [ ] Tüm 4 dil çifti test
-- [ ] Türkçe kalıntı son tarama
-- [ ] UI/UX iyileştirmeleri
-- [ ] useWordStore çoklu render fix
-- [ ] Practice_original.jsx temizliği
+- [x] Çocuk modu TTS yavaşlatma (0.6 child / 0.9 adult)
+- [x] Tüm 4 dil çifti test edildi (ES→EN, PT→EN, EN→ES, EN→PT)
+- [x] Türkçe kalıntı temizlendi (DictionaryPanel, categories.js)
+- [x] useWordStore singleton fix (çoklu render giderildi)
+- [x] Practice_original.jsx silindi
+- [ ] Emoji/animasyon feedback (child) → Hafta 7'ye taşındı
+- [ ] UI/UX iyileştirmeleri → Hafta 7'ye taşındı
 
 ## HAFTA 6 — ChatBot (Sesli + Yazılı + Seçmeli)
 **Araç:** Ling-2.6-1T (JSON üretim) + Cline + Claude Code  
