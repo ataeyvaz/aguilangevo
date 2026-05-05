@@ -32,6 +32,7 @@ import PlacementTest  from '../components/PlacementTest'
 import Study          from '../pages/Study'
 import Practice       from '../pages/Practice'
 import ChatBot        from '../pages/ChatBot'
+import ScenariosPage from '../pages/ScenariosPage'
 
 // ── Akıllı yönlendirme (root "/") ────────────────────────
 function SmartRoot() {
@@ -55,6 +56,7 @@ export default function AppRouter() {
         <Route path="/study"           element={<Study />} />
         <Route path="/practice"        element={<Practice />} />
         <Route path="/chatbot"         element={<ChatBot />} />
+        <Route path="/scenarios"       element={<ScenariosPage />} />
         <Route path="/language"        element={<LanguageSelect />} />
         <Route path="/settings"          element={<ParentGate />} />
         <Route path="/settings/panel"  element={<ParentPanel />} />

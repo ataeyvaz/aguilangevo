@@ -391,6 +391,18 @@ export default function Study() {
                 ✅ {t('easy')}
               </button>
             </div>
+
+            {/* ChatBot CTA */}
+            <button
+              onClick={() => navigate('/scenarios')}
+              className="mt-4 w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-500
+                         hover:from-cyan-600 hover:to-blue-600 text-white font-bold
+                         text-sm rounded-2xl transition-all active:scale-95
+                         flex items-center justify-center gap-2 shadow-md"
+              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+            >
+              🤖 Practice with ChatBot
+            </button>
           </div>
         )}
       </div>
