@@ -1,5 +1,5 @@
 # AguiLangEvo — Geliştirme Planı
-**Son Güncelleme:** Mayıs 2026  
+**Son Güncelleme:** Mayıs 2026
 **Versiyon:** MVP → v1.0 → v2.0
 
 ---
@@ -40,19 +40,28 @@
 - [x] Oturum özeti
 
 ### Conversation (Practice)
-- [x] 537 conversation pack
-- [x] 1611 exchange
-- [x] easy/medium/hard (179/179/179)
-- [x] ES conversation packs (444)
-- [x] PT conversation packs (93)
+- [x] 497 conversation pack
+- [x] 1611+ exchange
+- [x] easy/medium/hard seviyeleri
+- [x] ES conversation packs (451)
+- [x] PT conversation packs (101)
 - [x] Practice UI (Intro→Exchange→Özet)
-- [x] Study'den Practice'e bağlantı
 - [x] Bot otomatik ses çalma
 - [x] 🔊 Listen again butonu
 
+### ChatBot Sistemi
+- [x] ChatBot UI (baloncuk/mesajlaşma arayüzü)
+- [x] Her turda mod seçimi: Sesli / Yazı / Seçmeli
+- [x] 8 ES senaryo paketi (Shopping/Travel/Tourism/School/Daily/Emergency/Meeting/Cafe)
+- [x] 8 PT senaryo paketi (aynı senaryolar, Portekizce)
+- [x] Study sayfası → 🤖 Practice with ChatBot CTA butonu
+- [x] /scenarios senaryo seçim ekranı (8 kart)
+- [x] Study → Scenarios → ChatBot tam akışı
+- [x] Bot sesi otomatik çalar (mevcut MP3 sistemi)
+
 ### Dil Sistemi
 - [x] 4 dil çifti: EN↔ES, EN↔PT, ES→EN, PT→EN
-- [x] i18n sistemi (222 anahtar)
+- [x] i18n sistemi (222+ anahtar)
 - [x] Otomatik arayüz dili
 - [x] ProfileSetup mantık düzeltmesi
 
@@ -66,124 +75,85 @@
 ## ~~HAFTA 2 — Yazma Modu~~ ✅ TAMAMLANDI
 - [x] Fuse.js kuruldu
 - [x] Practice'e "Type" seçeneği eklendi
-- [x] Input field + fuzzy match
+- [x] Fuse.js fuzzy match (threshold: 0.5)
 - [x] Puan: Speak=15, Type=12, Pick=10
-- [x] "runing" → "run" eşleştirme
 
 ## ~~HAFTA 3 — Konuşma Modu + Session Takip~~ ✅ TAMAMLANDI
 - [x] Web Speech API entegrasyonu
 - [x] Speak modu aktif
-- [x] Desteklenmiyorsa → Pick moduna düş
-- [x] Mikrofon izin yönetimi
 - [x] Telaffuz skoru (getPronunciationScore, 0-100)
-- [x] Threshold: Fuse.js 0.5
-- [x] Migration 006 → conversation_sessions + session_exchanges tabloları
-- [x] saveSession() → localStorage (aguilang_conv_sessions)
-- [x] Her practice session otomatik kayıt
-- [x] Pick/Type/Speak ayrı skor kaydı
-- [x] Pronunciation skoru kaydı
-- [x] StatsPage → 💬 Conversation Practice kartı
-- [x] getConvStats() → sessions/exchanges/totalScore/avgPron/byMode
+- [x] Migration 006 → conversation_sessions tabloları
+- [x] saveSession() → localStorage
 
-## ~~HAFTA 4 — Konuşma Geçmişi + Progress~~ ✅ TAMAMLANDI
-**Araç:** Cline + Claude Code  
-**Görev:**
-- [x] StatsPage → son 5 session listesi (tarih, skor, kelime)
+## ~~HAFTA 4 — Progress İstatistikleri~~ ✅ TAMAMLANDI
+- [x] StatsPage → son 5 session listesi
 - [x] Dashboard → Today's Conversation widget
-- [x] Dashboard → Streak doğru kaynaktan (aguilang_progress_v2)
-- [x] Word bazlı başarı takibi (topWords, accuracy)
-- [x] Profile sayfası → Conversation Stats + Most Practiced Words
+- [x] Dashboard → Streak düzeltmesi
+- [x] ProfilePage → Conversation Stats + Most Practiced Words
 
 ## ~~HAFTA 5 — Polish & Test~~ ✅ TAMAMLANDI
-**Araç:** Manuel test + Cline  
-**Görev:**
-- [x] Çocuk modu TTS yavaşlatma (0.6 child / 0.9 adult)
-- [x] Tüm 4 dil çifti test edildi (ES→EN, PT→EN, EN→ES, EN→PT)
-- [x] Türkçe kalıntı temizlendi (DictionaryPanel, categories.js)
-- [x] useWordStore singleton fix (çoklu render giderildi)
-- [x] Practice_original.jsx silindi
-- [ ] Emoji/animasyon feedback (child) → Hafta 7'ye taşındı
-- [ ] UI/UX iyileştirmeleri → Hafta 7'ye taşındı
+- [x] Çocuk modu TTS (0.6 child / 0.9 adult)
+- [x] Tüm 4 dil çifti test edildi
+- [x] Türkçe kalıntı temizlendi
+- [x] useWordStore singleton fix
 
-## HAFTA 6 — ChatBot (Sesli + Yazılı + Seçmeli)
-**Araç:** Ling-2.6-1T (JSON üretim) + Cline + Claude Code  
-**Mimari:** Lokal, offline, ücretsiz — API yok  
-**Görev:**
-
-### Altyapı
-- [x] ChatBot UI (baloncuk/mesajlaşma arayüzü)
-- [x] Her turda mod seçimi: 🎤 Sesli / ⌨️ Yazı / 👆 Seçmeli
-- [x] Bot sesi otomatik çalar (mevcut MP3 sistemi)
-- [x] Sohbet geçmişi (baloncuk akışı)
-- [ ] Yanlış cevaplar → SRS'ye beslenir
-
-### İçerik — Kelime Bazlı
-- [ ] Öğrenilen kelime → ilgili pack otomatik eşleme
-- [ ] Study bittikten sonra "Chat Practice!" CTA butonu
-- [ ] Quiz içinde chat baloncuğu formatı
-
-### İçerik — Senaryo Paketleri (Ling ile üret)
-- [x] 👋 Tanışma & Selamlama (8 exchange)
-- [x] ☕ Kafe & Restoran (8 exchange)
-- [x] 🛒 Alışveriş (8 exchange)
-- [x] ✈️ Seyahat & Havalimanı (8 exchange)
-- [x] 🏙️ Turistik & Yol Sorma (8 exchange)
-- [x] 🏫 Okul & İş Tanışma (8 exchange)
-- [x] 📱 Günlük Rutin (8 exchange)
-- [x] 🏥 Acil & Sağlık (8 exchange)
-- [x] Her senaryo: ES versiyonu
-- [x] Toplam: 64 yeni exchange
-
-### Kullanım Modları
-- [ ] MOD 1: Study sonu → otomatik teklif
-- [ ] MOD 2: Quiz → chat baloncuğu formatı  
-- [ ] MOD 3: Serbest egzersiz → menüden senaryo seç
-
-## HAFTA 7 — Dinamik ChatBot (v2.0, İleride)
-**Araç:** OpenRouter API  
-**Görev:**
-- [ ] OpenRouter entegrasyonu (Ling-2.6-1T)
-- [ ] Öğrenilen kelimeler context'e eklenir
-- [ ] Serbest konuşma modu (sınırsız)
-- [ ] Internet gerektirir
-- [ ] Premium özellik olarak konumlandır
+## ~~HAFTA 6 — ChatBot + Senaryo Sistemi~~ ✅ TAMAMLANDI
+- [x] ChatBot UI (baloncuk sistemi, /chatbot route)
+- [x] 8 ES senaryo paketi üretildi ve DB'ye eklendi
+- [x] 8 PT senaryo paketi üretildi ve DB'ye eklendi
+- [x] Study sayfasına ChatBot CTA butonu eklendi
+- [x] /scenarios senaryo seçim ekranı oluşturuldu
+- [x] AppRouter güncellendi
+- [x] Tam akış test edildi: Study → Scenarios → ChatBot
 
 ---
 
-## 📱 MOBİL (Capacitor)
+## 🔄 HAFTA 7 — Polish & Android Build Hazırlığı
 
-### Android Build
-**Araç:** Claude Code  
-**Görev:**
+### Dashboard
+- [ ] Chat Practice kartı → /scenarios bağlantısı
+
+### UI/UX
+- [ ] Genel polish ve iyileştirmeler
+- [ ] Hata mesajları düzenleme
+
+### İçerik Genişletme
+- [ ] ES senaryo paketi artırımı (8 → 16)
+- [ ] PT senaryo paketi artırımı (8 → 16)
+- [ ] A2 seviyesi senaryo paketleri
+
+### Capacitor Android Build
 - [ ] Capacitor config güncelle
-- [ ] Android klasörü oluştur
 - [ ] npx cap add android
 - [ ] npx cap sync
 - [ ] Android Studio'da build
 - [ ] APK test (fiziksel cihaz)
 
-### iOS Build (İleride)
-- [ ] Mac gerekli
-- [ ] Apple Developer hesabı
-- [ ] TestFlight test
-
 ---
 
-## 🛒 SATIŞ
-
-### Platform (Öncelik Sırasına)
+## 📱 SATIŞ
 - [ ] Gumroad → APK direkt satış
 - [ ] Hotmart → Latam pazarı (ES/PT)
 - [ ] Kendi domain (aguilangevo.com)
 - [ ] Google Play Store
-- [ ] Lemonsqueezy (alternatif)
-
-### Hazırlık
 - [ ] App ikonu (tüm boyutlar)
 - [ ] Screenshot (EN/ES/PT)
 - [ ] Açıklama metni (EN/ES/PT)
 - [ ] Fiyatlandırma stratejisi
 - [ ] Privacy Policy sayfası
+
+---
+
+## 🌱 v2 — AguiLangEvoTR
+**Hedef:** Türkiye pazarı
+**Dil çiftleri:** TR→EN, TR→ES
+**Plan:**
+- [ ] AguiLangEvo v1.0 tamamlandıktan sonra fork
+- [ ] TR kelime seti (Tencent ile üret)
+- [ ] TR ses dosyaları (edge-tts)
+- [ ] TR senaryo paketleri
+- [ ] i18n TR anahtarları
+- [ ] Türkiye App Store + Google Play TR lansmanı
 
 ---
 
@@ -193,48 +163,32 @@
 |------|-------|---------|
 | Claude (bu sohbet) | Strateji + mimari | Pro plan |
 | Claude Code | Kritik geliştirme | Pro plan |
-| Cline + Llama 3.3 | Rutin kod | Ücretsiz |
-| Tencent HY3 | İçerik + çeviri | Ücretsiz |
+| Cline + Llama | Rutin kod | Ücretsiz |
+| Tencent | İçerik + çeviri + JSON | Ücretsiz |
 | edge-tts | TTS/ses üretimi | Ücretsiz |
 | Web Speech API | STT | Ücretsiz |
 | Fuse.js | Fuzzy match | Ücretsiz |
 
-### İçerik vs Script Kuralı
+### Kural
 - Tencent → JSON/metin/çeviri üretimi (içerik)
-- Claude Code → Script yazma + DB işlemleri + çalıştırma (kritik)
+- Claude Code → Script yazma + DB işlemleri
 - Cline → Rutin dosya ekleme/güncelleme
-
-### Kota Tasarrufu Kuralları
-- Claude → Kısa ve odaklı sorular
-- Claude Code → Max 3 adımlık görevler
-- Cline → Rutin değişiklikler
-- Tencent → Tüm içerik üretimi
-- Git push → Her zaman manuel (terminal)
+- Git push → Her zaman manuel terminal
 
 ---
 
-## 📊 PROJE METRİKLERİ
+## 📊 PROJE METRİKLERİ (Mayıs 2026)
 
-### Mevcut Durum (Mayıs 2026)
 Kelimeler           : 130 (EN/ES/PT tam)
-Conversation Pack   : 497 (+ 8 senaryo pack)
-Exchange            : 1611
+Conversation Pack   : 505 (451 ES + 101 PT)
+Exchange            : 1611+
 Kelime Sesi MP3     : 1412
 Bot Sesi MP3        : 1601
-i18n Anahtar        : 222
+i18n Anahtar        : 222+
 Migration           : 006
-Fuse.js             : kurulu ✅
-Speak Modu          : aktif ✅
-Session Takip       : aktif ✅ (localStorage)
-Dil Çifti           : 4 (EN↔ES, EN↔PT)
-
-### Hedef (v1.0)
-Conversation Pack   : 537+
-Bot Ses MP3         : 1601+
-STT                 : Web Speech API ✅
-Yazma Modu          : Fuse.js ✅
-Session Takip       : localStorage ✅
-Platformlar         : Gumroad + Hotmart
+Dil Çifti           : 4 aktif
+ChatBot Senaryo     : 16 (8 ES + 8 PT)
+Session Takip       : ✅ localStorage
 
 ---
 
@@ -251,5 +205,5 @@ Audio     : HTML5 Audio API
 
 ---
 
-*Sorumluluk: Ata + Claude (Anthropic)*  
+*Sorumluluk: Ata + Claude (Anthropic)*
 *Repo: https://github.com/ataeyvaz/aguilangevo*
