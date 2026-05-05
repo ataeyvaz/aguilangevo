@@ -20,7 +20,7 @@ function safeFilename(text) {
   return (text || '')
     .trim()
     .toLowerCase()
-    .replace(/[^\w\s\-]/gu, '')   // noktalama kaldır (Unicode-aware)
+    .replace(/[^\w\s-]/gu, '')   // noktalama kaldır (Unicode-aware)
     .replace(/\s+/g, '_')
 }
 
@@ -29,7 +29,8 @@ function playAudio(wordId) {
   try {
     const a = new Audio(`/audio/en/${wordId}.mp3`)
     a.play().catch(() => {})
-  } catch {}
+    // eslint-disable-next-line no-unused-vars
+  } catch (_) { /* ignore */ }
 }
 
 // Çeviri sesi çal — /audio/{lang}/{safe(main)}.mp3
@@ -38,7 +39,8 @@ function playTranslation(main, lang) {
   try {
     const a = new Audio(`/audio/${lang}/${safeFilename(main)}.mp3`)
     a.play().catch(() => {})
-  } catch {}
+    // eslint-disable-next-line no-unused-vars
+  } catch (_) { /* ignore */ }
 }
 
 // Status pill rengi
