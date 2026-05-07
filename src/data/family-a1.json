@@ -691,6 +691,148 @@
           "level": "a1"
         }
       ]
+    },
+    "pt": {
+      "label": "Português",
+      "flag": "🇧🇷",
+      "words": [
+        {
+          "id": "mother",
+          "emoji": "👩",
+          "word": "mãe",
+          "tr": "anne",
+          "pron": "ˈmɐ̃j",
+          "level": "a1"
+        },
+        {
+          "id": "father",
+          "emoji": "👨",
+          "word": "pai",
+          "tr": "baba",
+          "pron": "ˈpaj",
+          "level": "a1"
+        },
+        {
+          "id": "brother",
+          "emoji": "👦",
+          "word": "irmão",
+          "tr": "erkek kardeş",
+          "pron": "iʁˈmɐ̃w",
+          "level": "a1"
+        },
+        {
+          "id": "sister",
+          "emoji": "👧",
+          "word": "irmã",
+          "tr": "kız kardeş",
+          "pron": "iʁˈmɐ̃",
+          "level": "a1"
+        },
+        {
+          "id": "grandmother",
+          "emoji": "👵",
+          "word": "avó",
+          "tr": "büyükanne",
+          "pron": "aˈvɔ",
+          "level": "a1"
+        },
+        {
+          "id": "grandfather",
+          "emoji": "👴",
+          "word": "avô",
+          "tr": "büyükbaba",
+          "pron": "aˈvo",
+          "level": "a1"
+        },
+        {
+          "id": "aunt",
+          "emoji": "🧕",
+          "word": "tia",
+          "tr": "teyze / hala",
+          "pron": "ˈtʃia",
+          "level": "a1"
+        },
+        {
+          "id": "uncle",
+          "emoji": "🧔",
+          "word": "tio",
+          "tr": "amca / dayı",
+          "pron": "ˈtʃiu",
+          "level": "a1"
+        },
+        {
+          "id": "baby",
+          "emoji": "👶",
+          "word": "bebê",
+          "tr": "bebek",
+          "pron": "beˈbe",
+          "level": "a1"
+        },
+        {
+          "id": "family",
+          "emoji": "👨‍👩‍👧",
+          "word": "família",
+          "tr": "aile",
+          "pron": "faˈmilia",
+          "level": "a1"
+        },
+        {
+          "id": "son",
+          "emoji": "🧒‍♂️",
+          "word": "filho",
+          "tr": "oğul",
+          "pron": "ˈfiʎu",
+          "level": "a1"
+        },
+        {
+          "id": "daughter",
+          "emoji": "🧒‍♀️",
+          "word": "filha",
+          "tr": "kız",
+          "pron": "ˈfiʎa",
+          "level": "a1"
+        },
+        {
+          "id": "husband",
+          "emoji": "🤵",
+          "word": "marido",
+          "tr": "koca",
+          "pron": "maˈɾidu",
+          "level": "a1"
+        },
+        {
+          "id": "wife",
+          "emoji": "👰",
+          "word": "esposa",
+          "tr": "eş",
+          "pron": "eʃˈpɔza",
+          "level": "a1"
+        },
+        {
+          "id": "cousin",
+          "emoji": "🧑",
+          "word": "primo",
+          "tr": "kuzen",
+          "pron": "ˈpɾimu",
+          "level": "a1"
+        },
+        {
+          "id": "dad",
+          "emoji": "🧔",
+          "word": "papai",
+          "tr": "baba",
+          "pron": "paˈpaj",
+          "level": "a1"
+        },
+        {
+          "id": "mum",
+          "emoji": "🤱",
+          "word": "mamãe",
+          "tr": "anne",
+          "pron": "maˈmɐ̃j",
+          "level": "a1"
+        }
+      ]
     }
   }
 }

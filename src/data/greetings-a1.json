@@ -568,6 +568,132 @@
           "level": "a1"
         }
       ]
+    },
+    "pt": {
+      "label": "Português",
+      "flag": "🇧🇷",
+      "words": [
+        {
+          "id": "hello",
+          "emoji": "👋",
+          "word": "olá",
+          "tr": "merhaba",
+          "pron": "oˈla",
+          "level": "a1"
+        },
+        {
+          "id": "goodbye",
+          "emoji": "🙋",
+          "word": "tchau",
+          "tr": "güle güle",
+          "pron": "ˈtʃaw",
+          "level": "a1"
+        },
+        {
+          "id": "please",
+          "emoji": "🙏",
+          "word": "por favor",
+          "tr": "lütfen",
+          "pron": "poʁ faˈvoʁ",
+          "level": "a1"
+        },
+        {
+          "id": "thankyou",
+          "emoji": "🤝",
+          "word": "obrigado",
+          "tr": "teşekkürler",
+          "pron": "obɾiˈɡadu",
+          "level": "a1"
+        },
+        {
+          "id": "yes",
+          "emoji": "✅",
+          "word": "sim",
+          "tr": "evet",
+          "pron": "ˈsĩ",
+          "level": "a1"
+        },
+        {
+          "id": "no",
+          "emoji": "❌",
+          "word": "não",
+          "tr": "hayır",
+          "pron": "ˈnɐ̃w",
+          "level": "a1"
+        },
+        {
+          "id": "sorry",
+          "emoji": "😔",
+          "word": "desculpe",
+          "tr": "özür dilerim",
+          "pron": "deʃˈkuwpi",
+          "level": "a1"
+        },
+        {
+          "id": "help",
+          "emoji": "🆘",
+          "word": "ajuda",
+          "tr": "yardım",
+          "pron": "aˈʒuda",
+          "level": "a1"
+        },
+        {
+          "id": "goodmorning",
+          "emoji": "🌅",
+          "word": "bom dia",
+          "tr": "günaydın",
+          "pron": "bõ ˈdʒia",
+          "level": "a1"
+        },
+        {
+          "id": "goodnight",
+          "emoji": "🌙",
+          "word": "boa noite",
+          "tr": "iyi geceler",
+          "pron": "ˈboa ˈnojtʃi",
+          "level": "a1"
+        },
+        {
+          "id": "bye",
+          "emoji": "✌️",
+          "word": "tchau",
+          "tr": "hoşça kal",
+          "pron": "ˈtʃaw",
+          "level": "a1"
+        },
+        {
+          "id": "hi",
+          "emoji": "🤙",
+          "word": "oi",
+          "tr": "selam",
+          "pron": "ˈoj",
+          "level": "a1"
+        },
+        {
+          "id": "ok",
+          "emoji": "👌",
+          "word": "ok",
+          "tr": "tamam",
+          "pron": "oˈkej",
+          "level": "a1"
+        },
+        {
+          "id": "thanks",
+          "emoji": "🙌",
+          "word": "valeu",
+          "tr": "teşekkürler",
+          "pron": "vaˈlew",
+          "level": "a1"
+        },
+        {
+          "id": "welcome",
+          "emoji": "🎊",
+          "word": "de nada",
+          "tr": "hoş geldiniz",
+          "pron": "dʒi ˈnada",
+          "level": "a1"
+        }
+      ]
     }
   }
 }

@@ -95,7 +95,7 @@ export default function Dashboard() {
   const goalPct    = Math.min(100, Math.round((todayStats.seen / DAILY_GOAL) * 100))
 
   const hour     = new Date().getHours()
-  const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening'
+  const greeting = hour < 12 ? t('good morning') : hour < 18 ? t('good afternoon') : t('good evening')
 
   const level = profile?.current_level
   const lc    = LEVEL_COLORS[level] ?? LEVEL_COLORS.A1
@@ -169,9 +169,9 @@ export default function Dashboard() {
           {/* Stats row */}
           <div style={{ display: 'flex', gap: '12px', marginTop: '20px', flexWrap: 'wrap' }}>
               {[
-                { icon: '🔥', value: liveStreak, label: 'Streak' },
-                { icon: '⭐', value: profile?.points  || 0, label: 'Points' },
-                { icon: '🏆', value: profile?.level   || 1, label: 'Level'  },
+                { icon: '🔥', value: liveStreak,           label: t('streak') },
+                { icon: '⭐', value: profile?.points  || 0, label: t('points') },
+                { icon: '🏆', value: profile?.level   || 1, label: t('level')  },
               ].map((s, i) => (
               <div key={i} style={{
                 display: 'flex', alignItems: 'center', gap: '8px',
@@ -226,12 +226,12 @@ export default function Dashboard() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
             {[
-              { label: 'New',      value: srsStats.new,      color: '#94A3B8', bg: '#F8FAFC' },
-              { label: 'Learning', value: srsStats.learning,  color: '#F59E0B', bg: '#FFFBEB' },
-              { label: 'Review',   value: srsStats.review,    color: '#0891B2', bg: '#EFF8FF' },
-              { label: 'Mastered', value: srsStats.mastered,  color: '#10B981', bg: '#F0FDF4' },
-            ].map(({ label, value, color, bg }) => (
-              <div key={label} style={{
+              { key: 'new',      value: srsStats.new,      color: '#94A3B8', bg: '#F8FAFC' },
+              { key: 'learning', value: srsStats.learning,  color: '#F59E0B', bg: '#FFFBEB' },
+              { key: 'review',   value: srsStats.review,    color: '#0891B2', bg: '#EFF8FF' },
+              { key: 'mastered', value: srsStats.mastered,  color: '#10B981', bg: '#F0FDF4' },
+            ].map(({ key, value, color, bg }) => (
+              <div key={key} style={{
                 background: bg, borderRadius: '12px',
                 padding: '12px 8px', textAlign: 'center',
               }}>
@@ -240,7 +240,7 @@ export default function Dashboard() {
                   fontSize: '22px', fontWeight: '800', color, lineHeight: 1,
                 }}>{value}</div>
                 <div style={{ fontSize: '10px', color: '#94A3B8', marginTop: '4px', fontWeight: '600' }}>
-                  {label}
+                  {t(key)}
                 </div>
               </div>
             ))}
@@ -257,8 +257,8 @@ export default function Dashboard() {
             }}
           >
             {srsStats.todayDue > 0
-              ? `📚 Study Now (${srsStats.todayDue} due) →`
-              : '📚 Study Now →'}
+              ? `📚 ${t('study now')} (${srsStats.todayDue} ${t('due today')}) →`
+              : `📚 ${t('study now')} →`}
           </button>
         </div>
 
@@ -278,9 +278,9 @@ export default function Dashboard() {
               <div style={{
                 fontFamily: "'Plus Jakarta Sans', sans-serif",
                 fontSize: '16px', fontWeight: '700', color: '#0F172A',
-              }}>Daily Goal</div>
+              }}>{t('daily goal')}</div>
               <div style={{ fontSize: '13px', color: '#64748B' }}>
-                Complete {DAILY_GOAL} flash cards
+                {t('complete n flash cards').replace('{n}', DAILY_GOAL)}
               </div>
             </div>
           </div>
@@ -288,7 +288,7 @@ export default function Dashboard() {
             display: 'flex', justifyContent: 'space-between',
             fontSize: '12px', color: '#94A3B8', marginBottom: '6px',
           }}>
-            <span>Progress</span>
+            <span>{t('progress')}</span>
             <span>{todayStats.seen} / {DAILY_GOAL}</span>
           </div>
           <div style={{
@@ -311,7 +311,7 @@ export default function Dashboard() {
               fontSize: '14px', fontWeight: '700',
             }}
           >
-            {goalPct >= 100 ? '🏆 Goal Completed!' : 'Continue Learning →'}
+            {goalPct >= 100 ? `🏆 ${t('goal completed')}` : t('continue learning')}
           </button>
         </div>
 
@@ -325,7 +325,7 @@ export default function Dashboard() {
             fontFamily: "'Plus Jakarta Sans', sans-serif",
             fontSize: '14px', fontWeight: '700', color: '#0F172A', marginBottom: '14px',
           }}>
-            📈 Last 7 Days
+            📈 {t('last 7 days')}
           </div>
           <div style={{ display: 'flex', gap: '6px', alignItems: 'flex-end', height: '64px' }}>
             {weekStats.map(day => {
@@ -462,7 +462,7 @@ export default function Dashboard() {
             <div style={{
               fontFamily: "'Plus Jakarta Sans', sans-serif",
               fontSize: '16px', fontWeight: '700', color: '#0F172A',
-            }}>Categories</div>
+            }}>{t('categories')}</div>
             <button
               onClick={() => navigate('/categories')}
               style={{
@@ -470,7 +470,7 @@ export default function Dashboard() {
                 color: '#0891B2', fontSize: '13px',
                 fontWeight: '600', cursor: 'pointer',
               }}
-            >See all →</button>
+            >{t('see all')}</button>
           </div>
           <div style={{
             display: 'grid',
@@ -506,7 +506,7 @@ export default function Dashboard() {
 
         {/* Chat Practice */}
         <button
-          onClick={() => navigate('/scenarios')}
+          onClick={() => navigate('/chatbot')}
           style={{
             width: '100%', marginTop: '10px', marginBottom: '2px',
             background: 'linear-gradient(135deg, #0891B2 0%, #6366F1 100%)',
@@ -541,11 +541,11 @@ export default function Dashboard() {
             <div style={{
               fontFamily: "'Plus Jakarta Sans', sans-serif",
               fontSize: '14px', fontWeight: '700', color: '#0F172A', marginBottom: '2px',
-            }}>Keep going!</div>
+            }}>{t('keep going')}</div>
             <div style={{ fontSize: '13px', color: '#64748B' }}>
               {hardWords.length > 0
-                ? `${hardWords.length} words need review — let's practice! 💪`
-                : "Great job! Come back tomorrow to keep your streak! 🚀"}
+                ? `${hardWords.length} ${t('words need review')}`
+                : t('come back tomorrow')}
             </div>
           </div>
         </div>

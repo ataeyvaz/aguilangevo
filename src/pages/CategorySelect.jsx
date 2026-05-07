@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { useTranslation } from '../i18n/translations'
 
 const CATEGORIES = [
   { id: 'animals',    name: 'Animals',   emoji: '🐾', count: 45, bg: '#F0FDF4', color: '#16A34A' },
@@ -26,6 +27,7 @@ const CATEGORIES = [
 
 export default function CategorySelect() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const [search, setSearch] = useState('')
   const [hovered, setHovered] = useState(null)
 
@@ -88,7 +90,7 @@ export default function CategorySelect() {
                 fontWeight: '800',
                 color: '#0F172A',
               }}>
-                Select Category
+                {t('select category')}
               </div>
             </div>
           </div>
@@ -104,7 +106,7 @@ export default function CategorySelect() {
             }}>🔍</span>
             <input
               type="text"
-              placeholder="Search categories..."
+              placeholder={t('search categories')}
               value={search}
               onChange={e => setSearch(e.target.value)}
               style={{
@@ -174,7 +176,7 @@ export default function CategorySelect() {
                 borderRadius: '6px',
                 padding: '2px 8px',
               }}>
-                {cat.count} words
+                {cat.count} {t('words')}
               </span>
             </button>
           ))}

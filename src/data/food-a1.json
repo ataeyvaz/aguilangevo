@@ -736,6 +736,188 @@
           "level": "a1"
         }
       ]
+    },
+    "pt": {
+      "label": "Português",
+      "flag": "🇧🇷",
+      "words": [
+        {
+          "id": "bread",
+          "emoji": "🍞",
+          "word": "pão",
+          "tr": "ekmek",
+          "pron": "ˈpɐ̃w",
+          "level": "a1"
+        },
+        {
+          "id": "milk",
+          "emoji": "🥛",
+          "word": "leite",
+          "tr": "süt",
+          "pron": "ˈlejti",
+          "level": "a1"
+        },
+        {
+          "id": "egg",
+          "emoji": "🥚",
+          "word": "ovo",
+          "tr": "yumurta",
+          "pron": "ˈɔvu",
+          "level": "a1"
+        },
+        {
+          "id": "cheese",
+          "emoji": "🧀",
+          "word": "queijo",
+          "tr": "peynir",
+          "pron": "ˈkejʒu",
+          "level": "a1"
+        },
+        {
+          "id": "pizza",
+          "emoji": "🍕",
+          "word": "pizza",
+          "tr": "pizza",
+          "pron": "ˈpitsa",
+          "level": "a1"
+        },
+        {
+          "id": "rice",
+          "emoji": "🍚",
+          "word": "arroz",
+          "tr": "pirinç",
+          "pron": "aˈʁoʃ",
+          "level": "a1"
+        },
+        {
+          "id": "soup",
+          "emoji": "🍲",
+          "word": "sopa",
+          "tr": "çorba",
+          "pron": "ˈsɔpa",
+          "level": "a1"
+        },
+        {
+          "id": "cake",
+          "emoji": "🎂",
+          "word": "bolo",
+          "tr": "pasta",
+          "pron": "ˈbɔlu",
+          "level": "a1"
+        },
+        {
+          "id": "cookie",
+          "emoji": "🍪",
+          "word": "biscoito",
+          "tr": "bisküvi",
+          "pron": "biʃˈkojtu",
+          "level": "a1"
+        },
+        {
+          "id": "icecream",
+          "emoji": "🍦",
+          "word": "sorvete",
+          "tr": "dondurma",
+          "pron": "soʁˈveti",
+          "level": "a1"
+        },
+        {
+          "id": "sandwich",
+          "emoji": "🥪",
+          "word": "sanduíche",
+          "tr": "sandviç",
+          "pron": "sɐ̃duˈiʃi",
+          "level": "a1"
+        },
+        {
+          "id": "pasta",
+          "emoji": "🍝",
+          "word": "macarrão",
+          "tr": "makarna",
+          "pron": "makaˈʁɐ̃w",
+          "level": "a1"
+        },
+        {
+          "id": "butter",
+          "emoji": "🧈",
+          "word": "manteiga",
+          "tr": "tereyağı",
+          "pron": "mɐ̃ˈtejɡa",
+          "level": "a1"
+        },
+        {
+          "id": "chicken",
+          "emoji": "🍗",
+          "word": "frango",
+          "tr": "tavuk",
+          "pron": "ˈfɾɐ̃ɡu",
+          "level": "a1"
+        },
+        {
+          "id": "chocolate",
+          "emoji": "🍫",
+          "word": "chocolate",
+          "tr": "çikolata",
+          "pron": "ʃokoˈlati",
+          "level": "a1"
+        },
+        {
+          "id": "coffee",
+          "emoji": "☕",
+          "word": "café",
+          "tr": "kahve",
+          "pron": "kaˈfɛ",
+          "level": "a1"
+        },
+        {
+          "id": "juice",
+          "emoji": "🧃",
+          "word": "suco",
+          "tr": "meyve suyu",
+          "pron": "ˈsuku",
+          "level": "a1"
+        },
+        {
+          "id": "meat",
+          "emoji": "🥩",
+          "word": "carne",
+          "tr": "et",
+          "pron": "ˈkaʁni",
+          "level": "a1"
+        },
+        {
+          "id": "salad",
+          "emoji": "🥗",
+          "word": "alface",
+          "tr": "salata",
+          "pron": "awˈfasi",
+          "level": "a1"
+        },
+        {
+          "id": "salt",
+          "emoji": "🧂",
+          "word": "sal",
+          "tr": "tuz",
+          "pron": "ˈsaw",
+          "level": "a1"
+        },
+        {
+          "id": "sugar",
+          "emoji": "🍬",
+          "word": "açúcar",
+          "tr": "şeker",
+          "pron": "aˈsukaʁ",
+          "level": "a1"
+        },
+        {
+          "id": "tea",
+          "emoji": "🍵",
+          "word": "chá",
+          "tr": "çay",
+          "pron": "ˈʃa",
+          "level": "a1"
+        }
+      ]
     }
   }
 }

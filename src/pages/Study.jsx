@@ -309,8 +309,9 @@ export default function Study() {
               {/* Audio button */}
               <button
                 onClick={() => playAudio(word?.id)}
-                className="w-12 h-12 rounded-full bg-slate-100 hover:bg-cyan-100
-                           flex items-center justify-center text-xl transition-colors"
+                className="w-12 h-12 rounded-full bg-teal-500 hover:bg-teal-600
+                           flex items-center justify-center text-xl text-white
+                           shadow-sm transition-colors"
                 title="Play audio"
               >
                 🔊
@@ -348,8 +349,9 @@ export default function Study() {
                 </div>
                 <button
                   onClick={() => playTranslation(translation, targetLang)}
-                  className="w-10 h-10 rounded-full bg-slate-100 hover:bg-cyan-100
-                             flex items-center justify-center text-lg transition-colors shrink-0"
+                  className="w-12 h-12 rounded-full bg-teal-500 hover:bg-teal-600
+                             flex items-center justify-center text-xl text-white
+                             shadow-sm transition-colors shrink-0"
                   title="Play translation"
                 >
                   🔊
@@ -403,7 +405,7 @@ export default function Study() {
                          flex items-center justify-center gap-2 shadow-md"
               style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
             >
-              🤖 Practice with ChatBot
+              🤖 {t('practice with chatbot')}
             </button>
           </div>
         )}

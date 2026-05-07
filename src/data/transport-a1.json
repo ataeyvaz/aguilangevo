@@ -3,66 +3,539 @@
   "level": "a1",
   "translations": {
     "en": {
-      "label": "English", "flag": "🇬🇧",
+      "label": "English",
+      "flag": "🇬🇧",
       "words": [
-        { "id": "bicycle",     "emoji": "🚲", "word": "bicycle",     "tr": "bisiklet",          "pron": "ˈbaɪsɪkəl",   "level": "a1" },
-        { "id": "boat",        "emoji": "⛵", "word": "boat",        "tr": "tekne",             "pron": "bəʊt",        "level": "a1" },
-        { "id": "bus",         "emoji": "🚌", "word": "bus",         "tr": "otobüs",            "pron": "bʌs",         "level": "a1" },
-        { "id": "car",         "emoji": "🚗", "word": "car",         "tr": "araba",             "pron": "kɑː",         "level": "a1" },
-        { "id": "plane",       "emoji": "✈️", "word": "plane",       "tr": "uçak",              "pron": "pleɪn",       "level": "a1" },
-        { "id": "ship",        "emoji": "🚢", "word": "ship",        "tr": "gemi",              "pron": "ʃɪp",         "level": "a1" },
-        { "id": "taxi",        "emoji": "🚕", "word": "taxi",        "tr": "taksi",             "pron": "ˈtæksi",      "level": "a1" },
-        { "id": "train",       "emoji": "🚂", "word": "train",       "tr": "tren",              "pron": "treɪn",       "level": "a1" },
-        { "id": "truck",       "emoji": "🚛", "word": "truck",       "tr": "kamyon",            "pron": "trʌk",        "level": "a1" },
-        { "id": "ambulance",   "emoji": "🚑", "word": "ambulance",   "tr": "ambulans",          "pron": "ˈæmbjʊləns",  "level": "a2" },
-        { "id": "ferry",       "emoji": "⛴️", "word": "ferry",       "tr": "feribot",           "pron": "ˈfɛri",       "level": "a2" },
-        { "id": "helicopter",  "emoji": "🚁", "word": "helicopter",  "tr": "helikopter",        "pron": "ˈhɛlɪkɒptər", "level": "a2" },
-        { "id": "lorry",       "emoji": "🚛", "word": "lorry",       "tr": "kamyon / tır",      "pron": "ˈlɒri",       "level": "a2" },
-        { "id": "motorcycle",  "emoji": "🏍️", "word": "motorcycle",  "tr": "motosiklet",        "pron": "ˈməʊtəsaɪkəl","level": "a2" },
-        { "id": "underground", "emoji": "🚇", "word": "underground", "tr": "metro",             "pron": "ˈʌndəɡraʊnd", "level": "a2" },
-        { "id": "van",         "emoji": "🚐", "word": "van",         "tr": "minibüs / kamyonet","pron": "væn",         "level": "a2" }
+        {
+          "id": "bicycle",
+          "emoji": "🚲",
+          "word": "bicycle",
+          "tr": "bisiklet",
+          "pron": "ˈbaɪsɪkəl",
+          "level": "a1"
+        },
+        {
+          "id": "boat",
+          "emoji": "⛵",
+          "word": "boat",
+          "tr": "tekne",
+          "pron": "bəʊt",
+          "level": "a1"
+        },
+        {
+          "id": "bus",
+          "emoji": "🚌",
+          "word": "bus",
+          "tr": "otobüs",
+          "pron": "bʌs",
+          "level": "a1"
+        },
+        {
+          "id": "car",
+          "emoji": "🚗",
+          "word": "car",
+          "tr": "araba",
+          "pron": "kɑː",
+          "level": "a1"
+        },
+        {
+          "id": "plane",
+          "emoji": "✈️",
+          "word": "plane",
+          "tr": "uçak",
+          "pron": "pleɪn",
+          "level": "a1"
+        },
+        {
+          "id": "ship",
+          "emoji": "🚢",
+          "word": "ship",
+          "tr": "gemi",
+          "pron": "ʃɪp",
+          "level": "a1"
+        },
+        {
+          "id": "taxi",
+          "emoji": "🚕",
+          "word": "taxi",
+          "tr": "taksi",
+          "pron": "ˈtæksi",
+          "level": "a1"
+        },
+        {
+          "id": "train",
+          "emoji": "🚂",
+          "word": "train",
+          "tr": "tren",
+          "pron": "treɪn",
+          "level": "a1"
+        },
+        {
+          "id": "truck",
+          "emoji": "🚛",
+          "word": "truck",
+          "tr": "kamyon",
+          "pron": "trʌk",
+          "level": "a1"
+        },
+        {
+          "id": "ambulance",
+          "emoji": "🚑",
+          "word": "ambulance",
+          "tr": "ambulans",
+          "pron": "ˈæmbjʊləns",
+          "level": "a2"
+        },
+        {
+          "id": "ferry",
+          "emoji": "⛴️",
+          "word": "ferry",
+          "tr": "feribot",
+          "pron": "ˈfɛri",
+          "level": "a2"
+        },
+        {
+          "id": "helicopter",
+          "emoji": "🚁",
+          "word": "helicopter",
+          "tr": "helikopter",
+          "pron": "ˈhɛlɪkɒptər",
+          "level": "a2"
+        },
+        {
+          "id": "lorry",
+          "emoji": "🚛",
+          "word": "lorry",
+          "tr": "kamyon / tır",
+          "pron": "ˈlɒri",
+          "level": "a2"
+        },
+        {
+          "id": "motorcycle",
+          "emoji": "🏍️",
+          "word": "motorcycle",
+          "tr": "motosiklet",
+          "pron": "ˈməʊtəsaɪkəl",
+          "level": "a2"
+        },
+        {
+          "id": "underground",
+          "emoji": "🚇",
+          "word": "underground",
+          "tr": "metro",
+          "pron": "ˈʌndəɡraʊnd",
+          "level": "a2"
+        },
+        {
+          "id": "van",
+          "emoji": "🚐",
+          "word": "van",
+          "tr": "minibüs / kamyonet",
+          "pron": "væn",
+          "level": "a2"
+        }
       ]
     },
     "de": {
-      "label": "Deutsch", "flag": "🇩🇪",
+      "label": "Deutsch",
+      "flag": "🇩🇪",
       "words": [
-        { "id": "bicycle",     "emoji": "🚲", "word": "Fahrrad",      "tr": "bisiklet",          "pron": "ˈfaːrraːt",    "level": "a1" },
-        { "id": "boat",        "emoji": "⛵", "word": "Boot",         "tr": "tekne",             "pron": "boːt",         "level": "a1" },
-        { "id": "bus",         "emoji": "🚌", "word": "Bus",          "tr": "otobüs",            "pron": "bʊs",          "level": "a1" },
-        { "id": "car",         "emoji": "🚗", "word": "Auto",         "tr": "araba",             "pron": "ˈaʊto",        "level": "a1" },
-        { "id": "plane",       "emoji": "✈️", "word": "Flugzeug",     "tr": "uçak",              "pron": "ˈfluːktsɔʏk",  "level": "a1" },
-        { "id": "ship",        "emoji": "🚢", "word": "Schiff",       "tr": "gemi",              "pron": "ʃɪf",          "level": "a1" },
-        { "id": "taxi",        "emoji": "🚕", "word": "Taxi",         "tr": "taksi",             "pron": "ˈtaksi",       "level": "a1" },
-        { "id": "train",       "emoji": "🚂", "word": "Zug",          "tr": "tren",              "pron": "tsuːk",        "level": "a1" },
-        { "id": "truck",       "emoji": "🚛", "word": "Lastwagen",    "tr": "kamyon",            "pron": "ˈlastvaːɡən",  "level": "a1" },
-        { "id": "ambulance",   "emoji": "🚑", "word": "Krankenwagen", "tr": "ambulans",          "pron": "ˈkraŋkənvaːɡən","level": "a2" },
-        { "id": "ferry",       "emoji": "⛴️", "word": "Fähre",        "tr": "feribot",           "pron": "ˈfɛːrə",       "level": "a2" },
-        { "id": "helicopter",  "emoji": "🚁", "word": "Hubschrauber", "tr": "helikopter",        "pron": "ˈhuːpʃraʊbər", "level": "a2" },
-        { "id": "lorry",       "emoji": "🚛", "word": "Lastwagen",    "tr": "kamyon / tır",      "pron": "ˈlastvaːɡən",  "level": "a2" },
-        { "id": "motorcycle",  "emoji": "🏍️", "word": "Motorrad",     "tr": "motosiklet",        "pron": "ˈmoːtoːrraːt", "level": "a2" },
-        { "id": "underground", "emoji": "🚇", "word": "U-Bahn",       "tr": "metro",             "pron": "ˈuːbaːn",      "level": "a2" },
-        { "id": "van",         "emoji": "🚐", "word": "Transporter",  "tr": "minibüs / kamyonet","pron": "transˈpɔrtər", "level": "a2" }
+        {
+          "id": "bicycle",
+          "emoji": "🚲",
+          "word": "Fahrrad",
+          "tr": "bisiklet",
+          "pron": "ˈfaːrraːt",
+          "level": "a1"
+        },
+        {
+          "id": "boat",
+          "emoji": "⛵",
+          "word": "Boot",
+          "tr": "tekne",
+          "pron": "boːt",
+          "level": "a1"
+        },
+        {
+          "id": "bus",
+          "emoji": "🚌",
+          "word": "Bus",
+          "tr": "otobüs",
+          "pron": "bʊs",
+          "level": "a1"
+        },
+        {
+          "id": "car",
+          "emoji": "🚗",
+          "word": "Auto",
+          "tr": "araba",
+          "pron": "ˈaʊto",
+          "level": "a1"
+        },
+        {
+          "id": "plane",
+          "emoji": "✈️",
+          "word": "Flugzeug",
+          "tr": "uçak",
+          "pron": "ˈfluːktsɔʏk",
+          "level": "a1"
+        },
+        {
+          "id": "ship",
+          "emoji": "🚢",
+          "word": "Schiff",
+          "tr": "gemi",
+          "pron": "ʃɪf",
+          "level": "a1"
+        },
+        {
+          "id": "taxi",
+          "emoji": "🚕",
+          "word": "Taxi",
+          "tr": "taksi",
+          "pron": "ˈtaksi",
+          "level": "a1"
+        },
+        {
+          "id": "train",
+          "emoji": "🚂",
+          "word": "Zug",
+          "tr": "tren",
+          "pron": "tsuːk",
+          "level": "a1"
+        },
+        {
+          "id": "truck",
+          "emoji": "🚛",
+          "word": "Lastwagen",
+          "tr": "kamyon",
+          "pron": "ˈlastvaːɡən",
+          "level": "a1"
+        },
+        {
+          "id": "ambulance",
+          "emoji": "🚑",
+          "word": "Krankenwagen",
+          "tr": "ambulans",
+          "pron": "ˈkraŋkənvaːɡən",
+          "level": "a2"
+        },
+        {
+          "id": "ferry",
+          "emoji": "⛴️",
+          "word": "Fähre",
+          "tr": "feribot",
+          "pron": "ˈfɛːrə",
+          "level": "a2"
+        },
+        {
+          "id": "helicopter",
+          "emoji": "🚁",
+          "word": "Hubschrauber",
+          "tr": "helikopter",
+          "pron": "ˈhuːpʃraʊbər",
+          "level": "a2"
+        },
+        {
+          "id": "lorry",
+          "emoji": "🚛",
+          "word": "Lastwagen",
+          "tr": "kamyon / tır",
+          "pron": "ˈlastvaːɡən",
+          "level": "a2"
+        },
+        {
+          "id": "motorcycle",
+          "emoji": "🏍️",
+          "word": "Motorrad",
+          "tr": "motosiklet",
+          "pron": "ˈmoːtoːrraːt",
+          "level": "a2"
+        },
+        {
+          "id": "underground",
+          "emoji": "🚇",
+          "word": "U-Bahn",
+          "tr": "metro",
+          "pron": "ˈuːbaːn",
+          "level": "a2"
+        },
+        {
+          "id": "van",
+          "emoji": "🚐",
+          "word": "Transporter",
+          "tr": "minibüs / kamyonet",
+          "pron": "transˈpɔrtər",
+          "level": "a2"
+        }
       ]
     },
     "es": {
-      "label": "Español", "flag": "🇪🇸",
+      "label": "Español",
+      "flag": "🇪🇸",
       "words": [
-        { "id": "bicycle",     "emoji": "🚲", "word": "bicicleta",     "tr": "bisiklet",          "pron": "biθiˈkleta",   "level": "a1" },
-        { "id": "boat",        "emoji": "⛵", "word": "barca",         "tr": "tekne",             "pron": "ˈbarka",       "level": "a1" },
-        { "id": "bus",         "emoji": "🚌", "word": "autobús",       "tr": "otobüs",            "pron": "awtoˈbus",     "level": "a1" },
-        { "id": "car",         "emoji": "🚗", "word": "coche",         "tr": "araba",             "pron": "ˈkotʃe",       "level": "a1" },
-        { "id": "plane",       "emoji": "✈️", "word": "avión",         "tr": "uçak",              "pron": "aˈβjon",       "level": "a1" },
-        { "id": "ship",        "emoji": "🚢", "word": "barco",         "tr": "gemi",              "pron": "ˈbarko",       "level": "a1" },
-        { "id": "taxi",        "emoji": "🚕", "word": "taxi",          "tr": "taksi",             "pron": "ˈtaksi",       "level": "a1" },
-        { "id": "train",       "emoji": "🚂", "word": "tren",          "tr": "tren",              "pron": "tren",         "level": "a1" },
-        { "id": "truck",       "emoji": "🚛", "word": "camión",        "tr": "kamyon",            "pron": "kaˈmjon",      "level": "a1" },
-        { "id": "ambulance",   "emoji": "🚑", "word": "ambulancia",    "tr": "ambulans",          "pron": "ambulˈanθja",  "level": "a2" },
-        { "id": "ferry",       "emoji": "⛴️", "word": "transbordador", "tr": "feribot",           "pron": "tranzborðaˈðor","level": "a2" },
-        { "id": "helicopter",  "emoji": "🚁", "word": "helicóptero",   "tr": "helikopter",        "pron": "eliˈkoptero",  "level": "a2" },
-        { "id": "lorry",       "emoji": "🚛", "word": "camión",        "tr": "kamyon / tır",      "pron": "kaˈmjon",      "level": "a2" },
-        { "id": "motorcycle",  "emoji": "🏍️", "word": "moto",          "tr": "motosiklet",        "pron": "ˈmoto",        "level": "a2" },
-        { "id": "underground", "emoji": "🚇", "word": "metro",         "tr": "metro",             "pron": "ˈmetro",       "level": "a2" },
-        { "id": "van",         "emoji": "🚐", "word": "furgoneta",     "tr": "minibüs / kamyonet","pron": "furɣoˈneta",   "level": "a2" }
+        {
+          "id": "bicycle",
+          "emoji": "🚲",
+          "word": "bicicleta",
+          "tr": "bisiklet",
+          "pron": "biθiˈkleta",
+          "level": "a1"
+        },
+        {
+          "id": "boat",
+          "emoji": "⛵",
+          "word": "barca",
+          "tr": "tekne",
+          "pron": "ˈbarka",
+          "level": "a1"
+        },
+        {
+          "id": "bus",
+          "emoji": "🚌",
+          "word": "autobús",
+          "tr": "otobüs",
+          "pron": "awtoˈbus",
+          "level": "a1"
+        },
+        {
+          "id": "car",
+          "emoji": "🚗",
+          "word": "coche",
+          "tr": "araba",
+          "pron": "ˈkotʃe",
+          "level": "a1"
+        },
+        {
+          "id": "plane",
+          "emoji": "✈️",
+          "word": "avión",
+          "tr": "uçak",
+          "pron": "aˈβjon",
+          "level": "a1"
+        },
+        {
+          "id": "ship",
+          "emoji": "🚢",
+          "word": "barco",
+          "tr": "gemi",
+          "pron": "ˈbarko",
+          "level": "a1"
+        },
+        {
+          "id": "taxi",
+          "emoji": "🚕",
+          "word": "taxi",
+          "tr": "taksi",
+          "pron": "ˈtaksi",
+          "level": "a1"
+        },
+        {
+          "id": "train",
+          "emoji": "🚂",
+          "word": "tren",
+          "tr": "tren",
+          "pron": "tren",
+          "level": "a1"
+        },
+        {
+          "id": "truck",
+          "emoji": "🚛",
+          "word": "camión",
+          "tr": "kamyon",
+          "pron": "kaˈmjon",
+          "level": "a1"
+        },
+        {
+          "id": "ambulance",
+          "emoji": "🚑",
+          "word": "ambulancia",
+          "tr": "ambulans",
+          "pron": "ambulˈanθja",
+          "level": "a2"
+        },
+        {
+          "id": "ferry",
+          "emoji": "⛴️",
+          "word": "transbordador",
+          "tr": "feribot",
+          "pron": "tranzborðaˈðor",
+          "level": "a2"
+        },
+        {
+          "id": "helicopter",
+          "emoji": "🚁",
+          "word": "helicóptero",
+          "tr": "helikopter",
+          "pron": "eliˈkoptero",
+          "level": "a2"
+        },
+        {
+          "id": "lorry",
+          "emoji": "🚛",
+          "word": "camión",
+          "tr": "kamyon / tır",
+          "pron": "kaˈmjon",
+          "level": "a2"
+        },
+        {
+          "id": "motorcycle",
+          "emoji": "🏍️",
+          "word": "moto",
+          "tr": "motosiklet",
+          "pron": "ˈmoto",
+          "level": "a2"
+        },
+        {
+          "id": "underground",
+          "emoji": "🚇",
+          "word": "metro",
+          "tr": "metro",
+          "pron": "ˈmetro",
+          "level": "a2"
+        },
+        {
+          "id": "van",
+          "emoji": "🚐",
+          "word": "furgoneta",
+          "tr": "minibüs / kamyonet",
+          "pron": "furɣoˈneta",
+          "level": "a2"
+        }
+      ]
+    },
+    "pt": {
+      "label": "Português",
+      "flag": "🇧🇷",
+      "words": [
+        {
+          "id": "bicycle",
+          "emoji": "🚲",
+          "word": "bicicleta",
+          "tr": "bisiklet",
+          "pron": "bisikˈlɛta",
+          "level": "a1"
+        },
+        {
+          "id": "boat",
+          "emoji": "⛵",
+          "word": "barco",
+          "tr": "tekne",
+          "pron": "ˈbaʁku",
+          "level": "a1"
+        },
+        {
+          "id": "bus",
+          "emoji": "🚌",
+          "word": "ônibus",
+          "tr": "otobüs",
+          "pron": "ˈonibus",
+          "level": "a1"
+        },
+        {
+          "id": "car",
+          "emoji": "🚗",
+          "word": "carro",
+          "tr": "araba",
+          "pron": "ˈkaʁu",
+          "level": "a1"
+        },
+        {
+          "id": "plane",
+          "emoji": "✈️",
+          "word": "avião",
+          "tr": "uçak",
+          "pron": "aviˈɐ̃w",
+          "level": "a1"
+        },
+        {
+          "id": "ship",
+          "emoji": "🚢",
+          "word": "navio",
+          "tr": "gemi",
+          "pron": "naˈviu",
+          "level": "a1"
+        },
+        {
+          "id": "taxi",
+          "emoji": "🚕",
+          "word": "táxi",
+          "tr": "taksi",
+          "pron": "ˈtaksi",
+          "level": "a1"
+        },
+        {
+          "id": "train",
+          "emoji": "🚂",
+          "word": "trem",
+          "tr": "tren",
+          "pron": "ˈtɾẽj",
+          "level": "a1"
+        },
+        {
+          "id": "truck",
+          "emoji": "🚛",
+          "word": "caminhão",
+          "tr": "kamyon",
+          "pron": "kamiˈɲɐ̃w",
+          "level": "a1"
+        },
+        {
+          "id": "ambulance",
+          "emoji": "🚑",
+          "word": "ambulância",
+          "tr": "ambulans",
+          "pron": "ɐ̃buˈlɐ̃sia",
+          "level": "a2"
+        },
+        {
+          "id": "ferry",
+          "emoji": "⛴️",
+          "word": "balsa",
+          "tr": "feribot",
+          "pron": "ˈbawsa",
+          "level": "a2"
+        },
+        {
+          "id": "helicopter",
+          "emoji": "🚁",
+          "word": "helicóptero",
+          "tr": "helikopter",
+          "pron": "elikɔˈptɛɾu",
+          "level": "a2"
+        },
+        {
+          "id": "lorry",
+          "emoji": "🚛",
+          "word": "caminhão",
+          "tr": "kamyon / tır",
+          "pron": "kamiˈɲɐ̃w",
+          "level": "a2"
+        },
+        {
+          "id": "motorcycle",
+          "emoji": "🏍️",
+          "word": "moto",
+          "tr": "motosiklet",
+          "pron": "ˈmɔtu",
+          "level": "a2"
+        },
+        {
+          "id": "underground",
+          "emoji": "🚇",
+          "word": "metrô",
+          "tr": "metro",
+          "pron": "meˈtɾo",
+          "level": "a2"
+        },
+        {
+          "id": "van",
+          "emoji": "🚐",
+          "word": "van",
+          "tr": "minibüs / kamyonet",
+          "pron": "ˈvɐ̃",
+          "level": "a2"
+        }
       ]
     }
   }

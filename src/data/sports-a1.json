@@ -379,6 +379,132 @@
           "level": "a2"
         }
       ]
+    },
+    "pt": {
+      "label": "Português",
+      "flag": "🇧🇷",
+      "words": [
+        {
+          "id": "basketball",
+          "emoji": "🏀",
+          "word": "basquete",
+          "tr": "basketbol",
+          "pron": "baʃˈkɛtʃi",
+          "level": "a1"
+        },
+        {
+          "id": "football",
+          "emoji": "⚽",
+          "word": "futebol",
+          "tr": "futbol",
+          "pron": "futʃiˈbɔw",
+          "level": "a1"
+        },
+        {
+          "id": "golf",
+          "emoji": "⛳",
+          "word": "golfe",
+          "tr": "golf",
+          "pron": "ˈɡɔwfi",
+          "level": "a1"
+        },
+        {
+          "id": "sport",
+          "emoji": "🏅",
+          "word": "esporte",
+          "tr": "spor",
+          "pron": "eʃˈpɔʁtʃi",
+          "level": "a1"
+        },
+        {
+          "id": "swimming",
+          "emoji": "🏊",
+          "word": "natação",
+          "tr": "yüzme",
+          "pron": "nataˈsɐ̃w",
+          "level": "a1"
+        },
+        {
+          "id": "tennis",
+          "emoji": "🎾",
+          "word": "tênis",
+          "tr": "tenis",
+          "pron": "ˈteniʃ",
+          "level": "a1"
+        },
+        {
+          "id": "athletics",
+          "emoji": "🏃",
+          "word": "atletismo",
+          "tr": "atletizm",
+          "pron": "atleˈtʃizmu",
+          "level": "a2"
+        },
+        {
+          "id": "boxing",
+          "emoji": "🥊",
+          "word": "boxe",
+          "tr": "boks",
+          "pron": "ˈbɔksi",
+          "level": "a2"
+        },
+        {
+          "id": "climbing",
+          "emoji": "🧗",
+          "word": "escalada",
+          "tr": "tırmanma",
+          "pron": "eskaˈlada",
+          "level": "a2"
+        },
+        {
+          "id": "cycling",
+          "emoji": "🚴",
+          "word": "ciclismo",
+          "tr": "bisiklet sporu",
+          "pron": "siˈklizmu",
+          "level": "a2"
+        },
+        {
+          "id": "gymnastics",
+          "emoji": "🤸",
+          "word": "ginástica",
+          "tr": "jimnastik",
+          "pron": "ʒiˈnaʃtʃika",
+          "level": "a2"
+        },
+        {
+          "id": "hockey",
+          "emoji": "🏒",
+          "word": "hóquei",
+          "tr": "hokey",
+          "pron": "ˈɔkej",
+          "level": "a2"
+        },
+        {
+          "id": "skiing",
+          "emoji": "⛷️",
+          "word": "esqui",
+          "tr": "kayak",
+          "pron": "eʃˈki",
+          "level": "a2"
+        },
+        {
+          "id": "volleyball",
+          "emoji": "🏐",
+          "word": "vôlei",
+          "tr": "voleybol",
+          "pron": "ˈvolej",
+          "level": "a2"
+        },
+        {
+          "id": "yoga",
+          "emoji": "🧘",
+          "word": "ioga",
+          "tr": "yoga",
+          "pron": "iˈɔɡa",
+          "level": "a2"
+        }
+      ]
     }
   }
 }

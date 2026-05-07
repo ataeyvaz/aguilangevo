@@ -716,6 +716,156 @@
           "level": "a1"
         }
       ]
+    },
+    "pt": {
+      "label": "Português",
+      "flag": "🇧🇷",
+      "words": [
+        {
+          "id": "book",
+          "emoji": "📚",
+          "word": "livro",
+          "tr": "kitap",
+          "pron": "ˈlivɾu",
+          "level": "a1"
+        },
+        {
+          "id": "pen",
+          "emoji": "🖊️",
+          "word": "caneta",
+          "tr": "kalem",
+          "pron": "kaˈneta",
+          "level": "a1"
+        },
+        {
+          "id": "pencil",
+          "emoji": "✏️",
+          "word": "lápis",
+          "tr": "kurşun kalem",
+          "pron": "ˈlapiʃ",
+          "level": "a1"
+        },
+        {
+          "id": "ruler",
+          "emoji": "📏",
+          "word": "régua",
+          "tr": "cetvel",
+          "pron": "ˈʁɛɡwa",
+          "level": "a1"
+        },
+        {
+          "id": "bag",
+          "emoji": "🎒",
+          "word": "mochila",
+          "tr": "çanta",
+          "pron": "moˈʃila",
+          "level": "a1"
+        },
+        {
+          "id": "desk",
+          "emoji": "🪑",
+          "word": "mesa",
+          "tr": "sıra / masa",
+          "pron": "ˈmeza",
+          "level": "a1"
+        },
+        {
+          "id": "teacher",
+          "emoji": "👨‍🏫",
+          "word": "professor",
+          "tr": "öğretmen",
+          "pron": "pɾofeˈsoʁ",
+          "level": "a1"
+        },
+        {
+          "id": "friend",
+          "emoji": "👫",
+          "word": "amigo",
+          "tr": "arkadaş",
+          "pron": "aˈmiɡu",
+          "level": "a1"
+        },
+        {
+          "id": "school",
+          "emoji": "🏫",
+          "word": "escola",
+          "tr": "okul",
+          "pron": "eʃˈkɔla",
+          "level": "a1"
+        },
+        {
+          "id": "class",
+          "emoji": "🏛️",
+          "word": "aula",
+          "tr": "sınıf",
+          "pron": "ˈawla",
+          "level": "a1"
+        },
+        {
+          "id": "notebook",
+          "emoji": "📓",
+          "word": "caderno",
+          "tr": "defter",
+          "pron": "kaˈdɛʁnu",
+          "level": "a1"
+        },
+        {
+          "id": "board",
+          "emoji": "📋",
+          "word": "lousa",
+          "tr": "tahta",
+          "pron": "ˈlowza",
+          "level": "a1"
+        },
+        {
+          "id": "classroom",
+          "emoji": "📐",
+          "word": "sala de aula",
+          "tr": "sınıf odası",
+          "pron": "ˈsala dʒi ˈawla",
+          "level": "a1"
+        },
+        {
+          "id": "exam",
+          "emoji": "📝",
+          "word": "prova",
+          "tr": "sınav",
+          "pron": "ˈpɾɔva",
+          "level": "a1"
+        },
+        {
+          "id": "homework",
+          "emoji": "📁",
+          "word": "dever",
+          "tr": "ödev",
+          "pron": "deˈveʁ",
+          "level": "a1"
+        },
+        {
+          "id": "lesson",
+          "emoji": "📖",
+          "word": "lição",
+          "tr": "ders",
+          "pron": "liˈsɐ̃w",
+          "level": "a1"
+        },
+        {
+          "id": "library",
+          "emoji": "📚",
+          "word": "biblioteca",
+          "tr": "kütüphane",
+          "pron": "biblijoˈtɛka",
+          "level": "a1"
+        },
+        {
+          "id": "student",
+          "emoji": "🎓",
+          "word": "aluno",
+          "tr": "öğrenci",
+          "pron": "aˈlunu",
+          "level": "a1"
+        }
+      ]
     }
   }
 }

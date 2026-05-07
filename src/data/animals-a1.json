@@ -1036,6 +1036,132 @@
           "level": "a1"
         }
       ]
+    },
+    "pt": {
+      "label": "Português",
+      "flag": "🇧🇷",
+      "words": [
+        {
+          "id": "cat",
+          "emoji": "🐱",
+          "word": "gato",
+          "tr": "kedi",
+          "pron": "ˈɡatu",
+          "level": "a1"
+        },
+        {
+          "id": "dog",
+          "emoji": "🐶",
+          "word": "cachorro",
+          "tr": "köpek",
+          "pron": "kaˈʃoʁu",
+          "level": "a1"
+        },
+        {
+          "id": "fish",
+          "emoji": "🐟",
+          "word": "peixe",
+          "tr": "balık",
+          "pron": "ˈpejʃi",
+          "level": "a1"
+        },
+        {
+          "id": "bird",
+          "emoji": "🐦",
+          "word": "pássaro",
+          "tr": "kuş",
+          "pron": "ˈpasaɾu",
+          "level": "a1"
+        },
+        {
+          "id": "rabbit",
+          "emoji": "🐰",
+          "word": "coelho",
+          "tr": "tavşan",
+          "pron": "kuˈeʎu",
+          "level": "a1"
+        },
+        {
+          "id": "horse",
+          "emoji": "🐴",
+          "word": "cavalo",
+          "tr": "at",
+          "pron": "kaˈvalu",
+          "level": "a1"
+        },
+        {
+          "id": "cow",
+          "emoji": "🐮",
+          "word": "vaca",
+          "tr": "inek",
+          "pron": "ˈvaka",
+          "level": "a1"
+        },
+        {
+          "id": "sheep",
+          "emoji": "🐑",
+          "word": "ovelha",
+          "tr": "koyun",
+          "pron": "oˈveʎa",
+          "level": "a1"
+        },
+        {
+          "id": "pig",
+          "emoji": "🐷",
+          "word": "porco",
+          "tr": "domuz",
+          "pron": "ˈpoʁku",
+          "level": "a1"
+        },
+        {
+          "id": "duck",
+          "emoji": "🦆",
+          "word": "pato",
+          "tr": "ördek",
+          "pron": "ˈpatu",
+          "level": "a1"
+        },
+        {
+          "id": "frog",
+          "emoji": "🐸",
+          "word": "sapo",
+          "tr": "kurbağa",
+          "pron": "ˈsapu",
+          "level": "a1"
+        },
+        {
+          "id": "lion",
+          "emoji": "🦁",
+          "word": "leão",
+          "tr": "aslan",
+          "pron": "leˈɐ̃w",
+          "level": "a1"
+        },
+        {
+          "id": "elephant",
+          "emoji": "🐘",
+          "word": "elefante",
+          "tr": "fil",
+          "pron": "eleˈfɐ̃ti",
+          "level": "a1"
+        },
+        {
+          "id": "monkey",
+          "emoji": "🐒",
+          "word": "macaco",
+          "tr": "maymun",
+          "pron": "maˈkaku",
+          "level": "a1"
+        },
+        {
+          "id": "snake",
+          "emoji": "🐍",
+          "word": "cobra",
+          "tr": "yılan",
+          "pron": "ˈkɔbɾa",
+          "level": "a1"
+        }
+      ]
     }
   }
 }

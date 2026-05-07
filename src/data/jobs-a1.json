@@ -589,6 +589,180 @@
           "level": "a2"
         }
       ]
+    },
+    "pt": {
+      "label": "Português",
+      "flag": "🇧🇷",
+      "words": [
+        {
+          "id": "actor",
+          "emoji": "🎭",
+          "word": "ator",
+          "tr": "aktör",
+          "pron": "aˈtoʁ",
+          "level": "a1"
+        },
+        {
+          "id": "chef",
+          "emoji": "👨‍🍳",
+          "word": "chef",
+          "tr": "aşçı",
+          "pron": "ˈʃɛf",
+          "level": "a1"
+        },
+        {
+          "id": "doctor",
+          "emoji": "👨‍⚕️",
+          "word": "médico",
+          "tr": "doktor",
+          "pron": "ˈmɛdʒiku",
+          "level": "a1"
+        },
+        {
+          "id": "driver",
+          "emoji": "🚗",
+          "word": "motorista",
+          "tr": "şoför",
+          "pron": "motoˈɾiʃta",
+          "level": "a1"
+        },
+        {
+          "id": "farmer",
+          "emoji": "👨‍🌾",
+          "word": "fazendeiro",
+          "tr": "çiftçi",
+          "pron": "fazẽˈdejɾu",
+          "level": "a1"
+        },
+        {
+          "id": "nurse",
+          "emoji": "👩‍⚕️",
+          "word": "enfermeiro",
+          "tr": "hemşire",
+          "pron": "ẽfeʁˈmejɾu",
+          "level": "a1"
+        },
+        {
+          "id": "pilot",
+          "emoji": "✈️",
+          "word": "piloto",
+          "tr": "pilot",
+          "pron": "piˈlotu",
+          "level": "a1"
+        },
+        {
+          "id": "police",
+          "emoji": "👮",
+          "word": "policial",
+          "tr": "polis",
+          "pron": "poliˈsjaw",
+          "level": "a1"
+        },
+        {
+          "id": "teacher",
+          "emoji": "👨‍🏫",
+          "word": "professor",
+          "tr": "öğretmen",
+          "pron": "pɾofeˈsoʁ",
+          "level": "a1"
+        },
+        {
+          "id": "waiter",
+          "emoji": "🍽️",
+          "word": "garçom",
+          "tr": "garson",
+          "pron": "ɡaʁˈsõ",
+          "level": "a1"
+        },
+        {
+          "id": "architect",
+          "emoji": "🏗️",
+          "word": "arquiteto",
+          "tr": "mimar",
+          "pron": "aʁkiˈtɛtu",
+          "level": "a2"
+        },
+        {
+          "id": "dentist",
+          "emoji": "🦷",
+          "word": "dentista",
+          "tr": "diş hekimi",
+          "pron": "dẽˈtʃiʃta",
+          "level": "a2"
+        },
+        {
+          "id": "engineer",
+          "emoji": "⚙️",
+          "word": "engenheiro",
+          "tr": "mühendis",
+          "pron": "ẽʒeˈɲejɾu",
+          "level": "a2"
+        },
+        {
+          "id": "journalist",
+          "emoji": "📰",
+          "word": "jornalista",
+          "tr": "gazeteci",
+          "pron": "ʒoʁnaˈliʃta",
+          "level": "a2"
+        },
+        {
+          "id": "lawyer",
+          "emoji": "⚖️",
+          "word": "advogado",
+          "tr": "avukat",
+          "pron": "advoˈɡadu",
+          "level": "a2"
+        },
+        {
+          "id": "manager",
+          "emoji": "💼",
+          "word": "gerente",
+          "tr": "yönetici",
+          "pron": "ʒeˈɾẽtʃi",
+          "level": "a2"
+        },
+        {
+          "id": "mechanic",
+          "emoji": "🔧",
+          "word": "mecânico",
+          "tr": "tamirci",
+          "pron": "meˈkɐniku",
+          "level": "a2"
+        },
+        {
+          "id": "programmer",
+          "emoji": "💻",
+          "word": "programador",
+          "tr": "programcı",
+          "pron": "pɾoɡɾamaˈdoʁ",
+          "level": "a2"
+        },
+        {
+          "id": "scientist",
+          "emoji": "🔬",
+          "word": "cientista",
+          "tr": "bilim insanı",
+          "pron": "siẽˈtʃiʃta",
+          "level": "a2"
+        },
+        {
+          "id": "soldier",
+          "emoji": "🪖",
+          "word": "soldado",
+          "tr": "asker",
+          "pron": "sowˈdadu",
+          "level": "a2"
+        },
+        {
+          "id": "vet",
+          "emoji": "🐾",
+          "word": "veterinário",
+          "tr": "veteriner",
+          "pron": "vetɛɾiˈnaɾiu",
+          "level": "a2"
+        }
+      ]
     }
   }
 }

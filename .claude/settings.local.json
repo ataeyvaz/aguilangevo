@@ -15,7 +15,14 @@
       "Bash(node *)",
       "Bash(pip install *)",
       "Bash(python -c \"import edge_tts; print\\('edge-tts OK:', edge_tts.__version__\\)\")",
-      "Bash(python *)"
+      "Bash(python *)",
+      "Bash(Get-Content 'C:\\\\Users\\\\Ata\\\\Desktop\\\\aguilangevo\\\\src\\\\data\\\\animals-a1.json' -Raw)",
+      "Bash(ConvertFrom-Json)",
+      "Bash(Select-Object -ExpandProperty translations)",
+      "Bash(Get-Member)",
+      "Bash(python3 -c ' *)",
+      "Bash(python3 *)",
+      "Bash(Get-ChildItem *)"
     ]
   }
 }

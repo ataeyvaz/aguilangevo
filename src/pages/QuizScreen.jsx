@@ -4,6 +4,7 @@ import { useSession } from '../hooks/useSession'
 import { recordDaily } from '../hooks/useDailyStats'
 import { useSpeech } from '../hooks/useSpeech'
 import { readSpeechQuiz } from '../hooks/useParentControls'
+import { useApp } from '../context/AppContext'
 
 const ALL_CAT_IDS = [
   'animals','colors','numbers','fruits','vegetables','body','family',
@@ -15,10 +16,13 @@ const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5)
 
 export default function QuizScreen() {
   const { recordCard, startSession } = useSession()
+  const { uiLanguage } = useApp()
   const navigate = useNavigate()
 
-  const [words, setWords]         = useState([])      // main category words
+  const [words, setWords]         = useState([])      // main category words (native lang)
+  const [targetWords, setTargetWords] = useState([])  // target language translations
   const [mixedPool, setMixedPool] = useState([])      // phase 1 mixed pool
+  const [targetMixedPool, setTargetMixedPool] = useState([]) // phase 1 mixed pool (target lang)
   const [phase, setPhase]         = useState(1)
   const [questions, setQuestions] = useState([])
   const [current, setCurrent]     = useState(0)
@@ -40,6 +44,9 @@ export default function QuizScreen() {
     JSON.parse(localStorage.getItem('aguilang_active_lang') || '{"id":"en"}')
   )
 
+  // Ana dil: AppContext'ten (aguilang_ui_language key, her zaman güncel)
+  const speakLang = uiLanguage || 'en'
+
   const speechQuizEnabled = readSpeechQuiz()
   const {
     startListening, stopListening, isListening,
@@ -48,18 +55,29 @@ export default function QuizScreen() {
   } = useSpeech(lang.id)
 
   // ── Phase builder ────────────────────────────────────────
-  const buildPhase = useCallback((p, pool) => {
+  const buildPhase = useCallback((p, pool, targetPool = []) => {
     const picked = shuffle(pool).slice(0, 5)
 
     if (p === 1) {
       setQuestions(picked.map(word => {
-        const wrong = shuffle(pool.filter(x => x.id !== word.id)).slice(0, 3)
-        return { word, options: shuffle([word, ...wrong]), type: 'choice' }
+        // For phase 1: show native language word, give target language options
+        const wrong = shuffle(targetPool.filter(x => x.id !== word.id)).slice(0, 3)
+        const correct = targetPool.find(x => x.id === word.id)
+
+        const options = shuffle([
+          correct || { id: word.id, word: word.word, translation: word.word },
+          ...wrong
+        ])
+
+        return { word, targetWord: correct, options, type: 'choice' }
       }))
     } else if (p === 2) {
-      setQuestions(picked.map(word => ({ word, type: 'fill' })))
+      setQuestions(picked.map(word => {
+        const targetWord = targetPool.find(w => w.id === word.id)
+        return { word, targetWord, type: 'fill' }
+      }))
     } else if (p === 3) {
-      const withSentences = pool.filter(w => w.sentences && w.sentences.length > 0)
+      const withSentences = targetPool.filter(w => w.sentences && w.sentences.length > 0)
       if (withSentences.length >= 3) {
         const s3 = shuffle(withSentences).slice(0, 3)
         setQuestions(s3.map(word => {
@@ -147,30 +165,45 @@ export default function QuizScreen() {
       try {
         const module = await import(`../data/${category.id}-a1.json`)
         if (cancelled) return
-        const langData = module.default.translations?.[lang.id]
-        if (!langData?.words) return
 
-        const mainWords = langData.words
+        // native = kullanıcının konuştuğu dil (soru), target = öğrendiği dil (şıklar)
+        const translations = module.default.translations ?? {}
+        const nativeData = translations[speakLang] || translations['en']
+        const targetData = translations[lang.id]   || translations['es']
+
+        if (!nativeData?.words || !targetData?.words) return
+
+        const mainWords = nativeData.words
+        const mainTargetWords = targetData.words
         setWords(mainWords)
+        setTargetWords(mainTargetWords)
         startSession(category.id, lang.id)
 
         // Pick 2 random categories, ~30% mix
         const otherIds   = ALL_CAT_IDS.filter(id => id !== category.id)
         const pickedIds  = shuffle(otherIds).slice(0, 2)
         let crossWords   = []
+        let crossTargetWords = []
 
         await Promise.all(pickedIds.map(async catId => {
           try {
             const m  = await import(`../data/${catId}-a1.json`)
-            const ld = m.default.translations?.[lang.id]
-            if (ld?.words) crossWords = [...crossWords, ...shuffle(ld.words).slice(0, 8)]
+            const tr = m.default.translations ?? {}
+            const nd = tr[speakLang] || tr['en']
+            const td = tr[lang.id]   || tr['es']
+            if (nd?.words) crossWords = [...crossWords, ...shuffle(nd.words).slice(0, 8)]
+            if (td?.words) crossTargetWords = [...crossTargetWords, ...shuffle(td.words).slice(0, 8)]
           } catch { /* skip */ }
         }))
 
         if (cancelled) return
         const mixed = crossWords.length >= 5 ? [...mainWords, ...crossWords] : mainWords
+        const targetMixed = crossTargetWords.length >= 5 ? [...mainTargetWords, ...crossTargetWords] : mainTargetWords
         setMixedPool(mixed)
-        buildPhase(1, mixed)
+        setTargetMixedPool(targetMixed)
+
+        // Pass target mixed pool for creating options
+        buildPhase(1, mixed, targetMixed)
       } catch {
         if (!cancelled) setWords([])
       }
@@ -196,7 +229,8 @@ export default function QuizScreen() {
     if (q.type === 'choice') {
       correct = selected?.id === q.word.id
     } else if (q.type === 'fill') {
-      correct = answer.trim().toLowerCase() === q.word.word.toLowerCase()
+      const targetWord = q.targetWord?.word || q.word.word
+      correct = answer.trim().toLowerCase() === targetWord.toLowerCase()
     } else if (q.type === 'sentence') {
       correct = q.words.join(' ').toLowerCase() === sentence.join(' ').toLowerCase()
     }
@@ -233,7 +267,7 @@ export default function QuizScreen() {
       if (phase < 3) {
         const nextPhase = phase + 1
         setPhase(nextPhase)
-        buildPhase(nextPhase, words) // phase 2 and 3 use only main words
+        buildPhase(nextPhase, words, targetWords)
       } else {
         setShowResult(true)
       }
@@ -277,7 +311,7 @@ export default function QuizScreen() {
       </p>
       <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
         <button
-          onClick={() => { setCurrent(0); setPhase(1); setScore(0); setShowResult(false); buildPhase(1, mixedPool.length ? mixedPool : words) }}
+          onClick={() => { setCurrent(0); setPhase(1); setScore(0); setShowResult(false); buildPhase(1, mixedPool.length ? mixedPool : words, targetMixedPool.length ? targetMixedPool : targetWords) }}
           style={{
             padding: '12px 24px', background: 'white',
             border: '1.5px solid #E2E8F0', borderRadius: '12px',
@@ -448,29 +482,40 @@ export default function QuizScreen() {
               What is the translation?
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', width: '100%' }}>
-              {q.options.map(opt => (
+              {q.options?.map(opt => (
                 <button
                   key={opt.id}
                   onClick={() => isCorrect === null && setSelected(opt)}
                   style={{
                     padding: '16px',
+                    minHeight: '56px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    textAlign: 'center',
                     background: selected?.id === opt.id
-                      ? isCorrect === true  ? '#F0FDF4'
-                      : isCorrect === false ? '#FEF2F2' : '#EFF8FF'
-                      : 'white',
+                      ? isCorrect === true  ? '#D1FAE5'
+                      : isCorrect === false ? '#FFCCCC' : '#D4ECFF'
+                      : '#FFFFFF',
                     border: `2px solid ${selected?.id === opt.id
                       ? isCorrect === true  ? '#10B981'
                       : isCorrect === false ? '#EF4444' : '#0891B2'
-                      : '#E2E8F0'}`,
-                    borderRadius: '12px', cursor: isCorrect === null ? 'pointer' : 'default',
+                      : '#CBD5E1'}`,
+                    borderRadius: '12px',
+                    cursor: isCorrect === null ? 'pointer' : 'default',
                     fontFamily: "'Plus Jakarta Sans', sans-serif",
-                    fontSize: '16px', fontWeight: '600', color: '#0F172A',
+                    fontSize: '15px',
+                    fontWeight: '600',
+                    color: '#1E293B',
                     transition: 'all 0.15s',
+                    wordBreak: 'break-word',
+                    whiteSpace: 'normal',
+                    lineHeight: '1.4',
                   }}
                 >
-                  {opt.translation}
+                  {opt.translation || opt.word || ''}
                 </button>
-              ))}
+              )) || []}
             </div>
           </>
         )}
@@ -479,9 +524,16 @@ export default function QuizScreen() {
         {q.type === 'fill' && (
           <>
             <div style={{ fontSize: '72px', marginBottom: '12px' }}>{q.word.emoji}</div>
-            <p style={{ fontSize: '20px', color: '#64748B', marginBottom: '8px', textAlign: 'center' }}>
-              <strong style={{ color: '#0F172A' }}>{q.word.translation}</strong> - write it
+            <p style={{ fontSize: '16px', color: '#64748B', marginBottom: '8px', textAlign: 'center' }}>
+              Write in <strong style={{ color: '#0F172A' }}>{lang.name}</strong>:
             </p>
+            <h2 style={{
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontSize: '28px', fontWeight: '800', color: '#0F172A',
+              marginBottom: '6px', textAlign: 'center',
+            }}>
+              {q.word.word}
+            </h2>
             <p style={{ fontSize: '13px', color: '#94A3B8', marginBottom: '24px' }}>/{q.word.pron}/</p>
             <input
               type="text"
@@ -582,7 +634,7 @@ export default function QuizScreen() {
                 : `🔶 Answer: ${q.word[lang.id] ?? q.word.word}`
               : isCorrect
                 ? '✅ Correct!'
-                : `❌ Correct answer: ${q.word?.word || q.words?.join(' ')}`
+                : `❌ Correct answer: ${q.targetWord?.word || q.word?.word || q.words?.join(' ')}`
             }
           </div>
         )}

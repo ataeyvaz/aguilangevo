@@ -1054,6 +1054,244 @@
           "level": "a1"
         }
       ]
+    },
+    "pt": {
+      "label": "Português",
+      "flag": "🇧🇷",
+      "words": [
+        {
+          "id": "one",
+          "emoji": "1️⃣",
+          "word": "um",
+          "tr": "bir",
+          "pron": "ˈũ",
+          "level": "a1"
+        },
+        {
+          "id": "two",
+          "emoji": "2️⃣",
+          "word": "dois",
+          "tr": "iki",
+          "pron": "ˈdojʃ",
+          "level": "a1"
+        },
+        {
+          "id": "three",
+          "emoji": "3️⃣",
+          "word": "três",
+          "tr": "üç",
+          "pron": "ˈtɾeʃ",
+          "level": "a1"
+        },
+        {
+          "id": "four",
+          "emoji": "4️⃣",
+          "word": "quatro",
+          "tr": "dört",
+          "pron": "ˈkwatɾu",
+          "level": "a1"
+        },
+        {
+          "id": "five",
+          "emoji": "5️⃣",
+          "word": "cinco",
+          "tr": "beş",
+          "pron": "ˈsĩku",
+          "level": "a1"
+        },
+        {
+          "id": "six",
+          "emoji": "6️⃣",
+          "word": "seis",
+          "tr": "altı",
+          "pron": "ˈsejʃ",
+          "level": "a1"
+        },
+        {
+          "id": "seven",
+          "emoji": "7️⃣",
+          "word": "sete",
+          "tr": "yedi",
+          "pron": "ˈseti",
+          "level": "a1"
+        },
+        {
+          "id": "eight",
+          "emoji": "8️⃣",
+          "word": "oito",
+          "tr": "sekiz",
+          "pron": "ˈojtu",
+          "level": "a1"
+        },
+        {
+          "id": "nine",
+          "emoji": "9️⃣",
+          "word": "nove",
+          "tr": "dokuz",
+          "pron": "ˈnɔvi",
+          "level": "a1"
+        },
+        {
+          "id": "ten",
+          "emoji": "🔟",
+          "word": "dez",
+          "tr": "on",
+          "pron": "ˈdɛʃ",
+          "level": "a1"
+        },
+        {
+          "id": "eleven",
+          "emoji": "🕚",
+          "word": "onze",
+          "tr": "on bir",
+          "pron": "ˈõzi",
+          "level": "a1"
+        },
+        {
+          "id": "twelve",
+          "emoji": "🕛",
+          "word": "doze",
+          "tr": "on iki",
+          "pron": "ˈdozi",
+          "level": "a1"
+        },
+        {
+          "id": "thirteen",
+          "emoji": "1️⃣3️⃣",
+          "word": "treze",
+          "tr": "on üç",
+          "pron": "ˈtɾezi",
+          "level": "a1"
+        },
+        {
+          "id": "fourteen",
+          "emoji": "1️⃣4️⃣",
+          "word": "quatorze",
+          "tr": "on dört",
+          "pron": "kwaˈtoʁzi",
+          "level": "a1"
+        },
+        {
+          "id": "fifteen",
+          "emoji": "1️⃣5️⃣",
+          "word": "quinze",
+          "tr": "on beş",
+          "pron": "ˈkĩzi",
+          "level": "a1"
+        },
+        {
+          "id": "sixteen",
+          "emoji": "1️⃣6️⃣",
+          "word": "dezesseis",
+          "tr": "on altı",
+          "pron": "deziˈsejʃ",
+          "level": "a1"
+        },
+        {
+          "id": "seventeen",
+          "emoji": "1️⃣7️⃣",
+          "word": "dezessete",
+          "tr": "on yedi",
+          "pron": "deziˈseti",
+          "level": "a1"
+        },
+        {
+          "id": "eighteen",
+          "emoji": "1️⃣8️⃣",
+          "word": "dezoito",
+          "tr": "on sekiz",
+          "pron": "deˈzojtu",
+          "level": "a1"
+        },
+        {
+          "id": "nineteen",
+          "emoji": "1️⃣9️⃣",
+          "word": "dezenove",
+          "tr": "on dokuz",
+          "pron": "deziˈnɔvi",
+          "level": "a1"
+        },
+        {
+          "id": "twenty",
+          "emoji": "2️⃣0️⃣",
+          "word": "vinte",
+          "tr": "yirmi",
+          "pron": "ˈvĩti",
+          "level": "a1"
+        },
+        {
+          "id": "thirty",
+          "emoji": "3️⃣0️⃣",
+          "word": "trinta",
+          "tr": "otuz",
+          "pron": "ˈtɾĩta",
+          "level": "a1"
+        },
+        {
+          "id": "forty",
+          "emoji": "4️⃣0️⃣",
+          "word": "quarenta",
+          "tr": "kırk",
+          "pron": "kwaˈɾẽta",
+          "level": "a1"
+        },
+        {
+          "id": "fifty",
+          "emoji": "5️⃣0️⃣",
+          "word": "cinquenta",
+          "tr": "elli",
+          "pron": "sĩˈkwẽta",
+          "level": "a1"
+        },
+        {
+          "id": "sixty",
+          "emoji": "6️⃣0️⃣",
+          "word": "sessenta",
+          "tr": "altmış",
+          "pron": "seˈsẽta",
+          "level": "a1"
+        },
+        {
+          "id": "seventy",
+          "emoji": "7️⃣0️⃣",
+          "word": "setenta",
+          "tr": "yetmiş",
+          "pron": "seˈtẽta",
+          "level": "a1"
+        },
+        {
+          "id": "eighty",
+          "emoji": "8️⃣0️⃣",
+          "word": "oitenta",
+          "tr": "seksen",
+          "pron": "ojˈtẽta",
+          "level": "a1"
+        },
+        {
+          "id": "ninety",
+          "emoji": "9️⃣0️⃣",
+          "word": "noventa",
+          "tr": "doksan",
+          "pron": "noˈvẽta",
+          "level": "a1"
+        },
+        {
+          "id": "hundred",
+          "emoji": "💯",
+          "word": "cem",
+          "tr": "yüz",
+          "pron": "ˈsẽj",
+          "level": "a1"
+        },
+        {
+          "id": "thousand",
+          "emoji": "🔢",
+          "word": "mil",
+          "tr": "bin",
+          "pron": "ˈmiw",
+          "level": "a1"
+        }
+      ]
     }
   }
 }

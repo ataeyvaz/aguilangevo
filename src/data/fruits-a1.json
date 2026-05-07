@@ -627,6 +627,108 @@
           "level": "a1"
         }
       ]
+    },
+    "pt": {
+      "label": "Português",
+      "flag": "🇧🇷",
+      "words": [
+        {
+          "id": "apple",
+          "emoji": "🍎",
+          "word": "maçã",
+          "tr": "elma",
+          "pron": "maˈsɐ̃",
+          "level": "a1"
+        },
+        {
+          "id": "banana",
+          "emoji": "🍌",
+          "word": "banana",
+          "tr": "muz",
+          "pron": "baˈnɐna",
+          "level": "a1"
+        },
+        {
+          "id": "orange",
+          "emoji": "🍊",
+          "word": "laranja",
+          "tr": "portakal",
+          "pron": "laˈɾɐ̃ʒa",
+          "level": "a1"
+        },
+        {
+          "id": "strawberry",
+          "emoji": "🍓",
+          "word": "morango",
+          "tr": "çilek",
+          "pron": "moˈɾɐ̃ɡu",
+          "level": "a1"
+        },
+        {
+          "id": "grape",
+          "emoji": "🍇",
+          "word": "uva",
+          "tr": "üzüm",
+          "pron": "ˈuva",
+          "level": "a1"
+        },
+        {
+          "id": "watermelon",
+          "emoji": "🍉",
+          "word": "melancia",
+          "tr": "karpuz",
+          "pron": "melɐ̃ˈsia",
+          "level": "a1"
+        },
+        {
+          "id": "cherry",
+          "emoji": "🍒",
+          "word": "cereja",
+          "tr": "kiraz",
+          "pron": "seˈɾeʒa",
+          "level": "a1"
+        },
+        {
+          "id": "pear",
+          "emoji": "🍐",
+          "word": "pera",
+          "tr": "armut",
+          "pron": "ˈpɛɾa",
+          "level": "a1"
+        },
+        {
+          "id": "lemon",
+          "emoji": "🍋",
+          "word": "limão",
+          "tr": "limon",
+          "pron": "liˈmɐ̃w",
+          "level": "a1"
+        },
+        {
+          "id": "pineapple",
+          "emoji": "🍍",
+          "word": "abacaxi",
+          "tr": "ananas",
+          "pron": "abakaˈʃi",
+          "level": "a1"
+        },
+        {
+          "id": "peach",
+          "emoji": "🍑",
+          "word": "pêssego",
+          "tr": "şeftali",
+          "pron": "ˈpesɨɡu",
+          "level": "a1"
+        },
+        {
+          "id": "mango",
+          "emoji": "🥭",
+          "word": "manga",
+          "tr": "mango",
+          "pron": "ˈmɐ̃ɡa",
+          "level": "a1"
+        }
+      ]
     }
   }
 }

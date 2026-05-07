@@ -56,6 +56,7 @@ export default function AppRouter() {
         <Route path="/study"           element={<Study />} />
         <Route path="/practice"        element={<Practice />} />
         <Route path="/chatbot"         element={<ChatBot />} />
+        <Route path="/ChatBot" element={<Navigate to="/chatbot" replace />} />
         <Route path="/scenarios"       element={<ScenariosPage />} />
         <Route path="/language"        element={<LanguageSelect />} />
         <Route path="/settings"          element={<ParentGate />} />

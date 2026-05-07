@@ -751,6 +751,108 @@
           "level": "a1"
         }
       ]
+    },
+    "pt": {
+      "label": "Português",
+      "flag": "🇧🇷",
+      "words": [
+        {
+          "id": "red",
+          "emoji": "🔴",
+          "word": "vermelho",
+          "tr": "kırmızı",
+          "pron": "veʁˈmeʎu",
+          "level": "a1"
+        },
+        {
+          "id": "blue",
+          "emoji": "🔵",
+          "word": "azul",
+          "tr": "mavi",
+          "pron": "aˈzuw",
+          "level": "a1"
+        },
+        {
+          "id": "green",
+          "emoji": "🟢",
+          "word": "verde",
+          "tr": "yeşil",
+          "pron": "ˈveʁdi",
+          "level": "a1"
+        },
+        {
+          "id": "yellow",
+          "emoji": "🟡",
+          "word": "amarelo",
+          "tr": "sarı",
+          "pron": "amaˈɾelu",
+          "level": "a1"
+        },
+        {
+          "id": "orange",
+          "emoji": "🟠",
+          "word": "laranja",
+          "tr": "turuncu",
+          "pron": "laˈɾɐ̃ʒa",
+          "level": "a1"
+        },
+        {
+          "id": "purple",
+          "emoji": "🟣",
+          "word": "roxo",
+          "tr": "mor",
+          "pron": "ˈʁoʃu",
+          "level": "a1"
+        },
+        {
+          "id": "pink",
+          "emoji": "🌸",
+          "word": "rosa",
+          "tr": "pembe",
+          "pron": "ˈʁoza",
+          "level": "a1"
+        },
+        {
+          "id": "white",
+          "emoji": "⬜",
+          "word": "branco",
+          "tr": "beyaz",
+          "pron": "ˈbɾɐ̃ku",
+          "level": "a1"
+        },
+        {
+          "id": "black",
+          "emoji": "⬛",
+          "word": "preto",
+          "tr": "siyah",
+          "pron": "ˈpɾetu",
+          "level": "a1"
+        },
+        {
+          "id": "brown",
+          "emoji": "🟫",
+          "word": "marrom",
+          "tr": "kahverengi",
+          "pron": "maˈʁõw",
+          "level": "a1"
+        },
+        {
+          "id": "gray",
+          "emoji": "🌫️",
+          "word": "cinza",
+          "tr": "gri",
+          "pron": "ˈsĩza",
+          "level": "a1"
+        },
+        {
+          "id": "gold",
+          "emoji": "🏅",
+          "word": "dourado",
+          "tr": "altın",
+          "pron": "doˈɾadu",
+          "level": "a1"
+        }
+      ]
     }
   }
 }

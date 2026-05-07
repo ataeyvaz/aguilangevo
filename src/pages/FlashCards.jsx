@@ -5,6 +5,7 @@ import { recordDaily } from '../hooks/useDailyStats'
 import { CATEGORIES } from '../data/categories'
 import { useSpeech } from '../hooks/useSpeech'
 import { useWordStore } from '../store/useWordStore'
+import { useTranslation } from '../i18n/translations'
 
 const LEVELS = ['A1', 'A2', 'B1', 'B2']
 const LEVEL_COLORS = {
@@ -27,6 +28,7 @@ function normalizeWord(w) {
 
 export default function FlashCards() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const [words, setWords] = useState([])
   const [index, setIndex] = useState(0)
   const [flipped, setFlipped] = useState(false)
@@ -237,7 +239,7 @@ export default function FlashCards() {
                 display: 'flex', alignItems: 'center', gap: '4px',
               }}
             >
-              🔊 Listen
+              🔊 {t('listen')}
             </button>
           )}
         </div>
@@ -408,7 +410,7 @@ export default function FlashCards() {
                   </div>
                 )}
                 <div style={{ fontSize: '13px', color: '#CBD5E1', marginTop: '4px' }}>
-                  Tap to see meaning
+                  {t('tap to see meaning')}
                 </div>
                 {sttSupported && (
                   <button
@@ -423,7 +425,7 @@ export default function FlashCards() {
                       transition: 'all 0.15s',
                     }}
                   >
-                    {isListening ? '🔴 Listening...' : '🎤 Say it'}
+                    {isListening ? `🔴 ${t('listening')}...` : `🎤 ${t('say it')}`}
                   </button>
                 )}
               </>
@@ -468,7 +470,7 @@ export default function FlashCards() {
                 fontSize: '12px', color: '#94A3B8', fontFamily: 'Inter, sans-serif', padding: '4px 8px',
               }}
             >
-              📋 View visited words ({index + 1}/{words.length})
+              📋 {t('view visited words')} ({index + 1}/{words.length})
             </button>
           </div>
         )}
@@ -562,7 +564,7 @@ export default function FlashCards() {
                   fontFamily: 'Inter, sans-serif', opacity: index === 0 ? 0.5 : 1,
                 }}
               >
-                ← Previous
+                {t('previous')}
               </button>
               <button
                 onClick={handleNext}
@@ -573,7 +575,7 @@ export default function FlashCards() {
                   color: 'white', cursor: 'pointer', fontFamily: 'Inter, sans-serif',
                 }}
               >
-                I Got It ✓
+                {t('i got it')}
               </button>
             </>
           )}

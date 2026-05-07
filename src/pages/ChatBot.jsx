@@ -206,6 +206,7 @@ export default function ChatBot() {
 
   // ── INTRO ────────────────────────────────────────────────────────
   if (phase === 'intro') {
+    const introName = word ? word.charAt(0).toUpperCase() + word.slice(1) : 'Chat'
     return (
       <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center px-6"
            style={{ fontFamily: 'Inter, sans-serif' }}>
@@ -216,7 +217,7 @@ export default function ChatBot() {
                 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
               Chat Practice
             </h2>
-            <p className="text-slate-500 text-sm">"{word}" · {difficulty}</p>
+            <p className="text-slate-500 text-sm">{introName} · {difficulty}</p>
             <p className="text-slate-400 text-xs mt-2">{exchanges.length} exchanges</p>
           </div>
           <button
@@ -281,33 +282,71 @@ export default function ChatBot() {
   }
 
   // ── CHAT UI ──────────────────────────────────────────────────────
-  return (
-    <div className="min-h-screen bg-slate-50 flex flex-col"
-         style={{ fontFamily: 'Inter, sans-serif' }}>
+  const SCENARIO_EMOJI = {
+    shopping: '🛍️', travel: '✈️', tourism: '🗺️', school: '📚',
+    daily: '☀️', emergency: '🚨', meeting: '💼', cafe: '☕',
+  }
+  const scenarioEmoji = SCENARIO_EMOJI[word?.toLowerCase()] || '💬'
+  const scenarioName  = word ? word.charAt(0).toUpperCase() + word.slice(1) : 'Chat'
 
-      {/* Header */}
-      <div className="bg-white border-b border-slate-200 px-4 py-3 flex items-center gap-3 sticky top-0 z-10">
-        <button onClick={() => navigate(-1)} className="text-slate-400 hover:text-slate-600">✕</button>
+  const MODE_CONFIG = [
+    {
+      mode: 'pick',  icon: '👆', label: 'Pick',  pts: '10 pts',
+      base: 'bg-amber-50 border-amber-300 hover:bg-amber-100',
+      active: 'bg-amber-50 border-amber-400 border-4 shadow-md',
+      textColor: 'text-amber-800', badgeBg: 'bg-amber-200', badgeText: 'text-amber-700',
+    },
+    {
+      mode: 'type',  icon: '⌨️', label: 'Type',  pts: '12 pts',
+      base: 'bg-blue-50 border-blue-300 hover:bg-blue-100',
+      active: 'bg-blue-50 border-blue-400 border-4 shadow-md',
+      textColor: 'text-blue-800', badgeBg: 'bg-blue-200', badgeText: 'text-blue-700',
+    },
+    {
+      mode: 'speak', icon: '🎤', label: 'Speak', pts: '15 pts',
+      base: 'bg-green-50 border-green-300 hover:bg-green-100',
+      active: 'bg-green-50 border-green-400 border-4 shadow-md',
+      textColor: 'text-green-800', badgeBg: 'bg-green-200', badgeText: 'text-green-700',
+    },
+  ]
+
+  return (
+    <div className="flex flex-col bg-slate-50"
+         style={{ height: '100dvh', fontFamily: 'Inter, sans-serif' }}>
+
+      {/* Header — sabit 56px */}
+      <div className="bg-white border-b border-slate-200 px-4 flex items-center gap-3 shrink-0"
+           style={{ minHeight: '56px' }}>
+        <button onClick={() => navigate(-1)} className="text-slate-400 hover:text-slate-600 text-lg leading-none">✕</button>
         <div className="text-2xl">🤖</div>
         <div>
           <div className="font-bold text-slate-900 text-sm">Chat Practice</div>
-          <div className="text-xs text-slate-400">"{word}" · {exchIdx + 1}/{exchanges.length}</div>
+          <div className="text-xs text-slate-400">{scenarioName} · {exchIdx + 1}/{exchanges.length}</div>
         </div>
         <div className="ml-auto text-sm font-bold text-cyan-600">{totalPoints} pts</div>
       </div>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
+      {/* Scrollable: context banner + messages */}
+      <div className="flex-1 overflow-y-auto scrolling-touch space-y-3 pb-2">
+
+        {/* Context banner */}
+        <div className="mx-4 mt-4 mb-2 p-4 bg-teal-50 border border-teal-200 rounded-2xl">
+          <div className="text-2xl mb-1">{scenarioEmoji}</div>
+          <p className="text-sm font-semibold text-teal-800">{scenarioName} Practice</p>
+          <p className="text-xs text-teal-600">Answer the bot to earn points!</p>
+        </div>
+
+        {/* Messages */}
         {messages.map(msg => (
-          <div key={msg.id} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
+          <div key={msg.id} className={`flex px-4 ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
             {msg.type === 'bot' && (
               <div className="w-8 h-8 rounded-full bg-cyan-600 flex items-center justify-center text-white text-sm mr-2 shrink-0 mt-1">
                 🤖
               </div>
             )}
-            <div className={`max-w-xs px-4 py-3 rounded-2xl text-sm font-medium ${
+            <div className={`max-w-[75%] p-4 text-base rounded-2xl font-medium ${
               msg.type === 'bot'
-                ? 'bg-white border border-slate-200 text-slate-800 rounded-tl-sm'
+                ? 'bg-white border border-slate-200 shadow-sm text-slate-800 rounded-tl-sm'
                 : msg.correct === true
                   ? 'bg-emerald-500 text-white rounded-tr-sm'
                   : msg.correct === false
@@ -321,21 +360,28 @@ export default function ChatBot() {
             </div>
           </div>
         ))}
+        {/* Hint card — sadece ilk exchange'de, cevap verilmeden önce */}
+        {exchIdx === 0 && !isAnswered && messages.length > 0 && (
+          <div className="mx-4 mt-3 p-3 bg-slate-50 border border-slate-200
+                          rounded-xl flex items-center gap-2">
+            <span className="text-lg">💡</span>
+            <p className="text-xs text-slate-500">
+              Choose Pick, Type, or Speak below to respond
+            </p>
+          </div>
+        )}
+
         <div ref={bottomRef} />
       </div>
 
-      {/* Input Area */}
+      {/* Input area */}
       {!isAnswered && (
-        <div className="bg-white border-t border-slate-200 px-4 py-4">
+        <div className="border-t border-slate-100 p-3 shrink-0">
 
           {/* Mod seçimi */}
           {!currentMode && (
-            <div className="grid grid-cols-3 gap-2 mb-0">
-              {[
-                { mode: 'pick',  icon: '👆', label: 'Pick',  pts: '10pts' },
-                { mode: 'type',  icon: '⌨️', label: 'Type',  pts: '12pts' },
-                { mode: 'speak', icon: '🎤', label: 'Speak', pts: '15pts' },
-              ].map(({ mode, icon, label, pts }) => (
+            <div className="grid grid-cols-3 gap-2">
+              {MODE_CONFIG.map(({ mode, icon, label, pts, base, active, textColor, badgeBg, badgeText }) => (
                 <button
                   key={mode}
                   onClick={() => {
@@ -343,12 +389,14 @@ export default function ChatBot() {
                     setCurrentMode(mode)
                     if (mode === 'speak') setTimeout(startListening, 100)
                   }}
-                  className="flex flex-col items-center py-3 bg-slate-50 hover:bg-cyan-50
-                             border border-slate-200 hover:border-cyan-300 rounded-xl transition-all"
+                  className={`flex flex-col items-center justify-center gap-1 rounded-2xl border-2
+                              transition-all hover:scale-105 active:scale-95
+                              ${currentMode === mode ? active : base}`}
+                  style={{ minHeight: '80px' }}
                 >
-                  <span className="text-xl mb-1">{icon}</span>
-                  <span className="text-xs font-bold text-slate-700">{label}</span>
-                  <span className="text-xs text-slate-400">{pts}</span>
+                  <span className="text-2xl">{icon}</span>
+                  <span className={`text-sm font-bold ${textColor}`}>{label}</span>
+                  <span className={`text-xs ${badgeBg} ${badgeText} px-2 py-0.5 rounded-full`}>{pts}</span>
                 </button>
               ))}
             </div>
@@ -415,7 +463,7 @@ export default function ChatBot() {
 
       {/* Next button */}
       {isAnswered && (
-        <div className="bg-white border-t border-slate-200 px-4 py-4">
+        <div className="border-t border-slate-100 px-4 py-4 shrink-0">
           <button
             onClick={handleNext}
             className="w-full py-4 bg-cyan-600 hover:bg-cyan-700 text-white
