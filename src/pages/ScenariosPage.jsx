@@ -8,8 +8,16 @@ const SCENARIOS = [
   { word: 'school',    emoji: '📚', title: 'School & Work',         desc: 'Classroom & office talk'        },
   { word: 'daily',     emoji: '☀️', title: 'Daily Routine',         desc: 'Everyday conversations'         },
   { word: 'emergency', emoji: '🚨', title: 'Emergency',             desc: 'Help & urgent situations'       },
-  { word: 'meeting',   emoji: '💼', title: 'Meeting & Business',    desc: 'Professional meetings'          },
-  { word: 'cafe',      emoji: '☕', title: 'Café & Restaurant',     desc: 'Order food & drinks'            },
+  { word: 'meeting',      emoji: '💼', title: 'Meeting & Business',    desc: 'Professional meetings'          },
+  { word: 'cafe',         emoji: '☕', title: 'Café & Restaurant',     desc: 'Order food & drinks'            },
+  { word: 'hospital',     emoji: '🏥', title: 'Hospital',              desc: 'Symptoms, appointments & care'  },
+  { word: 'bank',         emoji: '🏦', title: 'Bank',                  desc: 'Accounts, transfers & payments' },
+  { word: 'postoffice',   emoji: '📮', title: 'Post Office',           desc: 'Send letters, packages & mail'  },
+  { word: 'gym',          emoji: '💪', title: 'Gym',                   desc: 'Membership, workouts & equipment'},
+  { word: 'movietheater', emoji: '🎬', title: 'Movie Theater',         desc: 'Tickets, snacks & showtimes'    },
+  { word: 'hairsalon',    emoji: '💇', title: 'Hair Salon',            desc: 'Cuts, styling & treatments'     },
+  { word: 'gasstation',   emoji: '⛽', title: 'Gas Station',           desc: 'Fuel, oil check & services'     },
+  { word: 'pharmacy',     emoji: '💊', title: 'Pharmacy',              desc: 'Medicine, prescriptions & advice'},
 ]
 
 export default function ScenariosPage() {
