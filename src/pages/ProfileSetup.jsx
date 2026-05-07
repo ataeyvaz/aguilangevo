@@ -137,7 +137,9 @@ export default function ProfileSetup() {
 
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="text-6xl mb-3">🦅</div>
+          <div className="mb-3">
+            <img src="/aguilapp.png" alt="AguiLangEvo" className="w-20 h-20 mx-auto object-contain" />
+          </div>
           <h1 className="text-3xl font-black text-slate-900 mb-1"
               style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             AguiLangEvo

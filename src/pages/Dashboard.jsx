@@ -504,6 +504,32 @@ export default function Dashboard() {
           </div>
         </div>
 
+        {/* Chat Practice */}
+        <button
+          onClick={() => navigate('/scenarios')}
+          style={{
+            width: '100%', marginTop: '10px', marginBottom: '2px',
+            background: 'linear-gradient(135deg, #0891B2 0%, #6366F1 100%)',
+            border: 'none', borderRadius: '14px', padding: '16px 20px',
+            display: 'flex', alignItems: 'center', gap: '14px',
+            cursor: 'pointer', transition: 'opacity 0.15s',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.opacity = '0.9' }}
+          onMouseLeave={e => { e.currentTarget.style.opacity = '1' }}
+        >
+          <span style={{ fontSize: '32px' }}>🤖</span>
+          <div style={{ textAlign: 'left' }}>
+            <div style={{
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontSize: '15px', fontWeight: '800', color: 'white', marginBottom: '2px',
+            }}>Chat Practice</div>
+            <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.8)' }}>
+              Practice real conversations → 8 scenarios
+            </div>
+          </div>
+          <div style={{ marginLeft: 'auto', color: 'white', fontSize: '18px' }}>→</div>
+        </button>
+
         {/* Mascot */}
         <div style={{
           background: 'white', borderRadius: '14px',
