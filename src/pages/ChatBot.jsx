@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect, useRef } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useTranslation } from '../i18n/translations'
 import { checkAnswer, findBestOption, getPronunciationScore } from '../utils/fuzzyMatch'
+import { md5 } from '../utils/md5'
 import {
   getPackForWord,
   getExchanges,
@@ -14,14 +15,7 @@ const MODE_POINTS = { pick: 10, type: 12, speak: 15 }
 
 function getAudioPath(botMessage, botLanguage) {
   if (!botMessage || !botLanguage) return null
-  let hash = 0
-  for (let i = 0; i < botMessage.length; i++) {
-    const char = botMessage.charCodeAt(i)
-    hash = ((hash << 5) - hash) + char
-    hash = hash & hash
-  }
-  const h = Math.abs(hash).toString(16).padStart(8, '0')
-  return `/audio/bot/${botLanguage}/${h}.mp3`
+  return `/audio/bot/${botLanguage}/${md5(botMessage)}.mp3`
 }
 
 function getSpeechLang(pair) {

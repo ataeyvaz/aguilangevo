@@ -22,7 +22,8 @@
       "Bash(Get-Member)",
       "Bash(python3 -c ' *)",
       "Bash(python3 *)",
-      "Bash(Get-ChildItem *)"
+      "Bash(Get-ChildItem *)",
+      "Bash(sqlite3 *)"
     ]
   }
 }

@@ -710,5 +710,717 @@
         "points": 10
       }
     ]
+  },
+  {
+    "word": "hospital",
+    "level": "a1",
+    "difficulty": "easy",
+    "context": "Hospital",
+    "bot_language": "es",
+    "exchanges": [
+      {
+        "bot": "¿Cuáles son sus síntomas?",
+        "options": [
+          "No, I'm not allergic to any medication.",
+          "I have a headache and fever.",
+          "Yes, I want to talk to the doctor as soon as possible."
+        ],
+        "correct": 1,
+        "points": 10
+      },
+      {
+        "bot": "¿Tiene seguro médico?",
+        "options": [
+          "No, I can go to the hospital on my own.",
+          "I have an appointment at ten in the morning.",
+          "Yes, I have private medical insurance."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿A qué hora tiene la cita?",
+        "options": [
+          "Yes, I want to talk to the doctor as soon as possible.",
+          "I have a headache and fever.",
+          "I have an appointment at ten in the morning."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Dónde le duele?",
+        "options": [
+          "Yes, I have private medical insurance.",
+          "My stomach has hurt since yesterday.",
+          "No, I can go to the hospital on my own."
+        ],
+        "correct": 1,
+        "points": 10
+      },
+      {
+        "bot": "¿Es alérgico a algún medicamento?",
+        "options": [
+          "I have an appointment at ten in the morning.",
+          "Yes, I have private medical insurance.",
+          "No, I'm not allergic to any medication."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Necesita una ambulancia?",
+        "options": [
+          "No, I can go to the hospital on my own.",
+          "No, I'm not allergic to any medication.",
+          "I have an appointment at ten in the morning."
+        ],
+        "correct": 0,
+        "points": 10
+      },
+      {
+        "bot": "¿Cuál es su número de seguro?",
+        "options": [
+          "No, I'm not allergic to any medication.",
+          "Yes, I want to talk to the doctor as soon as possible.",
+          "My insurance number is 123-456-789."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Quiere hablar con el médico ahora?",
+        "options": [
+          "Yes, I have private medical insurance.",
+          "Yes, I want to talk to the doctor as soon as possible.",
+          "I have an appointment at ten in the morning."
+        ],
+        "correct": 1,
+        "points": 10
+      }
+    ]
+  },
+  {
+    "word": "bank",
+    "level": "a1",
+    "difficulty": "easy",
+    "context": "Bank",
+    "bot_language": "es",
+    "exchanges": [
+      {
+        "bot": "¿Quiere abrir una cuenta de ahorros?",
+        "options": [
+          "Yes, I don't know how to make a bank transfer.",
+          "Yes, I want to open a savings account, please.",
+          "Yes, I have an active debit card."
+        ],
+        "correct": 1,
+        "points": 10
+      },
+      {
+        "bot": "¿Cuál es su número de cuenta?",
+        "options": [
+          "My account balance is one thousand five hundred dollars.",
+          "I want to withdraw two hundred dollars, please.",
+          "My account number is 987-654-321."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Cuánto dinero quiere retirar?",
+        "options": [
+          "Yes, I have an active debit card.",
+          "Yes, I want to open a savings account, please.",
+          "I want to withdraw two hundred dollars, please."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Tiene su identificación oficial?",
+        "options": [
+          "My account number is 987-654-321.",
+          "Yes, here is my driver's license.",
+          "My account balance is one thousand five hundred dollars."
+        ],
+        "correct": 1,
+        "points": 10
+      },
+      {
+        "bot": "¿Necesita ayuda con la transferencia?",
+        "options": [
+          "I want to withdraw two hundred dollars, please.",
+          "My account number is 987-654-321.",
+          "Yes, I don't know how to make a bank transfer."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Cuál es el saldo de su cuenta?",
+        "options": [
+          "My account balance is one thousand five hundred dollars.",
+          "Yes, I don't know how to make a bank transfer.",
+          "I want to withdraw two hundred dollars, please."
+        ],
+        "correct": 0,
+        "points": 10
+      },
+      {
+        "bot": "¿Quiere pagar una factura aquí?",
+        "options": [
+          "Yes, I don't know how to make a bank transfer.",
+          "Yes, I have an active debit card.",
+          "Yes, I want to pay my electricity bill."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Tiene tarjeta de débito?",
+        "options": [
+          "My account number is 987-654-321.",
+          "Yes, I have an active debit card.",
+          "I want to withdraw two hundred dollars, please."
+        ],
+        "correct": 1,
+        "points": 10
+      }
+    ]
+  },
+  {
+    "word": "postoffice",
+    "level": "a1",
+    "difficulty": "easy",
+    "context": "Post Office",
+    "bot_language": "es",
+    "exchanges": [
+      {
+        "bot": "¿Quiere enviar una carta o un paquete?",
+        "options": [
+          "I want express shipping, please.",
+          "I want to send a package to Mexico, please.",
+          "Yes, I want the tracking number, please."
+        ],
+        "correct": 1,
+        "points": 10
+      },
+      {
+        "bot": "¿Cuál es la dirección del destinatario?",
+        "options": [
+          "Yes, there is a ceramic mug inside.",
+          "Yes, I need three stamps, please.",
+          "The address is Juárez Street number 45, Mexico City."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Necesita sellos para esta carta?",
+        "options": [
+          "Yes, I want the tracking number, please.",
+          "I want to send a package to Mexico, please.",
+          "Yes, I need three stamps, please."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Cuánto pesa el paquete?",
+        "options": [
+          "The address is Juárez Street number 45, Mexico City.",
+          "The package weighs two kilograms.",
+          "Yes, there is a ceramic mug inside."
+        ],
+        "correct": 1,
+        "points": 10
+      },
+      {
+        "bot": "¿Quiere envío express o normal?",
+        "options": [
+          "Yes, I need three stamps, please.",
+          "The address is Juárez Street number 45, Mexico City.",
+          "I want express shipping, please."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Hay algo frágil dentro del paquete?",
+        "options": [
+          "Yes, there is a ceramic mug inside.",
+          "I want express shipping, please.",
+          "Yes, I need three stamps, please."
+        ],
+        "correct": 0,
+        "points": 10
+      },
+      {
+        "bot": "¿Tiene su identificación para recoger la carta?",
+        "options": [
+          "I want express shipping, please.",
+          "Yes, I want the tracking number, please.",
+          "Yes, here is my official ID."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Quiere rastrear su paquete?",
+        "options": [
+          "The address is Juárez Street number 45, Mexico City.",
+          "Yes, I want the tracking number, please.",
+          "Yes, I need three stamps, please."
+        ],
+        "correct": 1,
+        "points": 10
+      }
+    ]
+  },
+  {
+    "word": "gym",
+    "level": "a1",
+    "difficulty": "easy",
+    "context": "Gym",
+    "bot_language": "es",
+    "exchanges": [
+      {
+        "bot": "¿Quiere inscribirse en el gimnasio?",
+        "options": [
+          "I come to the gym three times a week.",
+          "Yes, I want to sign up for the gym, please.",
+          "Yes, I just finished my workout."
+        ],
+        "correct": 1,
+        "points": 10
+      },
+      {
+        "bot": "¿Cuál es su rutina de ejercicios?",
+        "options": [
+          "No, I prefer to train alone for now.",
+          "Yes, I have my clean towel here.",
+          "My routine includes weights and cardio."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Tiene una toalla limpia?",
+        "options": [
+          "Yes, I just finished my workout.",
+          "Yes, I want to sign up for the gym, please.",
+          "Yes, I have my clean towel here."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Necesita ayuda con las máquinas?",
+        "options": [
+          "My routine includes weights and cardio.",
+          "Yes, I don't know how to use the treadmill.",
+          "No, I prefer to train alone for now."
+        ],
+        "correct": 1,
+        "points": 10
+      },
+      {
+        "bot": "¿Cuántas veces viene a la semana?",
+        "options": [
+          "Yes, I have my clean towel here.",
+          "My routine includes weights and cardio.",
+          "I come to the gym three times a week."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Quiere entrenador personal?",
+        "options": [
+          "No, I prefer to train alone for now.",
+          "I come to the gym three times a week.",
+          "Yes, I have my clean towel here."
+        ],
+        "correct": 0,
+        "points": 10
+      },
+      {
+        "bot": "¿Dónde están los vestidores?",
+        "options": [
+          "I come to the gym three times a week.",
+          "Yes, I just finished my workout.",
+          "The locker rooms are at the back to the left."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Ya terminó su entrenamiento?",
+        "options": [
+          "My routine includes weights and cardio.",
+          "Yes, I just finished my workout.",
+          "Yes, I have my clean towel here."
+        ],
+        "correct": 1,
+        "points": 10
+      }
+    ]
+  },
+  {
+    "word": "movietheater",
+    "level": "a1",
+    "difficulty": "easy",
+    "context": "Movie Theater",
+    "bot_language": "es",
+    "exchanges": [
+      {
+        "bot": "¿Qué película quiere ver?",
+        "options": [
+          "Yes, I want a popcorn and drink combo.",
+          "I want to see the new action movie, please.",
+          "Yes, here is my ticket on my cell phone."
+        ],
+        "correct": 1,
+        "points": 10
+      },
+      {
+        "bot": "¿Para qué hora quiere las entradas?",
+        "options": [
+          "Theater 3 is to the right, after the cafeteria.",
+          "I need two tickets, please.",
+          "I want tickets for the seven o'clock show."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Cuántas entradas necesita?",
+        "options": [
+          "Yes, here is my ticket on my cell phone.",
+          "I want to see the new action movie, please.",
+          "I need two tickets, please."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Prefiere asientos en el centro?",
+        "options": [
+          "I want tickets for the seven o'clock show.",
+          "Yes, I prefer seats in the center of the theater.",
+          "Theater 3 is to the right, after the cafeteria."
+        ],
+        "correct": 1,
+        "points": 10
+      },
+      {
+        "bot": "¿Quiere palomitas o refrescos?",
+        "options": [
+          "I need two tickets, please.",
+          "I want tickets for the seven o'clock show.",
+          "Yes, I want a popcorn and drink combo."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Dónde está la Sala 3?",
+        "options": [
+          "Theater 3 is to the right, after the cafeteria.",
+          "Yes, I want a popcorn and drink combo.",
+          "I need two tickets, please."
+        ],
+        "correct": 0,
+        "points": 10
+      },
+      {
+        "bot": "¿La película es para niños?",
+        "options": [
+          "Yes, I want a popcorn and drink combo.",
+          "Yes, here is my ticket on my cell phone.",
+          "No, the movie is for adults, it's a horror movie."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Tiene su entrada digital?",
+        "options": [
+          "I want tickets for the seven o'clock show.",
+          "Yes, here is my ticket on my cell phone.",
+          "I need two tickets, please."
+        ],
+        "correct": 1,
+        "points": 10
+      }
+    ]
+  },
+  {
+    "word": "hairsalon",
+    "level": "a1",
+    "difficulty": "easy",
+    "context": "Hair Salon",
+    "bot_language": "es",
+    "exchanges": [
+      {
+        "bot": "¿Quiere un corte de pelo o un peinado?",
+        "options": [
+          "Yes, I use cream for curly hair.",
+          "I want a short haircut, please.",
+          "Yes, I love how my hair turned out."
+        ],
+        "correct": 1,
+        "points": 10
+      },
+      {
+        "bot": "¿Tiene cita o es sin cita?",
+        "options": [
+          "The haircut costs twenty dollars, right?",
+          "I want straight bangs, please.",
+          "I have an appointment at four in the afternoon."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Cómo quiere el flequillo?",
+        "options": [
+          "Yes, I love how my hair turned out.",
+          "I want a short haircut, please.",
+          "I want straight bangs, please."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Necesita lavado de cabello?",
+        "options": [
+          "I have an appointment at four in the afternoon.",
+          "Yes, I want wash and dry, please.",
+          "The haircut costs twenty dollars, right?"
+        ],
+        "correct": 1,
+        "points": 10
+      },
+      {
+        "bot": "¿Usa productos para el cabello?",
+        "options": [
+          "I want straight bangs, please.",
+          "I have an appointment at four in the afternoon.",
+          "Yes, I use cream for curly hair."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Cuánto cuesta el corte?",
+        "options": [
+          "The haircut costs twenty dollars, right?",
+          "Yes, I use cream for curly hair.",
+          "I want straight bangs, please."
+        ],
+        "correct": 0,
+        "points": 10
+      },
+      {
+        "bot": "¿Quiere color o reflejos?",
+        "options": [
+          "Yes, I use cream for curly hair.",
+          "Yes, I love how my hair turned out.",
+          "No, I just want a haircut today."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Está satisfecho con el resultado?",
+        "options": [
+          "I have an appointment at four in the afternoon.",
+          "Yes, I love how my hair turned out.",
+          "I want straight bangs, please."
+        ],
+        "correct": 1,
+        "points": 10
+      }
+    ]
+  },
+  {
+    "word": "gasstation",
+    "level": "a1",
+    "difficulty": "easy",
+    "context": "Gas Station",
+    "bot_language": "es",
+    "exchanges": [
+      {
+        "bot": "¿Qué tipo de gasolina necesita?",
+        "options": [
+          "No, the oil has already been checked.",
+          "I need regular gas, please.",
+          "Yes, I want a bottle of water, please."
+        ],
+        "correct": 1,
+        "points": 10
+      },
+      {
+        "bot": "¿Cuánto dinero quiere poner?",
+        "options": [
+          "The air pump is next to the store.",
+          "Yes, please fill the tank completely.",
+          "I want to put in forty dollars of gas."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Quiere que le llene el tanque?",
+        "options": [
+          "Yes, I want a bottle of water, please.",
+          "I need regular gas, please.",
+          "Yes, please fill the tank completely."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Tiene el recibo?",
+        "options": [
+          "I want to put in forty dollars of gas.",
+          "Yes, here is the receipt, thank you.",
+          "The air pump is next to the store."
+        ],
+        "correct": 1,
+        "points": 10
+      },
+      {
+        "bot": "¿Necesita revisar el aceite?",
+        "options": [
+          "Yes, please fill the tank completely.",
+          "I want to put in forty dollars of gas.",
+          "No, the oil has already been checked."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Dónde está la bomba de aire?",
+        "options": [
+          "The air pump is next to the store.",
+          "No, the oil has already been checked.",
+          "Yes, please fill the tank completely."
+        ],
+        "correct": 0,
+        "points": 10
+      },
+      {
+        "bot": "¿Paga con tarjeta o en efectivo?",
+        "options": [
+          "No, the oil has already been checked.",
+          "Yes, I want a bottle of water, please.",
+          "I'm going to pay with a credit card, please."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Quiere algo de la tienda?",
+        "options": [
+          "I want to put in forty dollars of gas.",
+          "Yes, I want a bottle of water, please.",
+          "Yes, please fill the tank completely."
+        ],
+        "correct": 1,
+        "points": 10
+      }
+    ]
+  },
+  {
+    "word": "pharmacy",
+    "level": "a1",
+    "difficulty": "easy",
+    "context": "Pharmacy",
+    "bot_language": "es",
+    "exchanges": [
+      {
+        "bot": "¿Qué medicamento necesita?",
+        "options": [
+          "Yes, I have medical insurance, here is my card.",
+          "I need cough syrup, please.",
+          "Yes, I understood the instructions perfectly."
+        ],
+        "correct": 1,
+        "points": 10
+      },
+      {
+        "bot": "¿Tiene la receta médica?",
+        "options": [
+          "Yes, I also want pills for my headache.",
+          "I take one pill every eight hours.",
+          "Yes, here is the prescription from my doctor."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Cuál es la dosis del medicamento?",
+        "options": [
+          "Yes, I understood the instructions perfectly.",
+          "I need cough syrup, please.",
+          "I take one pill every eight hours."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Es alérgico a la penicilina?",
+        "options": [
+          "Yes, here is the prescription from my doctor.",
+          "No, I'm not allergic to penicillin.",
+          "Yes, I also want pills for my headache."
+        ],
+        "correct": 1,
+        "points": 10
+      },
+      {
+        "bot": "¿Tiene seguro médico?",
+        "options": [
+          "I take one pill every eight hours.",
+          "Yes, here is the prescription from my doctor.",
+          "Yes, I have medical insurance, here is my card."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Necesita algo más para el dolor?",
+        "options": [
+          "Yes, I also want pills for my headache.",
+          "Yes, I have medical insurance, here is my card.",
+          "I take one pill every eight hours."
+        ],
+        "correct": 0,
+        "points": 10
+      },
+      {
+        "bot": "¿Cómo se toma este medicamento?",
+        "options": [
+          "Yes, I have medical insurance, here is my card.",
+          "Yes, I understood the instructions perfectly.",
+          "Take one spoonful before going to sleep."
+        ],
+        "correct": 2,
+        "points": 10
+      },
+      {
+        "bot": "¿Entendió las instrucciones?",
+        "options": [
+          "Yes, here is the prescription from my doctor.",
+          "Yes, I understood the instructions perfectly.",
+          "I take one pill every eight hours."
+        ],
+        "correct": 1,
+        "points": 10
+      }
+    ]
   }
 ]
