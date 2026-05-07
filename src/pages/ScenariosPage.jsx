@@ -2,14 +2,14 @@ import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 
 const SCENARIOS = [
-  { word: 'shopping',  emoji: '🛍️', title: 'Shopping'           },
-  { word: 'travel',    emoji: '✈️', title: 'Travel & Airport'   },
-  { word: 'tourism',   emoji: '🗺️', title: 'Tourism & Directions'},
-  { word: 'school',    emoji: '📚', title: 'School & Work'      },
-  { word: 'daily',     emoji: '☀️', title: 'Daily Routine'      },
-  { word: 'emergency', emoji: '🚨', title: 'Emergency'          },
-  { word: 'meeting',   emoji: '💼', title: 'Meeting & Business' },
-  { word: 'cafe',      emoji: '☕', title: 'Café & Restaurant'  },
+  { word: 'shopping',  emoji: '🛍️', title: 'Shopping',             desc: 'Buy clothes, food & more'       },
+  { word: 'travel',    emoji: '✈️', title: 'Travel & Airport',      desc: 'Flights, check-in, luggage'     },
+  { word: 'tourism',   emoji: '🗺️', title: 'Tourism & Directions',  desc: 'Ask for directions & explore'   },
+  { word: 'school',    emoji: '📚', title: 'School & Work',         desc: 'Classroom & office talk'        },
+  { word: 'daily',     emoji: '☀️', title: 'Daily Routine',         desc: 'Everyday conversations'         },
+  { word: 'emergency', emoji: '🚨', title: 'Emergency',             desc: 'Help & urgent situations'       },
+  { word: 'meeting',   emoji: '💼', title: 'Meeting & Business',    desc: 'Professional meetings'          },
+  { word: 'cafe',      emoji: '☕', title: 'Café & Restaurant',     desc: 'Order food & drinks'            },
 ]
 
 export default function ScenariosPage() {
@@ -60,10 +60,14 @@ export default function ScenariosPage() {
                        flex flex-col items-center gap-2 shadow-sm
                        hover:border-cyan-400 hover:shadow-md
                        active:scale-95 transition-all text-center"
+            style={{ minHeight: '100px' }}
           >
             <span className="text-3xl">{s.emoji}</span>
             <span className="text-sm font-bold text-slate-700 leading-tight">
               {s.title}
+            </span>
+            <span className="text-xs text-slate-500 leading-tight line-clamp-1">
+              {s.desc}
             </span>
           </button>
         ))}
