@@ -111,11 +111,12 @@
 ## 🔄 HAFTA 7 — Polish & Android Build Hazırlığı
 
 ### Dashboard
-- [ ] Chat Practice kartı → /scenarios bağlantısı
+- [x] Chat Practice kartı → /scenarios bağlantısı
 
 ### UI/UX
 - [ ] Genel polish ve iyileştirmeler
 - [ ] Hata mesajları düzenleme
+- [x] ProfileSetup logo güncelleme (aguilapp.png)
 
 ### İçerik Genişletme
 - [ ] ES senaryo paketi artırımı (8 → 16)
