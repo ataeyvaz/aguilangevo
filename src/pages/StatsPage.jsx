@@ -47,7 +47,7 @@ export default function StatsPage() {
   const [catProgress, setCatProgress] = useState([])
   const [loadingCats, setLoadingCats] = useState(true)
 
-  const weekStats  = getDailyStats(7)
+  const weekStats  = getDailyStats(7).slice(-4)
   const todayKey   = new Date().toISOString().split('T')[0]
   const maxSeen    = Math.max(...weekStats.map(d => d.seen), 1)
 
@@ -105,7 +105,7 @@ export default function StatsPage() {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F8FAFC', fontFamily: 'Inter, sans-serif' }}>
+    <div style={{ minHeight: '100vh', background: '#F8FAFC', fontFamily: 'Inter, sans-serif', overflowX: 'hidden', width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
 
       {/* Header */}
       <div style={{
@@ -130,7 +130,7 @@ export default function StatsPage() {
         </div>
       </div>
 
-      <div style={{ maxWidth: '760px', margin: '0 auto', padding: '20px 24px 40px' }}>
+      <div style={{ maxWidth: '760px', margin: '0 auto', padding: '20px 16px 40px' }}>
 
         {/* Summary stats grid */}
         <div style={{
@@ -163,7 +163,7 @@ export default function StatsPage() {
         {/* 7-day bar chart */}
         <div style={{
           background: 'white', borderRadius: '16px',
-          border: '1px solid #E2E8F0', padding: '20px',
+          border: '1px solid #E2E8F0', padding: '16px',
           marginBottom: '20px',
         }}>
           <div style={{
@@ -193,9 +193,11 @@ export default function StatsPage() {
                     transition: 'height 0.3s',
                   }} />
                   <div style={{
-                    fontSize: '11px', marginTop: '6px',
+                    fontSize: '10px', marginTop: '6px',
                     color: isToday ? '#0891B2' : '#94A3B8',
                     fontWeight: isToday ? '700' : '400',
+                    width: '100%', textAlign: 'center',
+                    overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                   }}>
                     {t(day.dayName)}
                   </div>
@@ -224,7 +226,7 @@ export default function StatsPage() {
               {[
                 { icon: '🎯', label: 'Sessions', value: convStats.totalSessions },
                 { icon: '💬', label: 'Exchanges', value: convStats.totalExchanges },
-                { icon: '⭐', label: 'Total pts', value: convStats.totalScore },
+                { icon: '⭐', label: 'Pts', value: convStats.totalScore },
               ].map((s, i) => (
                 <div key={i} style={{
                   background: '#F8FAFC', borderRadius: '12px',
@@ -235,7 +237,7 @@ export default function StatsPage() {
                     fontFamily: "'Plus Jakarta Sans', sans-serif",
                     fontSize: '18px', fontWeight: '800', color: '#0F172A',
                   }}>{s.value}</div>
-                  <div style={{ fontSize: '11px', color: '#94A3B8', marginTop: '2px' }}>{s.label}</div>
+                  <div style={{ fontSize: '11px', color: '#94A3B8', marginTop: '2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.label}</div>
                 </div>
               ))}
             </div>
@@ -246,22 +248,20 @@ export default function StatsPage() {
                 {convStats.byMode.map(m => {
                   const modeEmoji = m.mode === 'pick' ? '👆' : m.mode === 'type' ? '⌨️' : '🎤'
                   return (
-                    <div key={m.mode}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                        <span style={{ fontSize: '13px', fontWeight: '600', color: '#0F172A' }}>
-                          {modeEmoji} {m.mode.charAt(0).toUpperCase() + m.mode.slice(1)}
-                        </span>
-                        <span style={{ fontSize: '12px', color: '#64748B' }}>
-                          {m.correct}/{m.attempts} · {m.accuracy}%
-                        </span>
-                      </div>
-                      <div style={{ height: '6px', background: '#F1F5F9', borderRadius: '3px', overflow: 'hidden' }}>
+                    <div key={m.mode} style={{ display: 'flex', alignItems: 'center', gap: '6px', width: '100%', overflow: 'hidden' }}>
+                      <span style={{ fontSize: '12px', fontWeight: '600', color: '#0F172A', flexShrink: 0, width: '52px' }}>
+                        {modeEmoji} {m.mode.charAt(0).toUpperCase() + m.mode.slice(1)}
+                      </span>
+                      <div style={{ flex: 1, minWidth: 0, height: '6px', background: '#F1F5F9', borderRadius: '3px', overflow: 'hidden' }}>
                         <div style={{
                           height: '100%', width: `${m.accuracy}%`,
                           background: m.accuracy >= 70 ? '#10B981' : m.accuracy >= 40 ? '#0891B2' : '#F59E0B',
                           borderRadius: '3px', transition: 'width 0.4s',
                         }} />
                       </div>
+                      <span style={{ fontSize: '11px', color: '#64748B', flexShrink: 0, width: '56px', textAlign: 'right', whiteSpace: 'nowrap' }}>
+                        {m.correct}/{m.attempts} {m.accuracy}%
+                      </span>
                     </div>
                   )
                 })}

@@ -2,22 +2,22 @@ import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 
 const SCENARIOS = [
-  { word: 'shopping',  emoji: '🛍️', title: 'Shopping',             desc: 'Buy clothes, food & more'       },
-  { word: 'travel',    emoji: '✈️', title: 'Travel & Airport',      desc: 'Flights, check-in, luggage'     },
-  { word: 'tourism',   emoji: '🗺️', title: 'Tourism & Directions',  desc: 'Ask for directions & explore'   },
-  { word: 'school',    emoji: '📚', title: 'School & Work',         desc: 'Classroom & office talk'        },
-  { word: 'daily',     emoji: '☀️', title: 'Daily Routine',         desc: 'Everyday conversations'         },
-  { word: 'emergency', emoji: '🚨', title: 'Emergency',             desc: 'Help & urgent situations'       },
-  { word: 'meeting',      emoji: '💼', title: 'Meeting & Business',    desc: 'Professional meetings'          },
-  { word: 'cafe',         emoji: '☕', title: 'Café & Restaurant',     desc: 'Order food & drinks'            },
-  { word: 'hospital',     emoji: '🏥', title: 'Hospital',              desc: 'Symptoms, appointments & care'  },
-  { word: 'bank',         emoji: '🏦', title: 'Bank',                  desc: 'Accounts, transfers & payments' },
-  { word: 'postoffice',   emoji: '📮', title: 'Post Office',           desc: 'Send letters, packages & mail'  },
-  { word: 'gym',          emoji: '💪', title: 'Gym',                   desc: 'Membership, workouts & equipment'},
-  { word: 'movietheater', emoji: '🎬', title: 'Movie Theater',         desc: 'Tickets, snacks & showtimes'    },
-  { word: 'hairsalon',    emoji: '💇', title: 'Hair Salon',            desc: 'Cuts, styling & treatments'     },
-  { word: 'gasstation',   emoji: '⛽', title: 'Gas Station',           desc: 'Fuel, oil check & services'     },
-  { word: 'pharmacy',     emoji: '💊', title: 'Pharmacy',              desc: 'Medicine, prescriptions & advice'},
+  { word: 'shopping',     emoji: '🛍️', title: 'Shopping',             desc: 'Clothing & groceries'   },
+  { word: 'travel',       emoji: '✈️', title: 'Travel & Airport',      desc: 'Flights & check-in'     },
+  { word: 'tourism',      emoji: '🗺️', title: 'Tourism & Directions',  desc: 'Directions & tours'     },
+  { word: 'school',       emoji: '📚', title: 'School & Work',         desc: 'School & office'        },
+  { word: 'daily',        emoji: '☀️', title: 'Daily Routine',         desc: 'Everyday conversations' },
+  { word: 'emergency',    emoji: '🚨', title: 'Emergency',             desc: 'Urgent help'            },
+  { word: 'meeting',      emoji: '💼', title: 'Meeting & Business',    desc: 'Business talk'          },
+  { word: 'cafe',         emoji: '☕', title: 'Café & Restaurant',     desc: 'Order food & drinks'    },
+  { word: 'hospital',     emoji: '🏥', title: 'Hospital',              desc: 'Doctor visits'          },
+  { word: 'bank',         emoji: '🏦', title: 'Bank',                  desc: 'Banking'                },
+  { word: 'postoffice',   emoji: '📮', title: 'Post Office',           desc: 'Mail & packages'        },
+  { word: 'gym',          emoji: '💪', title: 'Gym',                   desc: 'Fitness & gym'          },
+  { word: 'movietheater', emoji: '🎬', title: 'Movie Theater',         desc: 'Cinema & tickets'       },
+  { word: 'hairsalon',    emoji: '💇', title: 'Hair Salon',            desc: 'Hair & styling'         },
+  { word: 'gasstation',   emoji: '⛽', title: 'Gas Station',           desc: 'Fuel & car care'        },
+  { word: 'pharmacy',     emoji: '💊', title: 'Pharmacy',              desc: 'Meds & prescriptions'   },
 ]
 
 export default function ScenariosPage() {
@@ -30,7 +30,7 @@ export default function ScenariosPage() {
   const botLang = pairStr.split('-')[0]
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col"
+    <div className="min-h-screen bg-slate-50 flex flex-col overflow-x-hidden"
          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
 
       {/* Header */}

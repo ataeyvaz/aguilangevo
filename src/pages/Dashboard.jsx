@@ -89,7 +89,7 @@ export default function Dashboard() {
   }, [])
 
   const todayStats = getTodayStats()
-  const weekStats  = getDailyStats(7)
+  const weekStats  = getDailyStats(7).slice(-4)
   const todayKey   = new Date().toISOString().split('T')[0]
   const maxSeen    = Math.max(...weekStats.map(d => d.seen), 1)
   const goalPct    = Math.min(100, Math.round((todayStats.seen / DAILY_GOAL) * 100))
@@ -101,7 +101,7 @@ export default function Dashboard() {
   const lc    = LEVEL_COLORS[level] ?? LEVEL_COLORS.A1
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F8FAFC', fontFamily: 'Inter, sans-serif' }}>
+    <div style={{ minHeight: '100vh', background: '#F8FAFC', fontFamily: 'Inter, sans-serif', overflowX: 'hidden' }}>
 
       {/* ── Header ────────────────────────────────────────────── */}
       <div style={{
@@ -224,7 +224,7 @@ export default function Dashboard() {
             )}
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
             {[
               { key: 'new',      value: srsStats.new,      color: '#94A3B8', bg: '#F8FAFC' },
               { key: 'learning', value: srsStats.learning,  color: '#F59E0B', bg: '#FFFBEB' },

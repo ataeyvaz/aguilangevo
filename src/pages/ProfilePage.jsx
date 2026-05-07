@@ -261,38 +261,40 @@ export default function ProfilePage() {
           <div style={sectionTitle}>🏅 Badges</div>
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(90px, 1fr))',
-            gap: '10px',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: '8px',
           }}>
             {BADGE_DEFS.map(badge => {
               const earned = earnedIds.has(badge.id)
               return (
                 <div
                   key={badge.id}
-                  title={badge.desc}
+                  title={`${badge.name}: ${badge.desc}`}
                   style={{
                     background: earned ? '#EFF8FF' : '#F8FAFC',
                     border: `1.5px solid ${earned ? '#BAE6FD' : '#E2E8F0'}`,
-                    borderRadius: '12px', padding: '12px 8px',
+                    borderRadius: '10px', padding: '8px 4px',
                     display: 'flex', flexDirection: 'column',
-                    alignItems: 'center', gap: '6px',
+                    alignItems: 'center', gap: '4px',
                     opacity: earned ? 1 : 0.5,
                   }}
                 >
-                  <div style={{ fontSize: '24px', position: 'relative' }}>
+                  <div style={{ fontSize: '20px', position: 'relative' }}>
                     {badge.icon}
                     {!earned && (
                       <span style={{
                         position: 'absolute', bottom: -4, right: -6,
-                        fontSize: '12px',
+                        fontSize: '10px',
                       }}>🔒</span>
                     )}
                   </div>
                   <div style={{
                     fontFamily: "'Plus Jakarta Sans', sans-serif",
-                    fontSize: '11px', fontWeight: '700',
+                    fontSize: '9px', fontWeight: '700',
                     color: earned ? '#0F172A' : '#94A3B8',
-                    textAlign: 'center', lineHeight: '1.3',
+                    textAlign: 'center', lineHeight: '1.2',
+                    overflow: 'hidden', textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap', width: '100%',
                   }}>
                     {badge.name}
                   </div>

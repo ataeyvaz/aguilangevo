@@ -25,6 +25,8 @@ export default function BottomNav() {
         borderTop: '1px solid #E2E8F0',
         height: '60px',
         flexShrink: 0,
+        width: '100%',
+        overflow: 'hidden',
       }}
     >
       {tabs.map(({ to, label, icon, match }) => {
@@ -35,13 +37,14 @@ export default function BottomNav() {
             to={to}
             style={{
               display: 'flex', flexDirection: 'column',
-              alignItems: 'center', gap: '2px',
-              padding: '4px 12px',
-              fontSize: '11px', fontWeight: active ? '700' : '500',
+              alignItems: 'center', gap: '1px',
+              padding: '4px 4px',
+              fontSize: '9px', fontWeight: active ? '700' : '500',
               textDecoration: 'none',
               color: active ? '#0891B2' : '#94A3B8',
               position: 'relative',
               transition: 'color 0.15s',
+              flex: 1, minWidth: 0, overflow: 'hidden',
             }}
           >
             {active && (
@@ -51,8 +54,8 @@ export default function BottomNav() {
                 background: '#0891B2', borderRadius: '0 0 2px 2px',
               }} />
             )}
-            <span style={{ fontSize: '20px' }}>{icon}</span>
-            <span>{label}</span>
+            <span style={{ fontSize: '18px' }}>{icon}</span>
+            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: '100%', textAlign: 'center' }}>{label}</span>
           </NavLink>
         )
       })}
