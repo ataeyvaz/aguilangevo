@@ -21,10 +21,10 @@ const LANGUAGES = [
   },
   {
     id: 'pt',
-    code: 'PT',
+    code: 'BR',
     name: 'Portuguese',
     native: 'Português',
-    flag: '/flags/pt.png',
+    flag: 'https://flagcdn.com/w40/br.png',
     color: '#0EA5E9',
     bg: '#F0FDF4',
   },

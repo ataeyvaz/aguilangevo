@@ -6,11 +6,40 @@ const LANG_MAP = {
   de: 'de-DE',
   es: 'es-ES',
   tr: 'tr-TR',
+  pt: 'pt-BR',
+}
+
+// Plugin is stored here after loading — never returned through a Promise chain.
+// Reason: the Capacitor proxy has a `then` getter (via its Proxy trap), making it
+// thenable. Returning it from an async function or Promise.resolve() causes JS to
+// call proxy.then(resolve, reject) → "SpeechRecognition.then() is not implemented".
+let _plugin = null
+let _pluginReady = false
+let _pluginLoadPromise = null
+
+function ensurePlugin() {
+  if (_pluginReady) return Promise.resolve()
+  if (_pluginLoadPromise) return _pluginLoadPromise
+  _pluginLoadPromise = import('@capacitor-community/speech-recognition')
+    .then(mod => { _plugin = mod.SpeechRecognition })
+    .catch(() => { _plugin = null })
+    .finally(() => { _pluginReady = true; _pluginLoadPromise = null })
+  return _pluginLoadPromise
+}
+
+function isNative() {
+  try {
+    return window?.Capacitor?.isNativePlatform?.() ?? false
+  } catch {
+    return false
+  }
 }
 
 /**
  * useSpeech — TTS + STT tek hook
- * @param {string} langId  'en' | 'de' | 'es'
+ * Native (Android/iOS): @capacitor-community/speech-recognition
+ * Web: Web Speech API
+ * @param {string} langId  'en' | 'de' | 'es' | 'pt' | 'tr'
  */
 export function useSpeech(langId) {
   const locale = LANG_MAP[langId] ?? 'en-GB'
@@ -56,60 +85,108 @@ export function useSpeech(langId) {
     setIsSpeaking(false)
   }, [ttsSupported])
 
-  // Sayfa kapanınca TTS'i durdur
   useEffect(() => {
     return () => { if (ttsSupported) window.speechSynthesis.cancel() }
   }, [ttsSupported])
 
   // ── STT ──────────────────────────────────────────────
-  const SpeechRecognition =
+  const WebSpeechRecognition =
     typeof window !== 'undefined'
       ? window.SpeechRecognition ?? window.webkitSpeechRecognition
       : null
-  const sttSupported = Boolean(SpeechRecognition)
+
+  // Native platformda plugin var sayılır; web'de WebSpeechRecognition'a bak
+  const sttSupported = isNative() ? true : Boolean(WebSpeechRecognition)
 
   const recognizerRef = useRef(null)
   const [isListening, setIsListening] = useState(false)
-  const [transcript, setTranscript] = useState('')
-  const [sttError, setSttError] = useState(null)
+  const [transcript,  setTranscript]  = useState('')
+  const [sttError,    setSttError]    = useState(null)
 
-  const startListening = useCallback(() => {
-    if (!sttSupported || isListening) return
+  // ── Native STT ────────────────────────────────────────
+  const startNativeListening = useCallback(async () => {
+    await ensurePlugin()
+    const plugin = _plugin  // sync access — never await the proxy directly
+    if (!plugin) return
+
+    try {
+      const { available } = await plugin.available()
+      if (!available) { setSttError('unavailable'); return }
+
+      const perm = await plugin.requestPermissions()
+      if (perm?.speechRecognition !== 'granted') {
+        setSttError('permission-denied')
+        return
+      }
+
+      setSttError(null)
+      setTranscript('')
+      await plugin.removeAllListeners()
+
+      await plugin.addListener('partialResults', (data) => {
+        const text = data?.matches?.[0]?.toLowerCase().trim() ?? ''
+        if (text) setTranscript(text)
+      })
+
+      setIsListening(true)
+
+      plugin.start({
+        language: locale,
+        maxResults: 1,
+        prompt: 'Speak now',
+        partialResults: true,
+        popup: false,
+      })
+
+    } catch (e) {
+      setSttError(e?.message ?? 'error')
+      setIsListening(false)
+    }
+  }, [locale])
+
+  const stopNativeListening = useCallback(async () => {
+    const plugin = _plugin  // sync access
+    try {
+      await plugin?.removeAllListeners()
+      await plugin?.stop()
+    } catch { /* ignore */ }
+    setIsListening(false)
+  }, [])
+
+  // ── Web STT ───────────────────────────────────────────
+  const startWebListening = useCallback(() => {
+    if (!WebSpeechRecognition || isListening) return
     setSttError(null)
     setTranscript('')
 
-    const rec = new SpeechRecognition()
+    const rec = new WebSpeechRecognition()
     rec.lang = locale
     rec.interimResults = false
     rec.maxAlternatives = 1
 
-    rec.onstart = () => setIsListening(true)
+    rec.onstart  = () => setIsListening(true)
     rec.onresult = (e) => {
       const text = e.results[0][0].transcript.trim().toLowerCase()
       setTranscript(text)
     }
-    rec.onerror = (e) => {
-      setSttError(e.error)
-      setIsListening(false)
-    }
-    rec.onend = () => setIsListening(false)
+    rec.onerror = (e) => { setSttError(e.error); setIsListening(false) }
+    rec.onend   = () => setIsListening(false)
 
     recognizerRef.current = rec
     rec.start()
-  }, [locale, sttSupported, isListening, SpeechRecognition])
+  }, [locale, WebSpeechRecognition, isListening])
 
-  const stopListening = useCallback(() => {
+  const stopWebListening = useCallback(() => {
     recognizerRef.current?.stop()
     setIsListening(false)
   }, [])
 
-  /**
-   * checkAnswer — STT transcript'ini beklenen kelimeyle karşılaştırır
-   * Küçük harf + trim normalize eder
-   */
+  // ── Unified interface ─────────────────────────────────
+  const startListening = isNative() ? startNativeListening : startWebListening
+  const stopListening  = isNative() ? stopNativeListening  : stopWebListening
+
   const checkAnswer = useCallback((expected) => {
-    if (!expected) return false
-    if (!transcript) return false
+    if (!expected || !transcript) return false
     const t = transcript.toLowerCase().trim()
     const e = expected.toLowerCase().trim()
     return t === e || t.includes(e) || e.includes(t)

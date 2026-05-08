@@ -11,6 +11,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useTranslation } from '../i18n/translations'
+import { useSpeech } from '../hooks/useSpeech'
 import { checkAnswer, findBestOption, getPronunciationScore } from '../utils/fuzzyMatch'
 import {
   getPackForWord,
@@ -111,6 +112,15 @@ export default function Practice() {
   const meta   = DIFF_META[difficulty] ?? DIFF_META.easy
   const nextD  = NEXT_DIFF[difficulty]
 
+  const pairLangId = (pack?.pair || 'es-en').split('-')[0]
+  const {
+    startListening: sttStart,
+    stopListening:  sttStop,
+    isListening,
+    transcript:     sttTranscript,
+    sttSupported:   speechSupported,
+  } = useSpeech(pairLangId)
+
   // ── State ─────────────────────────────────────────────────
   const [phase,       setPhase]       = useState('intro')
   const [exchIdx,     setExchIdx]     = useState(0)
@@ -120,12 +130,7 @@ export default function Practice() {
   const [currentMode, setCurrentMode] = useState(null)
   const [typeInput,   setTypeInput]   = useState('')
   const [typeResult,  setTypeResult]  = useState(null)
-  const [isListening, setIsListening] = useState(false)
   const [speechResult, setSpeechResult] = useState(null)
-  const [speechSupported] = useState(() => {
-    const SR = window.SpeechRecognition || window.webkitSpeechRecognition
-    return !!SR
-  })
 
   const exchange   = exchanges[exchIdx] ?? null
   const isAnswered = selected !== null || typeResult !== null || speechResult !== null
@@ -133,9 +138,7 @@ export default function Practice() {
   // Audio referansı
   const audioRef = useRef(null)
   const [isPlaying, setIsPlaying] = useState(false)
-
-  // SpeechRecognition referansı
-  const recognitionRef = useRef(null)
+  const prevListeningRef = useRef(false)
 
   // Bot mesajının ses dosyası yolunu hesapla
   const audioPath = useMemo(() => {
@@ -178,7 +181,7 @@ export default function Practice() {
         setTypeInput('')
         setTypeResult(null)
         setSpeechResult(null)
-        setIsListening(false)
+        sttStop()
       }
 
       const resetTimer = setTimeout(resetState, 0)
@@ -205,12 +208,41 @@ export default function Practice() {
         audioRef.current.src = ''
         audioRef.current = null
       }
-      if (recognitionRef.current) {
-        recognitionRef.current.abort()
-        recognitionRef.current = null
-      }
     }
   }, [])
+
+  // Process speech result when recognition ends (isListening: true → false)
+  useEffect(() => {
+    const wasListening = prevListeningRef.current
+    prevListeningRef.current = isListening
+    if (wasListening && !isListening && sttTranscript && exchange && !speechResult) {
+      const result = findBestOption(sttTranscript, exchange.options)
+      const expectedAnswer = exchange.options[exchange.correct]
+      const pronunciationResult = getPronunciationScore(sttTranscript, expectedAnswer)
+      if (result.found) {
+        const correct = result.index === exchange.correct
+        const pts = correct ? MODE_POINTS.speak : 0
+        setSpeechResult({
+          match: correct,
+          score: result.score,
+          transcript: sttTranscript,
+          suggestion: !correct ? exchange.options[exchange.correct] : null,
+          pronunciation: pronunciationResult,
+        })
+        setAnswers(prev => [...prev, { correct, points: pts, mode: 'speak', pronunciationScore: pronunciationResult?.score ?? null }])
+        setTotalPoints(p => p + pts)
+      } else {
+        setSpeechResult({
+          match: false,
+          score: 0,
+          transcript: sttTranscript,
+          suggestion: exchange.options[exchange.correct],
+          pronunciation: pronunciationResult,
+        })
+        setAnswers(prev => [...prev, { correct: false, points: 0, mode: 'speak', pronunciationScore: pronunciationResult?.score ?? null }])
+      }
+    }
+  }, [isListening, sttTranscript, exchange, speechResult])
 
   // ── Mod seçimi ───────────────────────────────────────────
   const handleModeSelect = (mode) => {
@@ -244,78 +276,10 @@ export default function Practice() {
     setTotalPoints(p => p + pts)
   }
 
-  // ── Speak modu: SpeechRecognition başlat ────────────────
+  // ── Speak modu: başlat ──────────────────────────────────
   const startListening = () => {
-    if (!speechSupported) {
-      setCurrentMode('pick')
-      return
-    }
-
-    const SR = window.SpeechRecognition || window.webkitSpeechRecognition
-    const recognition = new SR()
-    recognitionRef.current = recognition
-
-    const pair = pack?.pair || 'es-en'
-    recognition.lang = getSpeechLang(pair, 'bot-to-user')
-
-    recognition.interimResults = false
-    recognition.maxAlternatives = 1
-
-    recognition.onstart = () => {
-      setIsListening(true)
-    }
-
-    recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript
-      setIsListening(false)
-
-      const result = findBestOption(transcript, exchange.options)
-      
-      // Telaffuz skorunu hesapla
-      const expectedAnswer = exchange.options[exchange.correct]
-      const pronunciationResult = getPronunciationScore(transcript, expectedAnswer)
-
-      if (result.found) {
-        const correct = result.index === exchange.correct
-        const pts = correct ? MODE_POINTS.speak : 0
-        setSpeechResult({
-          match: correct,
-          score: result.score,
-          transcript,
-          suggestion: !correct ? exchange.options[exchange.correct] : null,
-          pronunciation: pronunciationResult,
-        })
-        setAnswers(prev => [...prev, { correct, points: pts, mode: 'speak', pronunciationScore: pronunciationResult?.score ?? null }])
-        setTotalPoints(p => p + pts)
-      } else {
-        setSpeechResult({
-          match: false,
-          score: 0,
-          transcript,
-          suggestion: exchange.options[exchange.correct],
-          pronunciation: pronunciationResult,
-        })
-        setAnswers(prev => [...prev, { correct: false, points: 0, mode: 'speak', pronunciationScore: pronunciationResult?.score ?? null }])
-      }
-    }
-
-    recognition.onerror = (event) => {
-      setIsListening(false)
-      if (event.error === 'not-allowed') {
-        alert(t('microphone access required'))
-      }
-    }
-
-    recognition.onend = () => {
-      setIsListening(false)
-      recognitionRef.current = null
-    }
-
-    try {
-      recognition.start()
-    } catch {
-      setIsListening(false)
-    }
+    if (!speechSupported) { setCurrentMode('pick'); return }
+    sttStart()
   }
 
   // ── Sonraki exchange / özet ────────────────────────────────
@@ -771,15 +735,15 @@ export default function Practice() {
               )}
 
               {isListening && (
-                <div className="text-center">
+                <button onClick={sttStop} className="text-center">
                   <div className="w-32 h-32 rounded-full bg-red-500 text-white text-5xl
                                   flex items-center justify-center mx-auto mb-4 animate-pulse">
                     🎤
                   </div>
                   <p className="text-sm text-slate-500 animate-pulse">
-                    {t('listening') || 'Listening...'}
+                    {t('listening') || 'Listening...'} (tap to stop)
                   </p>
-                </div>
+                </button>
               )}
 
               {/* Speak sonucu - Telaffuz Skoru */}

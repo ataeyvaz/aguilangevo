@@ -123,6 +123,7 @@
 - [ ] PT senaryo paketi artırımı (8 → 16)
 - [ ] A2 seviyesi senaryo paketleri
 
+
 ### Capacitor Android Build
 - [ ] Capacitor config güncelle
 - [ ] npx cap add android

@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useTranslation } from '../i18n/translations'
+import { useSpeech } from '../hooks/useSpeech'
 import { checkAnswer, findBestOption, getPronunciationScore } from '../utils/fuzzyMatch'
 import { md5 } from '../utils/md5'
 import {
@@ -35,6 +36,15 @@ export default function ChatBot() {
   const pack = useMemo(() => getPackForWord(word, difficulty), [word, difficulty])
   const exchanges = useMemo(() => getExchanges(pack), [pack])
 
+  const pairLangId = (pack?.pair || 'es-en').split('-')[0]
+  const {
+    startListening: sttStart,
+    stopListening:  sttStop,
+    isListening,
+    transcript:     sttTranscript,
+    sttSupported:   speechSupported,
+  } = useSpeech(pairLangId)
+
   const [messages, setMessages] = useState([])
   const [exchIdx, setExchIdx] = useState(0)
   const [phase, setPhase] = useState('intro') // intro | chat | summary
@@ -45,11 +55,9 @@ export default function ChatBot() {
   const [typeResult, setTypeResult] = useState(null)
   const [selected, setSelected] = useState(null)
   const [speechResult, setSpeechResult] = useState(null)
-  const [isListening, setIsListening] = useState(false)
-  const [speechSupported] = useState(() => !!(window.SpeechRecognition || window.webkitSpeechRecognition))
 
   const audioRef = useRef(null)
-  const recognitionRef = useRef(null)
+  const prevListeningRef = useRef(false)
   const bottomRef = useRef(null)
 
   const exchange = exchanges[exchIdx] ?? null
@@ -93,9 +101,25 @@ export default function ChatBot() {
   useEffect(() => {
     return () => {
       audioRef.current?.pause()
-      recognitionRef.current?.abort()
     }
   }, [])
+
+  // Process speech result when recognition ends (isListening: true → false)
+  useEffect(() => {
+    const wasListening = prevListeningRef.current
+    prevListeningRef.current = isListening
+    if (wasListening && !isListening && sttTranscript && exchange && !speechResult) {
+      const result = findBestOption(sttTranscript, exchange.options)
+      const expectedAnswer = exchange.options[exchange.correct]
+      const pronunciationResult = getPronunciationScore(sttTranscript, expectedAnswer)
+      const correct = result.found ? result.index === exchange.correct : false
+      const pts = correct ? MODE_POINTS.speak : 0
+      setSpeechResult({ match: correct, transcript: sttTranscript, pronunciation: pronunciationResult })
+      setAnswers(prev => [...prev, { correct, points: pts, mode: 'speak', pronunciationScore: pronunciationResult?.score ?? null }])
+      setTotalPoints(p => p + pts)
+      setMessages(prev => [...prev, { id: Date.now(), type: 'user', text: sttTranscript, points: pts, correct }])
+    }
+  }, [isListening, sttTranscript, exchange, speechResult])
 
   // Session kaydet
   useEffect(() => {
@@ -159,29 +183,7 @@ export default function ChatBot() {
 
   const startListening = () => {
     if (!speechSupported) { setCurrentMode('pick'); return }
-    const SR = window.SpeechRecognition || window.webkitSpeechRecognition
-    const recognition = new SR()
-    recognitionRef.current = recognition
-    recognition.lang = getSpeechLang(pack?.pair || 'es-en')
-    recognition.interimResults = false
-    recognition.maxAlternatives = 1
-    recognition.onstart = () => setIsListening(true)
-    recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript
-      setIsListening(false)
-      const result = findBestOption(transcript, exchange.options)
-      const expectedAnswer = exchange.options[exchange.correct]
-      const pronunciationResult = getPronunciationScore(transcript, expectedAnswer)
-      const correct = result.found ? result.index === exchange.correct : false
-      const pts = correct ? MODE_POINTS.speak : 0
-      setSpeechResult({ match: correct, transcript, pronunciation: pronunciationResult })
-      setAnswers(prev => [...prev, { correct, points: pts, mode: 'speak', pronunciationScore: pronunciationResult?.score ?? null }])
-      setTotalPoints(p => p + pts)
-      addUserMessage(transcript, pts, correct)
-    }
-    recognition.onerror = () => setIsListening(false)
-    recognition.onend = () => { setIsListening(false); recognitionRef.current = null }
-    try { recognition.start() } catch { setIsListening(false) }
+    sttStart()
   }
 
   // ── PACK BULUNAMADI ─────────────────────────────────────────────
@@ -440,10 +442,11 @@ export default function ChatBot() {
           {currentMode === 'speak' && (
             <div className="text-center py-2">
               {isListening ? (
-                <div className="flex items-center justify-center gap-2">
+                <button onClick={sttStop}
+                  className="flex items-center justify-center gap-2 mx-auto">
                   <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse" />
-                  <span className="text-sm text-slate-500">Listening...</span>
-                </div>
+                  <span className="text-sm text-slate-500">Listening... (tap to stop)</span>
+                </button>
               ) : (
                 <button onClick={startListening}
                   className="px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-bold rounded-xl">
