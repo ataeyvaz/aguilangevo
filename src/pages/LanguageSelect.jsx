@@ -37,20 +37,31 @@ export default function LanguageSelect() {
     localStorage.getItem('aguilang_active_profile') || '{}'
   )
 
+  const nativeLangId = (() => {
+    try {
+      const ui = localStorage.getItem('aguilang_ui_language')
+      if (ui) return JSON.parse(ui)
+    } catch { /* ignore */ }
+    return profile.speak_lang || 'en'
+  })()
+
+  const nativeLang = LANGUAGES.find(l => l.id === nativeLangId) ?? LANGUAGES[0]
+
   const visibleLangs = (() => {
-    if (profile.type !== 'child') return LANGUAGES
+    let base = LANGUAGES.filter(l => l.id !== nativeLangId)
+    if (profile.type !== 'child') return base
     try {
       const saved = localStorage.getItem('aguilang_lang_settings')
-      if (!saved) return LANGUAGES
+      if (!saved) return base
       const { enabled = [], priority } = JSON.parse(saved)
-      const filtered = LANGUAGES.filter(l => enabled.includes(l.id))
-      if (!filtered.length) return LANGUAGES
+      const filtered = base.filter(l => enabled.includes(l.id))
+      if (!filtered.length) return base
       return [
         ...filtered.filter(l => l.id === priority),
         ...filtered.filter(l => l.id !== priority),
       ]
     } catch {
-      return LANGUAGES
+      return base
     }
   })()
 
@@ -122,8 +133,17 @@ export default function LanguageSelect() {
             fontSize: '13px',
             fontWeight: '700',
             color: '#64748B',
+            overflow: 'hidden',
           }}>
-            EN
+            <img
+              src={nativeLang.flag}
+              alt={nativeLang.name}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }}
+              onError={e => {
+                e.target.style.display = 'none'
+                e.target.parentNode.textContent = nativeLang.code
+              }}
+            />
           </div>
           <div style={{ flex: 1 }}>
             <div style={{
@@ -131,8 +151,8 @@ export default function LanguageSelect() {
               fontSize: '16px',
               fontWeight: '700',
               color: '#64748B',
-            }}>English</div>
-            <div style={{ fontSize: '12px', color: '#94A3B8' }}>English</div>
+            }}>{nativeLang.name}</div>
+            <div style={{ fontSize: '12px', color: '#94A3B8' }}>{nativeLang.native}</div>
           </div>
           <div style={{ fontSize: '16px' }}>🔒</div>
         </div>

@@ -1,8 +1,10 @@
 {
   "appId": "com.aguilangevo.app",
-  "appName": "Aguilangevo",
+  "appName": "AguiLangEvo",
   "webDir": "dist",
-  "server": {
-    "androidScheme": "https"
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000
+    }
   }
 }

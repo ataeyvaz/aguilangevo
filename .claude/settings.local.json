@@ -23,7 +23,8 @@
       "Bash(python3 -c ' *)",
       "Bash(python3 *)",
       "Bash(Get-ChildItem *)",
-      "Bash(sqlite3 *)"
+      "Bash(sqlite3 *)",
+      "Bash(Select-Object Name)"
     ]
   }
 }

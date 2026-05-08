@@ -112,7 +112,13 @@ export default function FlashCards() {
           if (cancelled) return
           const data = module.default
           const langData = data.translations?.[lang.id]
-          setWords(langData?.words ?? [])
+          let loadedWords = langData?.words ?? []
+          if (lang.id !== 'en') {
+            const enMap = {}
+            ;(data.translations?.en?.words ?? []).forEach(w => { if (w.id) enMap[w.id] = w.word })
+            loadedWords = loadedWords.map(w => ({ ...w, tr: enMap[w.id] ?? w.tr }))
+          }
+          setWords(loadedWords)
         } catch {
           if (!cancelled) setWords([])
         }

@@ -68,6 +68,7 @@ export default function ProfilePage() {
   const [profileName,  setProfileName]  = useState(profile.name || 'Aguila')
   const [profileType,  setProfileType]  = useState(profile.type || 'adult')
   const [langToast,    setLangToast]    = useState('')
+  const [saveToast,    setSaveToast]    = useState(false)
 
   const handleLangChange = (code) => {
     setUiLanguage(code)
@@ -83,9 +84,15 @@ export default function ProfilePage() {
   }
 
   const handleNameChange = (e) => {
-    const name = e.target.value
+    setProfileName(e.target.value)
+  }
+
+  const handleSaveName = () => {
+    const name = profileName.trim() || 'Aguila'
     setProfileName(name)
-    saveProfile({ name: name || 'Aguila', initial: (name || 'Aguila')[0]?.toUpperCase() })
+    saveProfile({ name, initial: name[0]?.toUpperCase() })
+    setSaveToast(true)
+    setTimeout(() => setSaveToast(false), 2000)
   }
 
   const handleTypeChange = (type) => {
@@ -194,6 +201,7 @@ export default function ProfilePage() {
               type="text"
               value={profileName}
               onChange={handleNameChange}
+              onKeyDown={e => e.key === 'Enter' && handleSaveName()}
               placeholder="Aguila"
               style={{
                 width: '100%', padding: '10px 14px',
@@ -203,6 +211,19 @@ export default function ProfilePage() {
                 background: 'white', outline: 'none', boxSizing: 'border-box',
               }}
             />
+            <button
+              onClick={handleSaveName}
+              style={{
+                width: '100%', marginTop: '10px', padding: '12px',
+                background: saveToast ? '#10B981' : '#0891B2',
+                border: 'none', borderRadius: '10px', cursor: 'pointer',
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontSize: '14px', fontWeight: '700', color: 'white',
+                transition: 'background 0.2s',
+              }}
+            >
+              {saveToast ? `✓ ${t('saved')}` : t('save')}
+            </button>
           </div>
 
           {/* Adult / Child toggle */}

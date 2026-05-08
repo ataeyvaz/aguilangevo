@@ -38,5 +38,7 @@
   "english": { "en": "English", "es": "Inglés", "pt": "Inglês" },
   "change language": { "en": "Change language", "es": "Cambiar idioma", "pt": "Alterar idioma" },
   "interface set to": { "en": "Interface set to", "es": "Interfaz configurada a", "pt": "Interface configurada para" },
-  "language changed successfully": { "en": "Language changed successfully", "es": "Idioma cambiado con éxito", "pt": "Idioma alterado com sucesso" }
+  "language changed successfully": { "en": "Language changed successfully", "es": "Idioma cambiado con éxito", "pt": "Idioma alterado com sucesso" },
+  "save": { "en": "Save", "es": "Guardar", "pt": "Salvar" },
+  "saved": { "en": "Saved!", "es": "¡Guardado!", "pt": "Salvo!" }
 }
