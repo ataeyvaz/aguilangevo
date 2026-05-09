@@ -8,7 +8,7 @@ export default function BottomNav() {
   const tabs = [
     { to: '/dashboard',  label: t('dashboard'), icon: '🏠', match: ['/dashboard'] },
     { to: '/learn-hub',  label: t('learn'),     icon: '📚', match: ['/learn-hub', '/categories', '/learn', '/quiz', '/dialogue', '/grammar'] },
-    { to: '/play',       label: t('games'),     icon: '🎮', match: ['/play', '/games'] },
+    { to: '/tictactoe',  label: t('games'),      icon: '🎮', match: ['/tictactoe'] },
     { to: '/dictionary', label: t('dictionary'), icon: '📖', match: ['/dictionary'] },
     { to: '/levels',     label: t('levels'),    icon: '🏆', match: ['/levels'] },
     { to: '/profile',    label: t('profile'),   icon: '👤', match: ['/profile'] },

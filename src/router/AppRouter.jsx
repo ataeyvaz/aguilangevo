@@ -14,19 +14,11 @@ import LearnedWords   from '../pages/LearnedWords'
 import StatsPage      from '../pages/StatsPage'
 import DialogueScreen from '../pages/DialogueScreen'
 import ProfilePage    from '../pages/ProfilePage'
-import PlayPage       from '../pages/PlayPage'
 import GrammarPage    from '../pages/GrammarPage'
 import GrammarLessonPage from '../pages/GrammarLessonPage'
 import LearnHub       from '../pages/LearnHub'
-import ListenGame     from '../pages/games/ListenGame'
-import MemoryGame     from '../pages/games/MemoryGame'
-import TrueFalseGame  from '../pages/games/TrueFalseGame'
-import SpeedGame      from '../pages/games/SpeedGame'
-import SentenceGame   from '../pages/games/SentenceGame'
-import VoiceGame      from '../pages/games/VoiceGame'
-import PuzzleGame     from '../pages/games/PuzzleGame'
-import FarManGame     from '../pages/games/FarManGame'
 import DictionaryPage from '../pages/DictionaryPage'
+import TicTacToe     from '../pages/TicTacToePage'
 import LevelsPage     from '../pages/LevelsPage'
 import PlacementTest  from '../components/PlacementTest'
 import Study          from '../pages/Study'
@@ -68,7 +60,6 @@ export default function AppRouter() {
           <Route path="/categories"  element={<CategorySelect />} />
           <Route path="/learn"       element={<FlashCards />} />
           <Route path="/quiz"        element={<QuizScreen />} />
-          <Route path="/play"        element={<PlayPage />} />
           <Route path="/learn-hub"   element={<LearnHub />} />
           <Route path="/grammar"     element={<GrammarPage />} />
           <Route path="/grammar/:lessonId" element={<GrammarLessonPage />} />
@@ -78,15 +69,7 @@ export default function AppRouter() {
           <Route path="/stats"       element={<StatsPage />} />
           <Route path="/dictionary"  element={<DictionaryPage />} />
           <Route path="/levels"      element={<LevelsPage />} />
-          {/* Games */}
-          <Route path="/games/listen"    element={<ListenGame />} />
-          <Route path="/games/memory"    element={<MemoryGame />} />
-          <Route path="/games/truefalse" element={<TrueFalseGame />} />
-          <Route path="/games/speed"     element={<SpeedGame />} />
-          <Route path="/games/sentence"  element={<SentenceGame />} />
-          <Route path="/games/voice"     element={<VoiceGame />} />
-          <Route path="/games/puzzle"    element={<PuzzleGame />} />
-          <Route path="/games/farman"    element={<FarManGame />} />
+          <Route path="/tictactoe"   element={<TicTacToe />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />

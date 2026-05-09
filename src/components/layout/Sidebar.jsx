@@ -14,7 +14,7 @@ export default function Sidebar() {
       { to: '/categories', label: t('words'),   icon: '🔤' },
       { to: '/grammar',    label: t('grammar'), icon: '📐' },
     ]},
-    { to: '/play',       label: t('games'),       icon: '🎮', match: ['/play', '/games'] },
+    { to: '/tictactoe',  label: t('games'),        icon: '🎮', match: ['/tictactoe'] },
     { to: '/dictionary', label: t('dictionary'),  icon: '📖', match: ['/dictionary'] },
     { to: '/levels',     label: t('levels'),      icon: '🏆', match: ['/levels'] },
     { to: '/profile',    label: t('profile'),     icon: '👤', match: ['/profile'] },
