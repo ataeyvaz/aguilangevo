@@ -6,6 +6,8 @@
   "quiz": { "en": "Quiz", "es": "Cuestionario", "pt": "Questionário" },
   "games": { "en": "Games", "es": "Juegos", "pt": "Jogos" },
   "dictionary": { "en": "Dictionary", "es": "Diccionario", "pt": "Dicionário" },
+  "searchWord": { "en": "Search word...", "es": "Buscar palabra...", "pt": "Buscar palavra..." },
+  "search": { "en": "Search", "es": "Buscar", "pt": "Buscar" },
   "levels": { "en": "Levels", "es": "Niveles", "pt": "Níveis" },
   "profile": { "en": "Profile", "es": "Perfil", "pt": "Perfil" },
   "settings": { "en": "Settings", "es": "Configuración", "pt": "Configurações" },

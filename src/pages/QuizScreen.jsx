@@ -166,7 +166,7 @@ export default function QuizScreen() {
         const module = await import(`../data/${category.id}-a1.json`)
         if (cancelled) return
 
-        // native = kullanıcının konuştuğu dil (soru), target = öğrendiği dil (şıklar)
+        // native = user's spoken language (question), target = language being learned (options)
         const translations = module.default.translations ?? {}
         const nativeData = translations[speakLang] || translations['en']
         const targetData = translations[lang.id]   || translations['es']
@@ -191,8 +191,12 @@ export default function QuizScreen() {
             const tr = m.default.translations ?? {}
             const nd = tr[speakLang] || tr['en']
             const td = tr[lang.id]   || tr['es']
-            if (nd?.words) crossWords = [...crossWords, ...shuffle(nd.words).slice(0, 8)]
-            if (td?.words) crossTargetWords = [...crossTargetWords, ...shuffle(td.words).slice(0, 8)]
+            if (nd?.words && td?.words) {
+              const tdMap = Object.fromEntries(td.words.map(w => [w.id, w]))
+              const picked = shuffle(nd.words).slice(0, 8)
+              crossWords = [...crossWords, ...picked]
+              crossTargetWords = [...crossTargetWords, ...picked.map(w => tdMap[w.id]).filter(Boolean)]
+            }
           } catch { /* skip */ }
         }))
 
@@ -513,7 +517,7 @@ export default function QuizScreen() {
                     lineHeight: '1.4',
                   }}
                 >
-                  {opt.translation || opt.word || ''}
+                  {opt.word || ''}
                 </button>
               )) || []}
             </div>

@@ -6,7 +6,7 @@
  * API: https://api.mymemory.translated.net/get?q=WORD&langpair=en|es
  */
 
-const CACHE_KEY = 'aguilang2_dict_cache';
+const CACHE_KEY = 'aguilang2_dict_cache_v2'; // v2: invalidates old TR-language caches
 const CACHE_TTL = 7 * 24 * 60 * 60 * 1000; // 7 days
 const API_BASE = 'https://api.mymemory.translated.net/get';
 

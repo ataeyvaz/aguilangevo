@@ -3,9 +3,11 @@
  * Yerleştirme: src/components/Dictionary/DictionaryPanel.jsx
  */
 
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import { lookupWord, getCacheStats, clearDictionaryCache } from '../../services/dictionaryService';
 import { useWordStore } from '../../store/useWordStore';
+import { useTranslation } from '../../i18n/translations';
+import { useApp } from '../../context/AppContext';
 
 const LANG_LABELS = { en: '🇬🇧 English', es: '🇪🇸 Spanish', pt: '🇧🇷 Portuguese' };
 const POS_LABELS = {
@@ -15,6 +17,10 @@ const POS_LABELS = {
 
 // ─── ANA BİLEŞEN ─────────────────────────────────────────────────────────────
 export default function DictionaryPanel({ defaultLang = 'en' }) {
+  const { t } = useTranslation();
+  const { uiLanguage } = useApp();
+  // Restrict to supported languages — TR must never be used as target
+  const nativeLang = ['en', 'es', 'pt'].includes(uiLanguage) ? uiLanguage : 'en';
   const [query,    setQuery]    = useState('');
   const [lang,     setLang]     = useState(defaultLang);
   const [result,   setResult]   = useState(null);
@@ -27,6 +33,9 @@ export default function DictionaryPanel({ defaultLang = 'en' }) {
 
   const inputRef = useRef(null);
   const { addWords, searchWords, words: storeWords } = useWordStore();
+
+  // Fast lookup map for cross-language translation display in suggestions
+  const wordById = useMemo(() => new Map(storeWords.map(w => [w.id, w])), [storeWords]);
 
   // Yerel arama önerileri
   const [suggestions, setSuggestions] = useState([]);
@@ -48,8 +57,12 @@ export default function DictionaryPanel({ defaultLang = 'en' }) {
     setSuggestions([]);
     setAutoAdded(false);
 
+    // source = selected dictionary language, target = user's native language
+    // If source === native (e.g. EN speaker looking up EN word), fall back to ES
+    const targetLang = lang !== nativeLang ? nativeLang : (lang === 'en' ? 'es' : 'en');
+
     try {
-      const data = await lookupWord(word.trim(), lang);
+      const data = await lookupWord(word.trim(), lang, targetLang);
       setResult(data);
       setHistory(h => [{ word: word.trim(), lang, data }, ...h].slice(0, 20));
 
@@ -79,7 +92,7 @@ export default function DictionaryPanel({ defaultLang = 'en' }) {
     } finally {
       setLoading(false);
     }
-  }, [query, lang, addWords, storeWords]);
+  }, [query, lang, nativeLang, addWords, storeWords]);
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') handleLookup();
@@ -107,24 +120,24 @@ export default function DictionaryPanel({ defaultLang = 'en' }) {
     <div className="flex flex-col gap-4 p-4 max-w-2xl mx-auto">
       {/* Başlık */}
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold text-gray-800 dark:text-white">📖 Sözlük</h2>
+        <h2 className="text-xl font-bold text-gray-800 dark:text-white">📖 {t('dictionary')}</h2>
         <button
           onClick={loadCacheInfo}
           className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
         >
-          Önbellek bilgisi
+          Cache info
         </button>
       </div>
 
       {/* Önbellek bilgisi */}
       {cacheInfo && (
         <div className="text-xs bg-gray-50 dark:bg-gray-800 rounded-lg p-2 flex items-center gap-3">
-          <span>💾 {cacheInfo.totalEntries} kelime önbellekte ({cacheInfo.sizeKB}KB)</span>
+          <span>💾 {cacheInfo.totalEntries} words cached ({cacheInfo.sizeKB}KB)</span>
           <button
             onClick={() => { clearDictionaryCache(); setCacheInfo(null); }}
             className="text-red-500 hover:underline"
           >
-            Temizle
+            Clear
           </button>
         </div>
       )}
@@ -152,7 +165,7 @@ export default function DictionaryPanel({ defaultLang = 'en' }) {
             value={query}
             onChange={e => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Kelime ara..."
+            placeholder={t('searchWord')}
             className="w-full px-4 py-2 border border-gray-200 dark:border-gray-700
                        rounded-xl bg-white dark:bg-gray-800 text-gray-800 dark:text-white
                        focus:outline-none focus:ring-2 focus:ring-indigo-400 pr-10"
@@ -170,18 +183,31 @@ export default function DictionaryPanel({ defaultLang = 'en' }) {
           {suggestions.length > 0 && (
             <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800
                             border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg z-10">
-              {suggestions.map(w => (
-                <button
-                  key={w.id}
-                  onClick={() => { setQuery(w.word); handleLookup(w.word); }}
-                  className="w-full text-left px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700
-                             first:rounded-t-xl last:rounded-b-xl transition-colors"
-                >
-                  <span className="font-medium text-gray-800 dark:text-white">{w.word}</span>
-                  <span className="text-gray-400 ml-2 text-sm">→ {w.translation}</span>
-                  <span className="float-right text-xs text-indigo-500">{w.level}</span>
-                </button>
-              ))}
+              {suggestions.map(w => {
+                // For local JSON words: cross-lookup native-lang word by replacing lang in ID
+                // For dict/user words: translation is already in the correct native lang
+                let displayTr = '';
+                if (w.source === 'local' && lang !== nativeLang) {
+                  const nId = w.id.replace(`local_${lang}_`, `local_${nativeLang}_`);
+                  displayTr = wordById.get(nId)?.word || '';
+                } else if (w.source !== 'local') {
+                  displayTr = w.translation || '';
+                }
+                return (
+                  <button
+                    key={w.id}
+                    onClick={() => { setQuery(w.word); handleLookup(w.word); }}
+                    className="w-full text-left px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700
+                               first:rounded-t-xl last:rounded-b-xl transition-colors"
+                  >
+                    <span className="font-medium text-gray-800 dark:text-white">{w.word}</span>
+                    {displayTr && (
+                      <span className="text-gray-400 ml-2 text-sm">→ {displayTr}</span>
+                    )}
+                    <span className="float-right text-xs text-indigo-500">{w.level}</span>
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>
@@ -193,7 +219,7 @@ export default function DictionaryPanel({ defaultLang = 'en' }) {
           className="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 disabled:opacity-50
                      text-white rounded-xl font-medium transition-colors shrink-0"
         >
-          {loading ? <LoadingSpinner /> : 'Ara'}
+          {loading ? <LoadingSpinner /> : t('search')}
         </button>
       </div>
 
@@ -208,7 +234,7 @@ export default function DictionaryPanel({ defaultLang = 'en' }) {
       {/* Yükleniyor */}
       {loading && (
         <div className="flex items-center justify-center py-8 text-gray-400">
-          <LoadingSpinner /> <span className="ml-2">Çevriliyooor...</span>
+          <LoadingSpinner /> <span className="ml-2">Loading...</span>
         </div>
       )}
 
@@ -221,7 +247,7 @@ export default function DictionaryPanel({ defaultLang = 'en' }) {
       {history.length > 0 && !result && (
         <div>
           <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-2">
-            Son aramalar
+            Recent searches
           </h3>
           <div className="flex flex-wrap gap-2">
             {history.slice(0, 10).map((h, i) => (
@@ -273,14 +299,16 @@ function ResultCard({ result, onSave, initialSaved = false }) {
               : 'bg-indigo-50 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100'
           }`}
         >
-          {saved ? '✅ Eklendi' : '+ Listeme Ekle'}
+          {saved ? '✅ Added' : '+ Add to list'}
         </button>
       </div>
 
-      {/* Çeviri */}
+      {/* Translation */}
       {result.translation && (
         <div className="mb-3">
-          <span className="text-sm text-gray-500 dark:text-gray-400">Turkish: </span>
+          <span className="text-sm text-gray-500 dark:text-gray-400">
+            {({ en: 'English', es: 'Spanish', pt: 'Portuguese' }[result.targetLang] ?? 'Translation')}:{' '}
+          </span>
           <span className="text-lg font-semibold text-indigo-600 dark:text-indigo-400">
             {result.translation}
           </span>
@@ -298,7 +326,7 @@ function ResultCard({ result, onSave, initialSaved = false }) {
       {/* Alternatifler */}
       {result.alternatives?.length > 0 && (
         <div className="mb-3">
-          <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Diğer çeviriler:</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Other translations:</p>
           <div className="flex flex-wrap gap-1.5">
             {result.alternatives.slice(0, 5).map((alt, i) => (
               <span
@@ -316,13 +344,13 @@ function ResultCard({ result, onSave, initialSaved = false }) {
       {/* Kaynak & güven skoru */}
       <div className="flex items-center gap-3 mt-3 pt-3 border-t border-gray-100 dark:border-gray-700">
         <span className="text-xs text-gray-400">
-          Kaynak: {result.source === 'mymemory' ? 'MyMemory' : 'Wiktionary'}
+          Source: {result.source === 'mymemory' ? 'MyMemory' : 'Wiktionary'}
         </span>
         {result.confidence > 0 && (
           <ConfidenceBadge score={result.confidence} />
         )}
         {result.fromCache && (
-          <span className="text-xs text-gray-400">💾 önbellekten</span>
+          <span className="text-xs text-gray-400">💾 from cache</span>
         )}
       </div>
     </div>
