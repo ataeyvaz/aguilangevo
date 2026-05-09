@@ -15,6 +15,15 @@ const LEVEL_COLORS = {
   B2: { bg: '#FEE2E2', text: '#991B1B', active: '#EF4444' },
 }
 
+function getNativeLangId() {
+  try {
+    const ui = localStorage.getItem('aguilang_ui_language')
+    if (ui) return JSON.parse(ui)
+  } catch {}
+  const prof = JSON.parse(localStorage.getItem('aguilang_active_profile') || '{}')
+  return prof.speak_lang || 'en'
+}
+
 // Convert store format (WordEntry) to card format
 function normalizeWord(w) {
   return {
@@ -50,6 +59,7 @@ export default function FlashCards() {
   const {
     startListening, stopListening, isListening,
     transcript, sttSupported, checkAnswer,
+    sttStop,
   } = useSpeech(lang.id)
 
   // Check STT result when it arrives
@@ -113,11 +123,12 @@ export default function FlashCards() {
           const data = module.default
           const langData = data.translations?.[lang.id]
           let loadedWords = langData?.words ?? []
-          if (lang.id !== 'en') {
-            const enMap = {}
-            ;(data.translations?.en?.words ?? []).forEach(w => { if (w.id) enMap[w.id] = w.word })
-            loadedWords = loadedWords.map(w => ({ ...w, tr: enMap[w.id] ?? w.tr }))
-          }
+          const nativeLangId = getNativeLangId()
+          const transLangId = nativeLangId !== lang.id ? nativeLangId
+                            : lang.id !== 'en' ? 'en' : 'es'
+          const transMap = {}
+          ;(data.translations?.[transLangId]?.words ?? []).forEach(w => { if (w.id) transMap[w.id] = w.word })
+          loadedWords = loadedWords.map(w => ({ ...w, tr: transMap[w.id] || '' }))
           setWords(loadedWords)
         } catch {
           if (!cancelled) setWords([])
@@ -126,8 +137,23 @@ export default function FlashCards() {
       return () => { cancelled = true }
     } else {
       if (storeLoading) return
+      const nativeLangId = getNativeLangId()
       const raw = getByLevel(selectedLevel, lang.id)
-      setWords(raw.filter(w => w.language === lang.id).map(normalizeWord))
+      let result = raw.filter(w => w.language === lang.id).map(normalizeWord)
+      if (lang.id === 'en' && nativeLangId !== 'en') {
+        // Oxford words have Turkish translations — reverse-map from native-lang store
+        const nativeRaw = getByLevel(selectedLevel, nativeLangId)
+        const reverseMap = {}
+        nativeRaw.forEach(w => {
+          const key = (w.translation || '').toLowerCase().trim()
+          if (key) reverseMap[key] = w.word
+        })
+        result = result.map(w => ({
+          ...w,
+          tr: reverseMap[(w.word || '').toLowerCase().trim()] || '',
+        }))
+      }
+      setWords(result)
     }
   }, [selectedLevel, category.id, lang.id, storeLoading]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -235,19 +261,6 @@ export default function FlashCards() {
                 : `📚 ${selectedLevel} Words`}
             </div>
           </div>
-          {!showGrammar && (
-            <button
-              onClick={() => speak(current?.id, current?.word, lang.id)}
-              style={{
-                background: '#EFF8FF', border: '1px solid #BAE6FD',
-                borderRadius: '8px', padding: '6px 14px', cursor: 'pointer',
-                fontSize: '13px', color: '#0891B2', fontWeight: '600',
-                display: 'flex', alignItems: 'center', gap: '4px',
-              }}
-            >
-              🔊 {t('listen')}
-            </button>
-          )}
         </div>
 
         {/* Level Selector */}
@@ -418,22 +431,6 @@ export default function FlashCards() {
                 <div style={{ fontSize: '13px', color: '#CBD5E1', marginTop: '4px' }}>
                   {t('tap to see meaning')}
                 </div>
-                {sttSupported && (
-                  <button
-                    onClick={handleStt}
-                    style={{
-                      marginTop: '8px', padding: '8px 20px',
-                      background: isListening ? '#FEE2E2' : '#F1F5F9',
-                      border: `1.5px solid ${isListening ? '#FCA5A5' : '#E2E8F0'}`,
-                      borderRadius: '20px', fontSize: '13px', fontWeight: '600',
-                      color: isListening ? '#DC2626' : '#64748B',
-                      cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px',
-                      transition: 'all 0.15s',
-                    }}
-                  >
-                    {isListening ? `🔴 ${t('listening')}...` : `🎤 ${t('say it')}`}
-                  </button>
-                )}
               </>
             ) : (
               <>
@@ -462,6 +459,44 @@ export default function FlashCards() {
                   </div>
                 </div>
               </>
+            )}
+          </div>
+        )}
+
+        {/* Listen + Say it */}
+        {!showGrammar && (
+          <div style={{
+            display: 'flex', gap: '12px', justifyContent: 'center',
+            marginTop: '16px', marginBottom: '4px',
+          }}>
+            <button
+              onClick={() => speak(current?.id, current?.word, lang.id)}
+              style={{
+                background: 'white', border: '1px solid #CBD5E1',
+                borderRadius: '9999px', padding: '0 20px',
+                fontSize: '14px', fontWeight: '500', color: '#334155',
+                cursor: 'pointer', minHeight: '44px',
+                display: 'flex', alignItems: 'center', gap: '6px',
+              }}
+            >
+              🔊 {t('listen')}
+            </button>
+            {sttSupported && (
+              <button
+                onClick={handleStt}
+                style={{
+                  background: isListening ? '#FEF2F2' : 'white',
+                  border: `1px solid ${isListening ? '#FCA5A5' : '#CBD5E1'}`,
+                  borderRadius: '9999px', padding: '0 20px',
+                  fontSize: '14px', fontWeight: '500',
+                  color: isListening ? '#DC2626' : '#334155',
+                  cursor: 'pointer', minHeight: '44px',
+                  display: 'flex', alignItems: 'center', gap: '6px',
+                  transition: 'all 0.15s',
+                }}
+              >
+                {isListening ? `🔴 ${t('listening')}...` : `🎤 ${t('say it')}`}
+              </button>
             )}
           </div>
         )}

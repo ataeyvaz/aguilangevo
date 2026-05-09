@@ -104,7 +104,10 @@ export function useSpeech(langId) {
   const [sttError,    setSttError]    = useState(null)
 
   // ── Native STT ────────────────────────────────────────
+  const timeoutRef = useRef(null);
   const startNativeListening = useCallback(async () => {
+    // Clear any existing timeout before starting
+    if (timeoutRef.current) { clearTimeout(timeoutRef.current); timeoutRef.current = null; }
     await ensurePlugin()
     const plugin = _plugin  // sync access — never await the proxy directly
     if (!plugin) return
@@ -137,6 +140,11 @@ export function useSpeech(langId) {
         partialResults: true,
         popup: false,
       })
+      // Set a timeout to automatically stop listening after 5 seconds of inactivity
+      timeoutRef.current = setTimeout(async () => {
+        await stopNativeListening()
+        setIsListening(false)
+      }, 5000)
 
     } catch (e) {
       setSttError(e?.message ?? 'error')
@@ -144,14 +152,23 @@ export function useSpeech(langId) {
     }
   }, [locale])
 
-  const stopNativeListening = useCallback(async () => {
-    const plugin = _plugin  // sync access
+  // Unified stop function that always clears isListening first
+const sttStop = useCallback(async () => {
+  // Ensure listening flag is cleared no matter what
+  setIsListening(false);
+  // Clear any pending timeout
+  if (timeoutRef.current) { clearTimeout(timeoutRef.current); timeoutRef.current = null; }
+  if (isNative()) {
     try {
-      await plugin?.removeAllListeners()
-      await plugin?.stop()
-    } catch { /* ignore */ }
-    setIsListening(false)
-  }, [])
+      await _plugin?.removeAllListeners();
+      await _plugin?.stop();
+    } catch (e) { /* ignore errors */ }
+  } else {
+    // Web: stop the SpeechRecognition instance if it exists
+    recognizerRef.current?.stop();
+  }
+}, []);
+const stopNativeListening = sttStop;
 
   // ── Web STT ───────────────────────────────────────────
   const startWebListening = useCallback(() => {
@@ -182,6 +199,19 @@ export function useSpeech(langId) {
   }, [])
 
   // ── Unified interface ─────────────────────────────────
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      // Ensure any timeout cleared and listeners removed
+      if (isNative()) {
+        // Stop native listening and cleanup
+        stopNativeListening();
+      } else {
+        clearTimeout?.(timeoutRef.current);
+        setIsListening(false);
+      }
+    };
+  }, []);
   const startListening = isNative() ? startNativeListening : startWebListening
   const stopListening  = isNative() ? stopNativeListening  : stopWebListening
 
@@ -206,7 +236,10 @@ export function useSpeech(langId) {
     sttError,
     sttSupported,
     checkAnswer,
+    // Unified stop
+    sttStop,
     // Meta
     locale,
   }
 }
+
