@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 import { useTranslation } from '../i18n/translations'
 import verbsData from '../data/verbs-a1.json'
+import b1Data from '../data/words-b1.json'
+import b2Data from '../data/words-b2.json'
 import { hasPackForWord } from '../services/conversationService'
 
 // pairId → çeviri dili (her zaman İngilizce dışı taraf)
@@ -58,12 +60,13 @@ export default function Study() {
   const { t } = useTranslation()
 
   const targetLang = PAIR_LANG[currentPair] ?? 'es'
+  const [selectedLevel, setSelectedLevel] = useState('A1')
 
   // Oturum kelimeleri — sadece bir kez hesaplanır
   const sessionWords = useMemo(
-    () => getStudyWords(verbsData.words, targetLang, 10),
+    () => getStudyWords(selectedLevel==='B1' ? b1Data.words : selectedLevel==='B2' ? b2Data.words : verbsData.words, targetLang, 10),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [selectedLevel]
   )
   const TOTAL = sessionWords.length
 
@@ -177,6 +180,15 @@ export default function Study() {
               </div>
             </div>
 
+        <div style={{display:'flex',gap:'8px',justifyContent:'center',marginBottom:'16px'}}>
+          {['A1','B1','B2'].map(l => (
+            <button key={l} onClick={() => { setSelectedLevel(l); setIdx(0); setPhase('front'); }}
+              style={{padding:'2px 16px',borderRadius:'999px',fontSize:'14px',fontWeight:'bold',border:'1px solid',
+                borderColor: selectedLevel===l ? '#0891b2' : '#cbd5e1',
+                background: selectedLevel===l ? '#0891b2' : 'white',
+                color: selectedLevel===l ? 'white' : '#64748b'}}>{l}</button>
+          ))}
+        </div>
             {/* Progress bar */}
             <div className="h-2.5 bg-slate-100 rounded-full overflow-hidden mb-1">
               <div className="h-full bg-cyan-500 rounded-full transition-all"
@@ -283,6 +295,15 @@ export default function Study() {
           </span>
         </div>
 
+        <div style={{display:'flex',gap:'8px',justifyContent:'center',marginBottom:'16px'}}>
+          {['A1','B1','B2'].map(l => (
+            <button key={l} onClick={() => { setSelectedLevel(l); setIdx(0); setPhase('front'); }}
+              style={{padding:'2px 16px',borderRadius:'999px',fontSize:'14px',fontWeight:'bold',border:'1px solid',
+                borderColor: selectedLevel===l ? '#0891b2' : '#cbd5e1',
+                background: selectedLevel===l ? '#0891b2' : 'white',
+                color: selectedLevel===l ? 'white' : '#64748b'}}>{l}</button>
+          ))}
+        </div>
         {/* Progress bar */}
         <div className="h-1.5 bg-slate-200 rounded-full overflow-hidden mb-6">
           <div className="h-full bg-cyan-500 rounded-full transition-all duration-500"
