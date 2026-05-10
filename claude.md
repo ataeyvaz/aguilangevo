@@ -1,263 +1,305 @@
-# 🦅 AguiLangEvo — Claude Bağlam Dosyası
-> Bu dosyayı her yeni sohbette Claude'a ver: "CLAUDE.md'yi oku, devam et."
+# CLAUDE.md — Grabket Proje Kılavuzu
+
+> Bu dosyayı her oturumun başında oku. Projenin hafızasısın.
 
 ---
 
-## 🧭 PROJE ÖZETİ
-- **Proje:** AguiLangEvo (AguiLang2'den fork, tamamen ayrı)
-- **Konum:** `C:\Users\Ata\Desktop\aguilangevo`
-- **GitHub:** https://github.com/ataeyvaz/aguilangevo
-- **Satış:** https://ataeyvaz.gumroad.com/l/tsogik ($8.99)
-- **Kullanıcı:** Ata — Windows + VS Code + PowerShell
-- **Stack:** React + Vite + Tailwind + Capacitor + Python + SQLite
+## 🧑‍💻 Geliştirici Profili
+
+- **İsim:** Ata
+- **Seviye:** Deneyimsiz geliştirici, kodlamayı öğrenme aşamasında
+- **Çalışma stili:**
+  - Adım adım ilerle, her adımı Türkçe açıkla
+  - Kopyala-yapıştır yapabileceği **tam ve eksiksiz** komutlar ver
+  - Kısmi snippet verme, her zaman **tam dosya içeriğini** ver
+  - Hata çıktısını yapıştırınca analiz et ve çöz
+  - Varsayım yapma, emin olmadığında sor
+- **Ortam:** Windows, PowerShell, VS Code
+- **Konuşma dili:** Türkçe
 
 ---
 
-## 🎯 HEDEF KİTLE
-- ABD'deki İspanyolca/Portekizce konuşanlar
-- İngilizce öğrenmek isteyenler
-- Dil çiftleri: EN↔ES, EN↔PT, ES→EN, PT→EN
+## 📱 Proje: Grabket
+
+**Açıklama:** Türkiye pazarına yönelik akıllı alışveriş listesi uygulaması. Kullanıcı alışveriş listesini oluşturur, uygulama A101, BİM, Migros, CarrefourSA, ŞOK gibi marketlerdeki fiyatları karşılaştırıp en ucuz sepeti bulur.
+
+**Hedef kitle:** Önce kişisel kullanım, sonra App Store / Play Store yayını.
+
+**Veri kaynağı:** marketfiyati.org.tr (TÜBİTAK + Merkez Bankası projesi, ücretsiz, kamuya açık)
 
 ---
 
-## 📁 DOSYA YAPISI (Kritik Yollar)
+## 🛠️ Tech Stack
 
 ```
-aguilangevo/
-├── src/
-│   ├── App.jsx
-│   ├── main.jsx
-│   ├── pages/              ← Tüm sayfalar burada
-│   │   ├── Study.jsx       ← Flashcard öğrenme
-│   │   ├── Practice.jsx    ← Konuşma pratiği
-│   │   ├── ChatBot.jsx     ← Chatbot UI
-│   │   ├── ScenariosPage.jsx
-│   │   ├── Dashboard.jsx
-│   │   ├── StatsPage.jsx
-│   │   ├── ProfileSetup.jsx
-│   │   ├── ProfilePage.jsx
-│   │   ├── PlacementTest.jsx (components/)
-│   │   ├── GrammarPage.jsx
-│   │   ├── LearnHub.jsx
-│   │   ├── FlashCards.jsx
-│   │   ├── QuizScreen.jsx
-│   │   ├── DictionaryPage.jsx
-│   │   └── TicTacToePage.jsx
-│   ├── components/
-│   │   ├── PlacementTest.jsx
-│   │   ├── layout/         (AppLayout, BottomNav, Sidebar)
-│   │   └── levels/LevelSystem.jsx
-│   ├── context/
-│   │   └── AppContext.jsx  ← Global state (currentPair, profile, SRS)
-│   ├── router/
-│   │   └── AppRouter.jsx   ← Tüm route tanımları
-│   ├── data/
-│   │   └── verbs-a1.json   ← A1 kelime verisi (Study.jsx bunu import eder)
-│   ├── services/
-│   │   └── conversationService.js
-│   └── i18n/
-│       └── translations.js ← 257+ i18n anahtarı
-├── data/
-│   └── aguilangevo.db      ← SQLite veritabanı
-├── public/
-│   └── audio/
-│       ├── en/             ← {word}.mp3
-│       ├── es/             ← {translation}.mp3
-│       ├── pt/             ← {translation}.mp3
-│       └── bot/            ← Bot ses dosyaları
-├── scripts/                ← Python/Node scriptleri
-└── ROADMAP.md
+Frontend:  React Native + Expo SDK + TypeScript
+Router:    Expo Router (file-based navigation)
+Backend:   Firebase (Auth + Firestore + Cloud Functions)
+API:       marketfiyati.org.tr — https://api.marketfiyati.org.tr/api/v2
 ```
 
 ---
 
-## 🗄️ VERİTABANI ŞEMASI (Kritik Tablolar)
+## 📡 marketfiyati.org.tr API Bilgileri
 
-### words tablosu
-```sql
-id INTEGER PRIMARY KEY
-word TEXT NOT NULL          -- İngilizce kelime
-language_id TEXT NOT NULL   -- 'en'
-part_of_speech TEXT         -- 'verb', 'noun', 'adjective'
-cefr_level TEXT             -- 'A1', 'A2', 'B1', 'B2'
-ipa TEXT                    -- '/biː/'
-audio_path TEXT             -- null (dosya adı word'den türetilir)
-image_path TEXT
-created_at TEXT
+**Base URL:** `https://api.marketfiyati.org.tr/api/v2`
+
+**API Key:** Yok (kamuya açık, ücretsiz)
+
+**Bilinen Endpoint'ler:**
+```
+GET /products
+  Params: keywords (string), latitude (float), longitude (float),
+          distance (km, opsiyonel), size (int, opsiyonel)
+
+GET /products/{id}
+  Params: latitude (float), longitude (float)
+
+GET /products/{id}/compare
+  Params: productId (string)
 ```
 
-### word_translations tablosu
-```sql
-id INTEGER PRIMARY KEY
-word_id INTEGER             -- words.id'ye foreign key
-target_lang TEXT            -- 'es' veya 'pt'
-translation TEXT            -- Çeviri
-alt_translations TEXT       -- JSON string: '["estar"]'
-example_source TEXT         -- EN örnek cümle
-example_target TEXT         -- ES/PT örnek cümle
-notes TEXT
-created_at TEXT
-```
+**Kritik not:** latitude ve longitude parametreleri zorunlu — API yakındaki mağazaların fiyatlarını döndürür.
 
-### Diğer Tablolar
-- `profiles` — Kullanıcı profilleri
-- `placement_results` — Seviye testi sonuçları
-- `user_progress` — SRS ilerleme (SM-2)
-- `conversation_packs` — Konuşma paketleri (537 adet)
-- `conversation_exchanges` — 1611+ exchange
-- `session_logs` — Oturum geçmişi
-- `placement_questions` — Test soruları
+**Mimari kararı — Proxy katmanı:**
+```
+Grabket App → Firebase Cloud Functions → marketfiyati.org.tr API
+```
+Neden: API değişirse sadece Cloud Function güncellenir, app store'a yeniden göndermek gerekmez.
+
+**Faz 3 başında yapılacak ilk iş:** Gerçek API response'unu test et.
+Kontrol edilecekler:
+- Alternatif/eşdeğer ürün verisi geliyor mu?
+- Kampanya / kart indirimi alanı var mı?
+- Rate limit ne kadar?
 
 ---
 
-## 📊 İÇERİK METRİKLERİ
+## ✅ Netleştirilmiş Özellik Listesi
 
-```
-Kelimeler     : 243 toplam
-  A1          : 66  (src/data/verbs-a1.json → DB)
-  A2          : 64  (DB)
-  B1          : 56  (data/words_b1.json → DB) ← YENİ
-  B2          : 57  (data/words_b2.json → DB) ← YENİ
+### v1 — MVP
 
-Kelime MP3    : ~1746 (EN+ES+PT)
-Bot MP3       : 1601
-Conv. Pack    : 505 (451 ES + 101 PT)
-Exchange      : 1611+
-i18n anahtar  : 257+
-Senaryo       : 16 (8 ES + 8 PT)
-```
+#### Alışveriş listesi yönetimi
+- Birden fazla liste oluşturma, silme, yeniden adlandırma
+- Ürün ekleme — isimle API araması ile
+- Ürün miktarı ve birimi (adet / kg / lt / paket)
+- Alışveriş modu: ürüne dokununca "aldım" işareti (üstü çizilir)
 
----
+#### Fiyat karşılaştırma
+- Ürün bazında market karşılaştırması (A101, BİM, Migros, ŞOK, CarrefourSA)
+- İki mod — kullanıcı seçsin:
+  - Tek market modu: tüm listeyi tek marketten al, hangisi en ucuz?
+  - Böl-al modu: her ürünü en ucuz olduğu marketten al, toplam minimum
+- Konum: GPS otomatik alır, kullanıcı isterse manuel değiştirir
+- Sepet toplam tutarı göster
 
-## ⚙️ KRİTİK MİMARİ KARARLAR
+#### Barkod — UI hazır, fonksiyon v2'de
+- Barkod butonu arayüzde görünür ve tıklanabilir
+- v1'de tıklayınca "Bu özellik yakında geliyor" mesajı
+- v2'de gerçek kamera tarama eklenir
+- Neden böyle: tasarım tutarlı kalır, kullanıcı özelliğin geleceğini bilir
 
-### 1. Study.jsx — Şu Anki Sorun
-```js
-// MEVCUT — sadece A1 JSON'dan yükler
-import verbsData from '../data/verbs-a1.json'
-const sessionWords = getStudyWords(verbsData.words, targetLang, 10)
+#### Hesap sistemi
+- Firebase Auth ile e-posta + şifre kayıt / giriş
+- Kullanıcı profili (isim, e-posta)
 
-// HEDEF — seviye seçiciyle (B1/B2 dahil)
-// DB'den export edilen JSON'lardan yükleyecek
-```
-
-### 2. Audio Dosya Adlandırma
-```
-EN: /audio/en/{word}.mp3           → word = İngilizce kelime
-ES: /audio/es/{safeFilename}.mp3   → safeFilename: boşluk→_, noktalama kaldır
-PT: /audio/pt/{safeFilename}.mp3
-```
-
-### 3. Dil Çifti Mantığı
-```js
-const PAIR_LANG = { 1: 'es', 2: 'pt', 3: 'es', 4: 'pt' }
-// Pair 1: EN→ES | Pair 2: EN→PT | Pair 3: ES→EN | Pair 4: PT→EN
-```
-
-### 4. SRS Sistemi (SM-2)
-- Status: `new → learning → review → mastered`
-- `recordAnswer(wordId, isCorrect, quality)` → AppContext
-- `getStudyWords(words, targetLang, limit)` → SRS'e göre sıralar
-
-### 5. Veri Akışı
-```
-DB (aguilangevo.db) → JSON export → src/data/ → Study.jsx import
-```
-B1/B2 için DB'den JSON export gerekli (mevcut A1 pattern'i gibi)
+#### API'ye bağımlı — Faz 3'te test sonrası karar
+- Alternatif ürün önerileri: "Pınar süt yerine Sek süt %15 ucuz." API veriyi sunuyorsa ekle.
+- Kampanya / kart indirimleri: "CarrefourSA kart ile 25₺." API alanı varsa göster.
 
 ---
 
-## 🔗 ROUTER (AppRouter.jsx)
+### v2 — Sonraki sürüm (şimdi dokunma)
+
+- Barkod okuma (gerçek kamera taraması)
+- Anlık fiyat değişikliği bildirimi (push notification)
+- Fiyat geçmişi grafiği (30 günlük trend)
+- Enflasyon takibi
+- Bütçe takibi (aylık harcama özeti)
+- Liste paylaşımı (rol bazlı: sahip düzenler, davet edilen görür)
+- Gerçek zamanlı senkronizasyon (Firestore realtime)
+
+---
+
+## 🗂️ Proje Klasör Yapısı
+
 ```
-/setup          → ProfileSetup
-/placement-test → PlacementTest
-/study          → Study.jsx         ← Flashcard
-/practice       → Practice.jsx
-/chatbot        → ChatBot.jsx
-/scenarios      → ScenariosPage
-/dashboard      → Dashboard
-/stats          → StatsPage
-/profile        → ProfilePage
-/learn-hub      → LearnHub
-/grammar        → GrammarPage
-/play           → TicTacToePage
-/dictionary     → DictionaryPage
-/language       → LanguageSelect
-/quiz           → QuizScreen
-/categories     → CategorySelect
-```
-
----
-
-## 🤖 AI ARAÇ STRATEJİSİ
-
-| Araç | Görev |
-|------|-------|
-| **Claude (sohbet)** | Strateji, mimari, prompt yazma, CLAUDE.md güncel tutma |
-| **MiniMax M2.7** | Script yazma, DB işlemleri, ses üretimi |
-| **Cline** | Rutin JSX/UI dosyası ekleme/güncelleme |
-| **Tencent** | JSON/metin/çeviri içerik üretimi |
-| **edge-tts** | TTS/MP3 üretimi |
-| **Git push** | Her zaman manuel terminal |
-
----
-
-## 🔄 DEVAM EDEN GÖREVLER (v1.1)
-
-### Adım 1 — Study.jsx B1/B2 Desteği
-- [ ] DB'den B1/B2 JSON export (export_b1b2_words.mjs)
-- [ ] src/data/words-b1.json + words-b2.json oluştur
-- [ ] Study.jsx'e seviye seçici ekle (A1/A2/B1/B2)
-- [ ] **Araç: MiniMax (export script) + Cline (UI)**
-
-### Adım 2 — PlacementTest B1/B2
-- [ ] placement_questions tablosuna B1/B2 soruları ekle
-- [ ] Sonuç mantığı: A1/A2/B1/B2 tespiti
-- [ ] **Araç: MiniMax**
-
-### Adım 3 — APK v1.1
-- [ ] `npm run build` → `npx cap sync` → Android Studio
-- [ ] **Araç: Manuel**
-
-### Adım 4 — Gumroad Güncelle
-- [ ] "Now includes B1/B2 content!" açıklama güncelle
-- [ ] **Araç: Manuel**
-
----
-
-## 📦 BAĞIMLILIKLAR
-```json
-better-sqlite3  → DB işlemleri
-react-router-dom → Routing
-fuse.js          → Fuzzy match
-edge-tts         → TTS (Python, .venv)
-capacitor        → Android build
+grabket/
+├── app/
+│   ├── (tabs)/
+│   │   ├── index.tsx           # Listelerim (ana ekran)
+│   │   ├── compare.tsx         # Fiyat karşılaştırma sonuçları
+│   │   └── profile.tsx         # Kullanıcı profili
+│   ├── _layout.tsx
+│   ├── list/
+│   │   └── [id].tsx            # Belirli liste detayı
+│   └── auth/
+│       ├── login.tsx
+│       └── register.tsx
+├── components/
+│   ├── ShoppingList/
+│   │   ├── ListCard.tsx
+│   │   ├── ProductItem.tsx
+│   │   └── AddProductModal.tsx
+│   ├── PriceComparison/
+│   │   ├── MarketCard.tsx
+│   │   ├── ModeSwitcher.tsx    # Tek market / Böl-al seçici
+│   │   └── BarcodeButton.tsx   # UI placeholder — v1'de "yakında"
+│   └── common/
+│       ├── EmptyState.tsx
+│       └── LoadingSpinner.tsx
+├── services/
+│   ├── marketApi.ts            # marketfiyati.org.tr çağrıları
+│   ├── firebase.ts             # Firebase config
+│   ├── auth.ts
+│   └── lists.ts                # Liste CRUD
+├── hooks/
+│   ├── useLocation.ts          # GPS + manuel konum
+│   └── usePriceComparison.ts
+├── store/
+│   └── useAppStore.ts          # Zustand global state
+├── types/
+│   ├── product.ts
+│   ├── list.ts
+│   └── market.ts
+├── constants/
+│   ├── markets.ts
+│   └── theme.ts
+├── utils/
+│   └── priceCalculator.ts      # Her iki mod algoritması
+├── .env                        # Asla git'e ekleme!
+├── .env.example
+├── CLAUDE.md
+├── PROGRESS.md
+└── SOLUTIONS.md
 ```
 
 ---
 
-## 🚀 SIKÇA KULLANILAN KOMUTLAR
-```powershell
-# Geliştirme
-npm run dev
+## 🎨 Tasarım Sistemi
 
-# DB sorgu
-node -e "const D=require('better-sqlite3'); const db=new D('./data/aguilangevo.db'); ..."
+```typescript
+const colors = {
+  primary:    '#E84040',  // Kırmızı — ana aksiyon
+  secondary:  '#1A1A2E',  // Koyu lacivert — başlıklar
+  success:    '#2ECC71',  // Yeşil — en ucuz
+  warning:    '#F39C12',  // Turuncu — orta fiyat
+  danger:     '#E74C3C',  // Kırmızı — pahalı
+  background: '#F8F9FA',
+  surface:    '#FFFFFF',
+  text:       '#2C3E50',
+  muted:      '#95A5A6',
+}
 
-# Build
-npm run build
-npx cap sync
-
-# Python script
-cd C:\Users\Ata\Desktop\aguilangevo
-python scripts/generate_audio.py
-
-# Git
-git add -A
-git commit -m "feat: ..."
-git push
+const marketColors = {
+  'BİM':         '#E30613',
+  'A101':        '#FF6B00',
+  'Migros':      '#FF0000',
+  'ŞOK':         '#FFD700',
+  'CarrefourSA': '#004A96',
+}
 ```
 
 ---
 
-*Güncelleme: Mayıs 2026 | Repo: https://github.com/ataeyvaz/aguilangevo*
+## 🗺️ Geliştirme Fazları
+
+### ✅ Faz 0 — Araştırma & Planlama (TAMAMLANDI)
+- [x] API araştırması
+- [x] Tech stack kararı
+- [x] Özellik listesi netleştirildi
+- [x] Proje dökümanları hazırlandı
+
+### 🔄 Faz 1 — Temel Altyapı (MEVCUT FAZ)
+- [ ] Expo projesi kurulumu (TypeScript template)
+- [ ] Expo Router tab navigasyonu
+- [ ] Firebase projesi oluşturma ve bağlantı
+- [ ] Firebase Auth (login / register ekranları)
+- [ ] Temel TypeScript tipleri
+- [ ] .env yapılandırması
+
+### ⏳ Faz 2 — Alışveriş Listesi
+- [ ] Liste CRUD — Firestore
+- [ ] Ürün ekleme (API araması ile)
+- [ ] Miktar ve birim
+- [ ] Alışveriş modu (aldım işareti)
+- [ ] BarcodeButton UI placeholder
+
+### ⏳ Faz 3 — Fiyat Karşılaştırma
+- [ ] API gerçek testi ve response analizi
+- [ ] Konum izni + GPS
+- [ ] Market fiyat kartları
+- [ ] Tek market mod algoritması
+- [ ] Böl-al mod algoritması
+- [ ] Alternatif ürün (API'ye bağımlı)
+- [ ] Kampanya/kart indirimi (API'ye bağımlı)
+
+### ⏳ Faz 4 — Cilalama & Yayın
+- [ ] Hata yönetimi ve boş state'ler
+- [ ] Loading skeleton'ları
+- [ ] App icon ve splash screen
+- [ ] Expo EAS Build
+- [ ] App Store / Play Store
+
+---
+
+## 🔥 Firebase Yapısı (Firestore)
+
+```
+users/{userId}
+  displayName: string
+  email: string
+  createdAt: timestamp
+
+lists/{listId}
+  title: string
+  ownerId: string
+  createdAt: timestamp
+  updatedAt: timestamp
+
+  items/{itemId}
+    name: string
+    quantity: number
+    unit: 'adet' | 'kg' | 'lt' | 'paket'
+    checked: boolean
+    barcode?: string
+    productId?: string
+    addedBy: string
+    createdAt: timestamp
+
+priceCache/{productId}
+  data: object
+  cachedAt: timestamp
+  expiresAt: timestamp    ← 1 saat sonra expire
+```
+
+---
+
+## ⚡ Kritik Kurallar
+
+1. `.env` dosyasını asla git'e ekleme
+2. API çağrılarını doğrudan app'ten yapma — Cloud Functions üzerinden
+3. Her özellik için önce TypeScript tipi, sonra component
+4. BarcodeButton her zaman görünür — sadece onPress davranışı v1/v2'de değişir
+5. Konum iznini fiyat karşılaştırma anında iste, açılışta değil
+6. Firestore security rules'u baştan yaz
+7. priceCache'i kullan — aynı ürünü tekrar tekrar API'den çekme
+
+---
+
+## 📝 Oturum Başlangıç Rutini
+
+1. CLAUDE.md oku
+2. PROGRESS.md oku
+3. SOLUTIONS.md oku
+4. Ata'ya mevcut durumu özetle, sonra devam et
+
+---
+
+## 🔗 Kaynaklar
+
+- Expo: https://docs.expo.dev
+- Expo Router: https://docs.expo.dev/router/introduction/
+- Firebase: https://firebase.google.com/docs/web/setup
+- API ref (Python): https://github.com/yibudak/marketfiyati_mcp
+- API ref (TS): https://github.com/aigile-era/market-mcp-serkan
