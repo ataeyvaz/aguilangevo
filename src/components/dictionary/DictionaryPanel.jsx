@@ -18,9 +18,13 @@ const POS_LABELS = {
 // ─── ANA BİLEŞEN ─────────────────────────────────────────────────────────────
 export default function DictionaryPanel({ defaultLang = 'en' }) {
   const { t } = useTranslation();
-  const { uiLanguage } = useApp();
+  const { uiLanguage, profile } = useApp();
   // Restrict to supported languages — TR must never be used as target
   const nativeLang = ['en', 'es', 'pt'].includes(uiLanguage) ? uiLanguage : 'en';
+  const rawTargetLang = profile?.learn_lang;
+  const targetLang = ['en', 'es', 'pt'].includes(rawTargetLang) && rawTargetLang !== nativeLang
+    ? rawTargetLang
+    : (nativeLang === 'en' ? 'es' : 'en');
   const [query,    setQuery]    = useState('');
   const [lang,     setLang]     = useState(defaultLang);
   const [result,   setResult]   = useState(null);
@@ -184,15 +188,17 @@ export default function DictionaryPanel({ defaultLang = 'en' }) {
             <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800
                             border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg z-10">
               {suggestions.map(w => {
-                // For local JSON words: cross-lookup native-lang word by replacing lang in ID
-                // For dict/user words: translation is already in the correct native lang
                 let displayTr = '';
-                if (w.source === 'local' && lang !== nativeLang) {
-                  const nId = w.id.replace(`local_${lang}_`, `local_${nativeLang}_`);
-                  displayTr = wordById.get(nId)?.word || '';
-                } else if (w.source !== 'local') {
+                if (w.source === 'local') {
+                  // local words: tr field is always Turkish — cross-lookup the correct language
+                  const pairLang = lang === nativeLang ? targetLang : nativeLang;
+                  const pairedId = w.id.replace(`local_${lang}_`, `local_${pairLang}_`);
+                  displayTr = wordById.get(pairedId)?.word || '';
+                } else if (w.source !== 'oxford3000') {
+                  // dict_ / user_ words: translation was set via API in the correct lang
                   displayTr = w.translation || '';
                 }
+                // oxford3000: translation is always Turkish — never show
                 return (
                   <button
                     key={w.id}

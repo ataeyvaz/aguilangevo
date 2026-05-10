@@ -126,6 +126,21 @@ export default function TicTacToePage() {
     return null
   }, [winningCombos])
 
+  const checkATA = useCallback((currentBoard) => {
+    const gridSize = gridConfig.size
+    for (let row = 0; row < gridSize; row++) {
+      for (let col = 0; col <= gridSize - 3; col++) {
+        const idx1 = row * gridSize + col
+        const idx2 = row * gridSize + col + 1
+        const idx3 = row * gridSize + col + 2
+        if (currentBoard[idx1] === 'A' && currentBoard[idx2] === 'T' && currentBoard[idx3] === 'A') {
+          return [idx1, idx2, idx3]
+        }
+      }
+    }
+    return null
+  }, [gridConfig.size])
+
   const countOpenEnds = (board, combo, player) => {
     const firstCell = board[combo[0]]
     const lastCell = board[combo[combo.length - 1]]
@@ -247,12 +262,24 @@ export default function TicTacToePage() {
 
   const handleCellClick = (index) => {
     if (board[index] !== null || !isPlayerTurn || winner) {
-return
+      return
     }
 
     const newBoard = [...board]
     newBoard[index] = 'A'
     setBoard(newBoard)
+
+    const ataLine = checkATA(newBoard)
+    if (ataLine) {
+      setWinner('ATA')
+      setWinningLine(ataLine)
+      setScores(prev => {
+        const newScores = { ...prev, player: prev.player + 1 }
+        localStorage.setItem('tictactoe_scores', JSON.stringify(newScores))
+        return newScores
+      })
+      return
+    }
 
     const winLine = checkWinner(newBoard, 'A')
     if (winLine) {
@@ -297,7 +324,9 @@ return
   }
 
   const getResultMessage = () => {
-    if (winner === 'A') {
+    if (winner === 'ATA') {
+      return { emoji: '🏆', message: 'ATA! You Win!' }
+    } else if (winner === 'A') {
       return { emoji: '🎉', message: 'You Win!' }
     } else if (winner === 'T') {
       return { emoji: '🤖', message: 'Computer Wins' }
